@@ -250,7 +250,7 @@ class GroupL3NotFoundError(AmbienteError):
     def __init__(self, cause, message=None):
         AmbienteError.__init__(self, cause, message)
 
-
+#verificar 
 class GrupoL3(BaseModel):
     CITTA_CD = 'CITTA CORE/DENSIDADE'
     id = models.AutoField(primary_key=True, db_column='id_grupo_l3')
@@ -320,7 +320,7 @@ class GrupoL3(BaseModel):
             raise AmbienteError(
                 'Falha ao inserir um Ambiente L3. Error: %s' % e)
 
-
+# verificar
 class DivisaoDc(BaseModel):
     BE = 'BE'
     FE = 'FE'
@@ -392,7 +392,7 @@ class DivisaoDc(BaseModel):
             raise AmbienteError(
                 'Falha ao inserir um Ambiente DC. Error: %s' % e)
 
-
+# verificar
 class AmbienteLogico(BaseModel):
     HOMOLOGACAO = 'HOMOLOGACAO'
 
@@ -467,7 +467,7 @@ class AmbienteLogico(BaseModel):
             raise AmbienteError(
                 'Falha ao inserir um Ambiente Logico. Error: %s' % e)
 
-
+# verificar
 class EnvironmentVip(BaseModel):
 
     id = models.AutoField(
@@ -887,7 +887,7 @@ class EnvironmentVip(BaseModel):
 
         return environment_vip_list_id
 
-
+# verificar
 class Ambiente(BaseModel):
 
     id = models.AutoField(

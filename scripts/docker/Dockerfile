@@ -74,7 +74,8 @@
 
 # Base stage
 
-FROM python:3.9-alpine as base
+# Base stage
+FROM python:3.10-alpine as base
 
 # Install system dependencies
 RUN apk update && apk add --no-cache \
@@ -97,4 +98,5 @@ COPY . .
 # Expose port for the app to run on
 EXPOSE 8000
 
-CMD ["python", "manage.py", "runserver"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
