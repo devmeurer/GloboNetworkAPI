@@ -22,7 +22,7 @@ class CommandErrorException(APIException):
     default_detail = 'Error: Error applying command on equipment. Equipment returned error status.'
 
     def __init__(self, msg=None):
-        self.detail = u'Error: Error applying command on equipment. Equipment returned error status. <<%s>>' % (
+        self.detail = 'Error: Error applying command on equipment. Equipment returned error status. <<%s>>' % (
             msg)
 
 
@@ -36,7 +36,7 @@ class InvalidCommandException(APIException):
     default_detail = 'Error: Invalid command sent to equipment. Please check template syntax or module used.'
 
     def __init__(self, msg=None):
-        self.detail = u'Error: Invalid command sent to equipment: << %s >>' % (
+        self.detail = 'Error: Invalid command sent to equipment: << %s >>' % (
             msg)
 
 
@@ -50,7 +50,7 @@ class InvalidFilenameException(APIException):
     default_detail = 'Invalid filename.'
 
     def __init__(self, filename=None):
-        self.detail = u'Invalid filename: %s' % (filename)
+        self.detail = 'Invalid filename: %s' % (filename)
 
 
 class InvalidKeyException(APIException):
@@ -58,15 +58,15 @@ class InvalidKeyException(APIException):
     default_detail = 'Request has no expected key(s).'
 
     def __init__(self, key_name=None):
-        self.detail = u'Expected key not present in request: %s' % (key_name)
+        self.detail = 'Expected key not present in request: %s' % (key_name)
 
 
 class LoadEquipmentModuleException(APIException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    default_detail = u'Could not load equipment module: '
+    default_detail = 'Could not load equipment module: '
 
     def __init__(self, module_name=None):
-        self.detail = u'Could not load equipment module: ' % (module_name)
+        self.detail = 'Could not load equipment module: ' % (module_name)
 
 
 class UnableToVerifyResponse(APIException):

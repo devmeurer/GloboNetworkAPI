@@ -50,7 +50,7 @@ class RequestVipValidateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_VALIDATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -60,7 +60,7 @@ class RequestVipValidateResource(RestResource):
             # Valid vip id
             if not is_valid_int_greater_zero_param(id_vip):
                 self.log.error(
-                    u'Parameter id_vip is invalid. Value: %s.', id_vip)
+                    'Parameter id_vip is invalid. Value: %s.', id_vip)
                 raise InvalidValueError(None, 'id_vip', id_vip)
 
             vip = RequisicaoVips.get_by_pk(id_vip)
@@ -77,7 +77,7 @@ class RequestVipValidateResource(RestResource):
             return self.response_error(150, 'Failed to validate vip request.')
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except BaseException, e:
             return self.response_error(1)

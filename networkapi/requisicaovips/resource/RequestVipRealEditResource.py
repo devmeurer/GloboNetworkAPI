@@ -104,7 +104,7 @@ class RequestVipRealEditResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Commons Validations
@@ -116,11 +116,11 @@ class RequestVipRealEditResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             vip_map = networkapi_map.get('vip')
             if vip_map is None:
-                return self.response_error(3, u'There is no value to the vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the vip tag  of XML request.')
 
             # Get XML data
             vip_id = vip_map.get('vip_id')
@@ -129,7 +129,7 @@ class RequestVipRealEditResource(RestResource):
             # Valid VIP ID
             if not is_valid_int_greater_zero_param(vip_id):
                 self.log.error(
-                    u'The vip_id parameter is not a valid value: %s.', vip_id)
+                    'The vip_id parameter is not a valid value: %s.', vip_id)
                 raise InvalidValueError(None, 'vip_id', vip_id)
 
             # Valid Alter Priority
@@ -176,7 +176,7 @@ class RequestVipRealEditResource(RestResource):
                             equip = Equipamento.get_by_name(equip_aux_error)
                         else:
                             self.log.error(
-                                u'The real_name parameter is not a valid value: None.')
+                                'The real_name parameter is not a valid value: None.')
                             raise InvalidValueError(None, 'real_name', 'None')
 
                         # Valid Real
@@ -262,7 +262,7 @@ class RequestVipRealEditResource(RestResource):
                                 id_ip = reals['real'][i]['id_ip']
 
                             reals_aux['real'].append({'id_ip': id_ip, 'port_real': server_pool.default_port, 'real_name': reals[
-                                                     'real'][i]['real_name'], 'port_vip': vippp.port_vip, u'real_ip': reals['real'][i]['real_ip']})
+                                                     'real'][i]['real_name'], 'port_vip': vippp.port_vip, 'real_ip': reals['real'][i]['real_ip']})
 
                         vip_map['reals_prioritys'] = reals_prioritys_aux
                         vip_map['reals_weights'] = reals_weight_aux
@@ -503,15 +503,15 @@ class RequestVipRealEditResource(RestResource):
 
                             return self.response_error(2, stdout + stderr)
 
-                except Exception, e:
+                except Exception as e:
                     if isinstance(e, IntegrityError):
                         # Duplicate value for Port Vip, Port Real and IP
-                        self.log.error(u'Failed to update the request vip.')
+                        self.log.error('Failed to update the request vip.')
                         return self.response_error(353)
                     else:
-                        self.log.error(u'Failed to update the request vip.')
+                        self.log.error('Failed to update the request vip.')
                         raise RequisicaoVipsError(
-                            e, u'Failed to update the request vip')
+                            e, 'Failed to update the request vip')
 
                 if error:
                     # build return message
@@ -527,7 +527,7 @@ class RequestVipRealEditResource(RestResource):
                     return self.response(dumps_networkapi({}))
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except ScriptError, s:
             return self.response_error(2, s)
@@ -594,14 +594,14 @@ class RequestVipRealEditResource(RestResource):
             return self.response_error(334, e.message)
         except (RequisicaoVipsError, EquipamentoError, IpError, HealthcheckExpectError, GrupoError), e:
             return self.response_error(1)
-        except Exception, e:
-            self.log.error(u'Failed to update the request vip.')
+        except Exception as e:
+            self.log.error('Failed to update the request vip.')
             if isinstance(e, IntegrityError):
                 # Duplicate value for Port Vip, Port Real and IP
                 return self.response_error(353)
             else:
                 raise RequisicaoVipsError(
-                    e, u'Failed to update the request vip')
+                    e, 'Failed to update the request vip')
 
 
 def get_variables(map, i, new_call):

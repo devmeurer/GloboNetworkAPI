@@ -64,7 +64,7 @@ class RequestVipL7ValidateResource(RestResource):
             # Valid Vip ID
             if not is_valid_int_greater_zero_param(id_vip):
                 self.log.error(
-                    u'The vip_id parameter is not a valid value: %s.', id_vip)
+                    'The vip_id parameter is not a valid value: %s.', id_vip)
                 raise InvalidValueError(None)
 
             vip = RequisicaoVips.get_by_pk(id_vip)
@@ -74,7 +74,7 @@ class RequestVipL7ValidateResource(RestResource):
                 # Vip must be created
                 if not vip.vip_criado:
                     self.log.error(
-                        u'L7 filter can not be changed because VIP has not yet been created.')
+                        'L7 filter can not be changed because VIP has not yet been created.')
                     raise RequestVipsNotBeenCreatedError(None)
 
                 vip.filter_valid = True

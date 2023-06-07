@@ -30,7 +30,7 @@ class RackError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -95,7 +95,7 @@ class Datacenter(BaseModel):
     address = models.CharField(max_length=100, unique=True)
 
     class Meta(BaseModel.Meta):
-        db_table = u'datacenter'
+        db_table = 'datacenter'
         managed = True
 
     def _get_initials(self):
@@ -121,10 +121,10 @@ class Datacenter(BaseModel):
                 return Datacenter.objects.filter(address=address)
             return Datacenter.objects.all()
         except ObjectDoesNotExist as e:
-            raise Exception(u'Datacenter doesnt exist. %s'  % e)
+            raise Exception('Datacenter doesnt exist. %s'  % e)
         except Exception as e:
-            self.log.error(u'Failure to get datacenter. %s' % e)
-            raise Exception(e, u'Failure to get datacenter. %s' % e)
+            self.log.error('Failure to get datacenter. %s' % e)
+            raise Exception(e, 'Failure to get datacenter. %s' % e)
 
     def save_dc(self):
         '''Insert a new Datacenter.
@@ -133,7 +133,7 @@ class Datacenter(BaseModel):
         try:
             self.save()
         except Exception as e:
-            self.log.error(u'Error trying to insert DatacenterRooms: %s.' %e)
+            self.log.error('Error trying to insert DatacenterRooms: %s.' %e)
 
     def del_dc(self):
 
@@ -141,8 +141,8 @@ class Datacenter(BaseModel):
             self.check_fabric()
             self.delete()
         except Exception as e:
-            self.log.error(u'Error trying to remove Datacenter: %s.' %e)
-            raise Exception(u'Error trying to remove Datacenter: %s.' %e)
+            self.log.error('Error trying to remove Datacenter: %s.' %e)
+            raise Exception('Error trying to remove Datacenter: %s.' %e)
 
     def check_fabric(self):
         if DatacenterRooms().get_dcrooms(id_dc=self.id):
@@ -156,14 +156,14 @@ class DatacenterRooms(BaseModel):
 
     id = models.AutoField(primary_key=True, db_column='id_dcroom')
     name = models.CharField(max_length=100, unique=True)
-    dc = models.ForeignKey(Datacenter, unique=True, db_column='id_dc')
+    dc = models.ForeignKey(Datacenter, unique=True, db_column='id_dc', on_delete=models.DO_NOTHING)
     racks = models.IntegerField(blank=True, null=True)
     spines = models.IntegerField(blank=True, null=True)
     leafs = models.IntegerField(blank=True, null=True)
     config = models.CharField(max_length=255)
 
     class Meta(BaseModel.Meta):
-        db_table = u'datacenterrooms'
+        db_table = 'datacenterrooms'
         managed = True
 
     def get_dcrooms(self, idt=None, id_dc=None, name=None):
@@ -184,10 +184,10 @@ class DatacenterRooms(BaseModel):
 
             return DatacenterRooms.objects.all()
         except ObjectDoesNotExist as e:
-            raise Exception(u'Datacenter Rooms doesnt exist. %s'  % e)
+            raise Exception('Datacenter Rooms doesnt exist. %s'  % e)
         except Exception as e:
-            self.log.error(u'Failure to get datacenter room. %s' % e)
-            raise Exception(u'Failure to get datacenter room. %s' % e)
+            self.log.error('Failure to get datacenter room. %s' % e)
+            raise Exception('Failure to get datacenter room. %s' % e)
 
     def save_dcrooms(self):
         '''Insert a new DatacenterRooms.
@@ -195,8 +195,8 @@ class DatacenterRooms(BaseModel):
         try:
             self.save()
         except Exception as e:
-            self.log.error(u'Error trying to insert DatacenterRooms: %s.' %e)
-            raise Exception(u'Error trying to insert DatacenterRooms: %s.' %e)
+            self.log.error('Error trying to insert DatacenterRooms: %s.' %e)
+            raise Exception('Error trying to insert DatacenterRooms: %s.' %e)
 
     def del_dcrooms(self):
 
@@ -205,8 +205,8 @@ class DatacenterRooms(BaseModel):
             self.dissociate_environments()
             self.delete()
         except Exception as e:
-            self.log.error(u'Error trying to remove DatacenterRooms: %s.' %e)
-            raise Exception(u'Error trying to remove DatacenterRooms: %s.' %e)
+            self.log.error('Error trying to remove DatacenterRooms: %s.' %e)
+            raise Exception('Error trying to remove DatacenterRooms: %s.' %e)
 
     def dissociate_environments(self):
         from networkapi.ambiente.models import Ambiente
@@ -232,16 +232,16 @@ class Rack(BaseModel):
     mac_sw1 = models.CharField(max_length=17, blank=True, null=True, db_column='mac_sw1')
     mac_sw2 = models.CharField(max_length=17, blank=True, null=True, db_column='mac_sw2')
     mac_ilo = models.CharField(max_length=17, blank=True, null=True, db_column='mac_ilo')
-    id_sw1 = models.ForeignKey('equipamento.Equipamento', blank=True, null=True, db_column='id_equip1', related_name='equipamento_sw1')
-    id_sw2 = models.ForeignKey('equipamento.Equipamento', blank=True, null=True, db_column='id_equip2', related_name='equipamento_sw2')
-    id_ilo = models.ForeignKey('equipamento.Equipamento', blank=True, null=True, db_column='id_equip3', related_name='equipamento_ilo')
+    id_sw1 = models.ForeignKey('equipamento.Equipamento', blank=True, null=True, db_column='id_equip1', related_name='equipamento_sw1', on_delete=models.DO_NOTHING)
+    id_sw2 = models.ForeignKey('equipamento.Equipamento', blank=True, null=True, db_column='id_equip2', related_name='equipamento_sw2', on_delete=models.DO_NOTHING)
+    id_ilo = models.ForeignKey('equipamento.Equipamento', blank=True, null=True, db_column='id_equip3', related_name='equipamento_ilo', on_delete=models.DO_NOTHING)
 
     config = models.BooleanField(default=False)
     create_vlan_amb = models.BooleanField(default=False)
-    dcroom = models.ForeignKey(DatacenterRooms, db_column='dcroom', null=True)
+    dcroom = models.ForeignKey(DatacenterRooms, db_column='dcroom', null=True, on_delete=models.DO_NOTHING)
 
     class Meta(BaseModel.Meta):
-        db_table = u'racks'
+        db_table = 'racks'
         managed = True
 
     def get_rack(cls, idt=None, number=None, name=None, dcroom_id=None, dc_id=None):
@@ -291,7 +291,7 @@ class Rack(BaseModel):
         try:
             self.delete()
         except Exception as e:
-            raise Exception(u'Error trying to remove Rack: %s.' %e)
+            raise Exception('Error trying to remove Rack: %s.' %e)
 
     def get_by_pk(cls, idt):
         """"Get  Rack id.
@@ -305,10 +305,10 @@ class Rack(BaseModel):
             return Rack.objects.filter(id=idt).uniqueResult()
         except ObjectDoesNotExist as e:
             raise RackNumberNotFoundError(
-                e, u'Dont there is a Rack by pk = %s.' % idt)
+                e, 'Dont there is a Rack by pk = %s.' % idt)
         except Exception as e:
-            cls.log.error(u'Failure to search the Rack.')
-            raise RackError(e, u'Failure to search the Rack.')
+            cls.log.error('Failure to search the Rack.')
+            raise RackError(e, 'Failure to search the Rack.')
 
     def get_by_name(cls, name):
         """"Get  Rack id.
@@ -322,10 +322,10 @@ class Rack(BaseModel):
             return Rack.objects.filter(nome=name).uniqueResult()
         except ObjectDoesNotExist as e:
             raise RackNumberNotFoundError(
-                e, u'Dont there is the Rack %s.' % name)
+                e, 'Dont there is the Rack %s.' % name)
         except Exception as e:
-            cls.log.error(u'Failure to search the Rack.')
-            raise RackError(e, u'Failure to search the Rack.')
+            cls.log.error('Failure to search the Rack.')
+            raise RackError(e, 'Failure to search the Rack.')
 
     def get_by_id(cls, number):
         """"Get  Rack number.
@@ -339,31 +339,31 @@ class Rack(BaseModel):
             return Rack.objects.get(numero__iexact=number)
         except ObjectDoesNotExist as e:
             raise RackNumberNotFoundError(
-                e, u'Dont there is a Rack by pk = %s.' % number)
+                e, 'Dont there is a Rack by pk = %s.' % number)
         except Exception as e:
-            cls.log.error(u'Failure to search the Rack.')
-            raise RackError(e, u'Failure to search the Rack.')
+            cls.log.error('Failure to search the Rack.')
+            raise RackError(e, 'Failure to search the Rack.')
 
     def insert_new(self, authenticated_user):
         try:
             Rack.objects.get(numero__iexact=self.numero)
             raise RackNumberDuplicatedValueError(
-                None, u'Numero de Rack %s ja existe.' % self.numero)
+                None, 'Numero de Rack %s ja existe.' % self.numero)
         except ObjectDoesNotExist as e:
             pass
 
         try:
             Rack.objects.get(nome__iexact=self.nome)
             raise RackNameDuplicatedError(
-                None, u'Nome %s ja existe.' % self.nome)
+                None, 'Nome %s ja existe.' % self.nome)
         except ObjectDoesNotExist as e:
             pass
 
         try:
             return self.save()
         except Exception as e:
-            self.log.error(u'Falha ao inserir Rack.')
-            raise RackError(e, u'Falha ao inserir Rack.')
+            self.log.error('Falha ao inserir Rack.')
+            raise RackError(e, 'Falha ao inserir Rack.')
 
 
 class EnvironmentRackError(Exception):
@@ -375,7 +375,7 @@ class EnvironmentRackError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Cause: %s, Message: %s' % (self.cause, self.message)
+        msg = 'Cause: %s, Message: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -400,11 +400,11 @@ class EnvironmentRack(BaseModel):
     log = logging.getLogger('EnvironmentRack')
 
     id = models.AutoField(primary_key=True, db_column='id_ambienterack')
-    ambiente = models.ForeignKey('ambiente.Ambiente', db_column='id_ambiente')
-    rack = models.ForeignKey(Rack, db_column='id_rack')
+    ambiente = models.ForeignKey('ambiente.Ambiente', db_column='id_ambiente', on_delete=models.DO_NOTHING)
+    rack = models.ForeignKey(Rack, db_column='id_rack', on_delete=models.DO_NOTHING)
 
     class Meta(BaseModel.Meta):
-        db_table = u'ambiente_rack'
+        db_table = 'ambiente_rack'
         managed = True
 
     def create(self, authenticated_user):
@@ -426,29 +426,29 @@ class EnvironmentRack(BaseModel):
             exist = EnvironmentRack().get_by_rack_environment(
                 self.rack.id, self.ambiente.id)
             raise EnvironmentRackDuplicatedError(
-                None, u'EnvironmentRack already registered.')
+                None, 'EnvironmentRack already registered.')
         except EnvironmentRackNotFoundError:
             pass
 
         try:
             self.save()
         except Exception as e:
-            self.log.error(u'Error trying to insert EnvironmentRack: %s/%s.' %
+            self.log.error('Error trying to insert EnvironmentRack: %s/%s.' %
                            (self.rack.id, self.ambiente.id))
             raise EnvironmentRackError(
-                e, u'Error trying to insert EnvironmentRack: %s/%s.' % (self.rack.id, self.ambiente.id))
+                e, 'Error trying to insert EnvironmentRack: %s/%s.' % (self.rack.id, self.ambiente.id))
 
     def get_by_rack_environment(self, rack_id, environment_id):
         try:
             return EnvironmentRack.objects.get(ambiente__id=environment_id, rack__id=rack_id)
         except ObjectDoesNotExist as e:
             raise EnvironmentRackNotFoundError(
-                e, u'There is no EnvironmentRack with rack = %s and environment = %s.' % (rack_id, environment_id))
+                e, 'There is no EnvironmentRack with rack = %s and environment = %s.' % (rack_id, environment_id))
         except Exception as e:
             self.log.error(
-                u'Error trying to search EnvironmentRack %s/%s.' % (rack_id, environment_id))
+                'Error trying to search EnvironmentRack %s/%s.' % (rack_id, environment_id))
             raise EnvironmentRackError(
-                e, u'Error trying to search EnvironmentRack.')
+                e, 'Error trying to search EnvironmentRack.')
 
     @classmethod
     def get_by_rack(cls, rack_id):
@@ -459,7 +459,7 @@ class EnvironmentRack(BaseModel):
             return EnvironmentRack.objects.filter(rack=rack_id)
         except ObjectDoesNotExist as e:
             raise RackError(
-                e, u'Dont there is a Environment by rack = %s.' % rack_id)
+                e, 'Dont there is a Environment by rack = %s.' % rack_id)
         except Exception as e:
-            cls.log.error(u'Failure to search the Environment.')
-            raise Exception(e, u'Failure to search the Environment.')
+            cls.log.error('Failure to search the Environment.')
+            raise Exception(e, 'Failure to search the Environment.')

@@ -40,7 +40,7 @@ class VlanError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -182,23 +182,23 @@ class TipoRede(BaseModel):
     log = logging.getLogger('TipoRede')
 
     class Meta(BaseModel.Meta):
-        db_table = u'tipo_rede'
+        db_table = 'tipo_rede'
         managed = True
 
     @classmethod
     def get_by_pk(cls, id):
         try:
             return TipoRede.objects.filter(id=id).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise NetworkTypeNotFoundError(
-                e, u'There is no network type with pk = %s.' % id)
-        except OperationalError, e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+                e, 'There is no network type with pk = %s.' % id)
+        except OperationalError as e:
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            cls.log.error(u'Failed to get network type.')
-            raise VlanError(e, u'Failed to get network type.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            cls.log.error('Failed to get network type.')
+            raise VlanError(e, 'Failed to get network type.')
 
     @classmethod
     def get_by_name(cls, name):
@@ -206,13 +206,13 @@ class TipoRede(BaseModel):
             tipos = TipoRede.objects.filter(tipo_rede__iexact=name)
             if len(tipos) == 0:
                 raise NetworkTypeNotFoundError(
-                    None, u'There is no network type with name = %s.' % name)
+                    None, 'There is no network type with name = %s.' % name)
             return tipos[0]
         except NetworkTypeNotFoundError, e:
             raise e
-        except Exception, e:
-            cls.log.error(u'Failed to get network type.')
-            raise VlanError(e, u'Failed to get network type.')
+        except Exception as e:
+            cls.log.error('Failed to get network type.')
+            raise VlanError(e, 'Failed to get network type.')
 
 
 class Vlan(BaseModel):
@@ -229,7 +229,8 @@ class Vlan(BaseModel):
     num_vlan = models.IntegerField()
     ambiente = models.ForeignKey(
         'ambiente.Ambiente',
-        db_column='id_ambiente'
+        db_column='id_ambiente',
+        on_delete=models.DO_NOTHING
     )
     descricao = models.CharField(
         max_length=200,
@@ -283,7 +284,7 @@ class Vlan(BaseModel):
     networks_ipv6 = property(_get_networks_ipv6)
 
     class Meta(BaseModel.Meta):
-        db_table = u'vlans'
+        db_table = 'vlans'
         managed = True
         unique_together = (
             ('nome', 'ambiente'),
@@ -312,16 +313,16 @@ class Vlan(BaseModel):
         """
         try:
             return Vlan.objects.get(id=vlan_id)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise VlanNotFoundError(
-                e, u'Dont there is a Vlan by pk = %s.' % vlan_id)
-        except OperationalError, e:
-            self.log.error(u'Lock wait timeout exceeded.')
+                e, 'Dont there is a Vlan by pk = %s.' % vlan_id)
+        except OperationalError as e:
+            self.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlan.')
-            raise VlanError(e, u'Failure to search the Vlan.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            self.log.error('Failure to search the Vlan.')
+            raise VlanError(e, 'Failure to search the Vlan.')
 
     def get_vlan_by_acl(self, acl_file):
         try:
@@ -334,15 +335,15 @@ class Vlan(BaseModel):
                 None, 'uThere is already an Vlan with the Acl - Ipv4 = %s.' % acl_file)
         except VlanACLDuplicatedError, e:
             raise VlanACLDuplicatedError(e, e.message)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             pass
-        except OperationalError, e:
-            self.log.error(u'Lock wait timeout exceeded.')
+        except OperationalError as e:
+            self.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlan.')
-            raise VlanError(e, u'Failure to search the Vlan.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            self.log.error('Failure to search the Vlan.')
+            raise VlanError(e, 'Failure to search the Vlan.')
 
     def get_vlan_by_acl_v6(self, acl_file_v6):
         try:
@@ -358,15 +359,15 @@ class Vlan(BaseModel):
                 None, 'uThere is already an Vlan with the Acl - Ipv6 = %s.' % acl_file_v6)
         except VlanACLDuplicatedError, e:
             raise VlanACLDuplicatedError(e, e.message)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             pass
-        except OperationalError, e:
-            self.log.error(u'Lock wait timeout exceeded.')
+        except OperationalError as e:
+            self.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlan.')
-            raise VlanError(e, u'Failure to search the Vlan.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            self.log.error('Failure to search the Vlan.')
+            raise VlanError(e, 'Failure to search the Vlan.')
 
     def exist_vlan_name_in_environment(self, id_vlan=None):
         try:
@@ -381,9 +382,9 @@ class Vlan(BaseModel):
                 return True
             else:
                 return False
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlan.')
-            raise VlanError(e, u'Failure to search the Vlan.')
+        except Exception as e:
+            self.log.error('Failure to search the Vlan.')
+            raise VlanError(e, 'Failure to search the Vlan.')
 
     def exist_vlan_num_in_environment(self, id_vlan=None):
         try:
@@ -398,9 +399,9 @@ class Vlan(BaseModel):
                 return True
             else:
                 return False
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlan.')
-            raise VlanError(e, u'Failure to search the Vlan.')
+        except Exception as e:
+            self.log.error('Failure to search the Vlan.')
+            raise VlanError(e, 'Failure to search the Vlan.')
 
     def search_vlan_numbers(self, environment_id, min_num, max_num):
         try:
@@ -410,9 +411,9 @@ class Vlan(BaseModel):
             ).values_list(
                 'num_vlan', flat=True
             ).distinct().order_by('num_vlan')
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlans.')
-            raise VlanError(e, u'Failure to search the Vlans.')
+        except Exception as e:
+            self.log.error('Failure to search the Vlans.')
+            raise VlanError(e, 'Failure to search the Vlans.')
 
     def valid_vlan_name(self, name):
 
@@ -431,9 +432,9 @@ class Vlan(BaseModel):
             if environment_id is not None:
                 v = v.filter(ambiente__id=environment_id)
             return v
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlans.')
-            raise VlanError(e, u'Failure to search the Vlans.')
+        except Exception as e:
+            self.log.error('Failure to search the Vlans.')
+            raise VlanError(e, 'Failure to search the Vlans.')
 
     def calculate_vlan_number(self, min_num, max_num, list_available=False):
 
@@ -524,9 +525,9 @@ class Vlan(BaseModel):
             })
             queue_manager.send()
 
-        except Exception, e:
-            self.log.error(u'Falha ao salvar a VLAN.')
-            raise VlanError(e, u'Falha ao salvar a VLAN.')
+        except Exception as e:
+            self.log.error('Falha ao salvar a VLAN.')
+            raise VlanError(e, 'Falha ao salvar a VLAN.')
 
     def remove(self, authenticated_user):
         """
@@ -573,9 +574,9 @@ class Vlan(BaseModel):
             })
             queue_manager.send()
 
-        except Exception, e:
-            self.log.error(u'Falha ao salvar a VLAN.')
-            raise VlanError(e, u'Falha ao salvar a VLAN.')
+        except Exception as e:
+            self.log.error('Falha ao salvar a VLAN.')
+            raise VlanError(e, 'Falha ao salvar a VLAN.')
 
     def create_new(self, authenticated_user, min_num_01, max_num_01, min_num_02, max_num_02):
         """
@@ -605,7 +606,7 @@ class Vlan(BaseModel):
             self.num_vlan = self.calculate_vlan_number(min_num_02, max_num_02)
             if self.num_vlan is None:
                 raise VlanNumberNotAvailableError(
-                    None, u'Number VLAN unavailable for environment %d.' % self.ambiente.id)
+                    None, 'Number VLAN unavailable for environment %d.' % self.ambiente.id)
 
         # Default values
         self.acl_file_name = self.nome
@@ -675,13 +676,13 @@ class Vlan(BaseModel):
             self.num_vlan = self.calculate_vlan_number(min_num_02, max_num_02)
             if self.num_vlan is None:
                 raise VlanNumberNotAvailableError(
-                    None, u'Não existe número de VLAN disponível para o ambiente %d.' % self.ambiente.id)
+                    None, 'Não existe número de VLAN disponível para o ambiente %d.' % self.ambiente.id)
 
         # Calcular o Endereço de Rede da VLAN
         vlan_address = self.calculate_vlan_address()
         if len(vlan_address) == 0:
             raise VlanNetworkAddressNotAvailableError(
-                None, u'Não existe endereço de rede disponível para o cadastro da VLAN.')
+                None, 'Não existe endereço de rede disponível para o cadastro da VLAN.')
 
         self.rede_oct1, self.rede_oct2, self.rede_oct3, self.rede_oct4 = vlan_address
 
@@ -701,8 +702,8 @@ class Vlan(BaseModel):
         try:
             self.save()
         except Exception as e:
-            self.log.error(u'Falha ao inserir a VLAN.')
-            raise VlanError(e, u'Falha ao inserir a VLAN.')
+            self.log.error('Falha ao inserir a VLAN.')
+            raise VlanError(e, 'Falha ao inserir a VLAN.')
 
     def get_by_number_and_environment(self, number, environment):
         """Get Vlan by number.
@@ -716,16 +717,16 @@ class Vlan(BaseModel):
         try:
             return Vlan.objects.filter(
                 num_vlan=number, ambiente=environment).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise VlanNotFoundError(
-                e, u'Dont there is a Vlan by number = %s.' % number)
-        except OperationalError, e:
-            self.log.error(u'Lock wait timeout exceeded.')
+                e, 'Dont there is a Vlan by number = %s.' % number)
+        except OperationalError as e:
+            self.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlan.')
-            raise VlanError(e, u'Failure to search the Vlan.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            self.log.error('Failure to search the Vlan.')
+            raise VlanError(e, 'Failure to search the Vlan.')
 
     def get_by_number(self, number):
         """Get Vlan by number.
@@ -738,16 +739,16 @@ class Vlan(BaseModel):
         """
         try:
             return Vlan.objects.filter(num_vlan=number).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise VlanNotFoundError(
-                e, u'Dont there is a Vlan by number = %s.' % number)
-        except OperationalError, e:
-            self.log.error(u'Lock wait timeout exceeded.')
+                e, 'Dont there is a Vlan by number = %s.' % number)
+        except OperationalError as e:
+            self.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlan.')
-            raise VlanError(e, u'Failure to search the Vlan.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            self.log.error('Failure to search the Vlan.')
+            raise VlanError(e, 'Failure to search the Vlan.')
 
     def get_by_name(self, name):
         """Get Vlan by name.
@@ -760,16 +761,16 @@ class Vlan(BaseModel):
         """
         try:
             return Vlan.objects.filter(nome=name).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise VlanNotFoundError(
-                e, u'Dont there is a Vlan by name = %s.' % name)
-        except OperationalError, e:
-            self.log.error(u'Lock wait timeout exceeded.')
+                e, 'Dont there is a Vlan by name = %s.' % name)
+        except OperationalError as e:
+            self.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            self.log.error(u'Failure to search the Vlan.')
-            raise VlanError(e, u'Failure to search the Vlan.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            self.log.error('Failure to search the Vlan.')
+            raise VlanError(e, 'Failure to search the Vlan.')
 
     def insert_vlan(self, authenticated_user):
         """
@@ -846,9 +847,9 @@ class Vlan(BaseModel):
         try:
             return self.save()
 
-        except Exception, e:
-            self.log.error(u'Falha ao inserir VLAN.')
-            raise VlanError(e, u'Falha ao inserir VLAN.')
+        except Exception as e:
+            self.log.error('Falha ao inserir VLAN.')
+            raise VlanError(e, 'Falha ao inserir VLAN.')
 
     def edit_vlan(self, authenticated_user, change_name, change_number_environment):
         """
@@ -917,9 +918,9 @@ class Vlan(BaseModel):
         try:
             return self.save()
 
-        except Exception, e:
-            self.log.error(u'Falha ao inserir VLAN.')
-            raise VlanError(e, u'Falha ao inserir VLAN.')
+        except Exception as e:
+            self.log.error('Falha ao inserir VLAN.')
+            raise VlanError(e, 'Falha ao inserir VLAN.')
 
     def check_env_shared_equipment(self, old_env):
 
@@ -995,7 +996,7 @@ class Vlan(BaseModel):
 
             super(Vlan, self).delete()
 
-        except IpCantBeRemovedFromVip, e:
+        except IpCantBeRemovedFromVip as e:
             cause = e.cause
             cause['Vlan'] = self.nome
             raise IpCantBeRemovedFromVip(
@@ -1084,7 +1085,7 @@ class Vlan(BaseModel):
             envs = self.get_environment_related(use_vrf=False)\
                 .values_list('id', flat=True)
 
-        except Exception, e:
+        except Exception as e:
             raise VlanErrorV3(e)
         else:
             # Create locks for environment
@@ -1148,7 +1149,7 @@ class Vlan(BaseModel):
                 netv6_obj = net6_model()
 
                 netv6_obj.create_v3(dict_net, locks_used=locks_name)
-        except Exception, e:
+        except Exception as e:
             raise VlanErrorV3(e)
         finally:
             # Destroy locks
@@ -1177,7 +1178,7 @@ class Vlan(BaseModel):
             self.acl_draft_v6 = vlan.get('acl_draft_v6')
 
             old_vlan = self.get_by_pk(self.id)
-        except Exception, e:
+        except Exception as e:
             raise VlanErrorV3(e)
 
         else:
@@ -1232,7 +1233,7 @@ class Vlan(BaseModel):
 
                 if netv4_vip or netv6_vip:
 
-                    msg = u'Not change vlan when networks are of' \
+                    msg = 'Not change vlan when networks are of' \
                           ' environment Vip.'
                     self.log.error(msg)
                     raise VlanErrorV3(msg)
@@ -1251,7 +1252,7 @@ class Vlan(BaseModel):
             perm.update_perms(
                 vlan, self.id, AdminPermission.OBJ_TYPE_VLAN, user)
 
-        except Exception, e:
+        except Exception as e:
             raise VlanErrorV3(e)
 
         finally:
@@ -1286,7 +1287,7 @@ class Vlan(BaseModel):
 
             super(Vlan, self).delete()
 
-        except ipcantberemovedfromvip, e:
+        except IpCantBeRemovedFromVip as e:
             cause = e.cause
             cause['Vlan'] = self.nome
             self.log.error(
@@ -1360,9 +1361,9 @@ class Vlan(BaseModel):
 
             self.save()
 
-        except Exception, e:
-            self.log.error(u'Error activating Vlan.: %s' % e)
-            raise VlanErrorV3(u'Error activating Vlan.')
+        except Exception as e:
+            self.log.error('Error activating Vlan.: %s' % e)
+            raise VlanErrorV3('Error activating Vlan.')
 
         finally:
             if locks_list:
@@ -1422,9 +1423,9 @@ class Vlan(BaseModel):
 
             self.save()
 
-        except Exception, e:
-            self.log.error(u'Error disabling Vlan.: %s' % e)
-            raise VlanErrorV3(u'Error disabling Vlan.')
+        except Exception as e:
+            self.log.error('Error disabling Vlan.: %s' % e)
+            raise VlanErrorV3('Error disabling Vlan.')
 
         finally:
             if locks_list:
@@ -1595,7 +1596,7 @@ class Vlan(BaseModel):
                 min_num_02, max_num_02)
             if self.num_vlan is None:
                 raise VlanNumberNotAvailableError(
-                    None, u'Number VLAN unavailable for environment %d.'
+                    None, 'Number VLAN unavailable for environment %d.'
                     % self.ambiente.id)
 
     def calculate_vlan_number_v3(self, min_num, max_num, list_available=False):

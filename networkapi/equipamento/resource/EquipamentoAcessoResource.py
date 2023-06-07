@@ -94,12 +94,12 @@ class EquipamentoAcessoResource(RestResource):
             # (networkapi)
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             # Verifica a existência do node "equipamento_acesso"
             equipamento_acesso_map = networkapi_map.get('equipamento_acesso')
             if equipamento_acesso_map is None:
-                return self.response_error(3, u'Não existe valor para a tag equipamento_acesso do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag equipamento_acesso do XML de requisição.')
 
             # Verifica a existência do valor "id_equipamento"
             id_equipamento = equipamento_acesso_map.get('id_equipamento')
@@ -107,14 +107,14 @@ class EquipamentoAcessoResource(RestResource):
             # Valid ID Equipment
             if not is_valid_int_greater_zero_param(id_equipamento):
                 self.log.error(
-                    u'The id_equipamento parameter is not a valid value: %s.', id_equipamento)
+                    'The id_equipamento parameter is not a valid value: %s.', id_equipamento)
                 raise InvalidValueError(None, 'id_equipamento', id_equipamento)
 
             try:
                 id_equipamento = int(id_equipamento)
             except (TypeError, ValueError):
                 self.log.error(
-                    u'Valor do id_equipamento inválido: %s.', id_equipamento)
+                    'Valor do id_equipamento inválido: %s.', id_equipamento)
                 return self.response_error(117, id_equipamento)
 
             # Após obtenção do id_equipamento podemos verificar a permissão
@@ -131,7 +131,7 @@ class EquipamentoAcessoResource(RestResource):
 
             # Valid fqdn
             if not is_valid_string_maxsize(fqdn, 100) or not is_valid_string_minsize(fqdn, 4):
-                self.log.error(u'Parameter fqdn is invalid. Value: %s', fqdn)
+                self.log.error('Parameter fqdn is invalid. Value: %s', fqdn)
                 raise InvalidValueError(None, 'fqdn', fqdn)
 
             # Verifica a existência do valor "user"
@@ -140,7 +140,7 @@ class EquipamentoAcessoResource(RestResource):
             # Valid username
             if not is_valid_string_maxsize(username, 20) or not is_valid_string_minsize(username, 3):
                 self.log.error(
-                    u'Parameter username is invalid. Value: %s', username)
+                    'Parameter username is invalid. Value: %s', username)
                 raise InvalidValueError(None, 'username', username)
 
             # Verifica a existência do valor "pass"
@@ -148,7 +148,7 @@ class EquipamentoAcessoResource(RestResource):
 
             # Valid password
             if not is_valid_string_maxsize(password, 150) or not is_valid_string_minsize(password, 3):
-                self.log.error(u'Parameter password is invalid.')
+                self.log.error('Parameter password is invalid.')
                 raise InvalidValueError(None, 'password', '****')
 
             # Verifica a existência do valor "id_tipo_acesso"
@@ -157,14 +157,14 @@ class EquipamentoAcessoResource(RestResource):
             # Valid ID Equipment
             if not is_valid_int_greater_zero_param(id_tipo_acesso):
                 self.log.error(
-                    u'The id_tipo_acesso parameter is not a valid value: %s.', id_tipo_acesso)
+                    'The id_tipo_acesso parameter is not a valid value: %s.', id_tipo_acesso)
                 raise InvalidValueError(None, 'id_tipo_acesso', id_tipo_acesso)
 
             try:
                 id_tipo_acesso = int(id_tipo_acesso)
             except (TypeError, ValueError):
                 self.log.error(
-                    u'Valor do id_tipo_acesso inválido: %s.', id_tipo_acesso)
+                    'Valor do id_tipo_acesso inválido: %s.', id_tipo_acesso)
                 return self.response_error(171, id_tipo_acesso)
 
             # Obtém o valor de "enable_pass"
@@ -172,7 +172,7 @@ class EquipamentoAcessoResource(RestResource):
 
             # Valid enable_pass
             if not is_valid_string_maxsize(enable_pass, 150) or not is_valid_string_minsize(enable_pass, 3):
-                self.log.error(u'Parameter enable_pass is invalid.')
+                self.log.error('Parameter enable_pass is invalid.')
                 raise InvalidValueError(None, 'enable_pass', '****')
 
             # Obtém o valor de "vrf"
@@ -182,7 +182,7 @@ class EquipamentoAcessoResource(RestResource):
                 # Valid enable_pass
                 if not is_valid_int_greater_zero_param(vrf):
                     self.log.error(
-                        u'The vrf parameter is not a valid value: %s.', vrf)
+                        'The vrf parameter is not a valid value: %s.', vrf)
                     raise InvalidValueError(None, 'vrf', vrf)
                 vrf_obj = Vrf(int(vrf))
 
@@ -209,7 +209,7 @@ class EquipamentoAcessoResource(RestResource):
         except InvalidValueError as e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except EquipamentoNotFoundError:
             return self.response_error(117, id_equipamento)
@@ -254,12 +254,12 @@ class EquipamentoAcessoResource(RestResource):
             # (networkapi)
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             # Verifica a existência do node "equipamento_acesso"
             equipamento_acesso_map = networkapi_map.get('equipamento_acesso')
             if equipamento_acesso_map is None:
-                return self.response_error(3, u'Não existe valor para a tag equipamento_acesso do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag equipamento_acesso do XML de requisição.')
 
             # Verifica a existência do valor "fqdn"
             fqdn = equipamento_acesso_map.get('fqdn')
@@ -296,7 +296,7 @@ class EquipamentoAcessoResource(RestResource):
                 return self.response(dumps_networkapi({}))
 
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except EquipamentoNotFoundError:
             return self.response_error(117, id_equipamento)
@@ -320,7 +320,7 @@ class EquipamentoAcessoResource(RestResource):
             # Valid ID Equipment
             if not is_valid_int_greater_zero_param(id_equipamento):
                 self.log.error(
-                    u'The id_equipamento parameter is not a valid value: %s.', id_equipamento)
+                    'The id_equipamento parameter is not a valid value: %s.', id_equipamento)
                 raise InvalidValueError(None, 'id_equipamento', id_equipamento)
 
             id_tipo_acesso = kwargs.get('id_tipo_acesso')
@@ -328,7 +328,7 @@ class EquipamentoAcessoResource(RestResource):
             # Valid ID Equipment
             if not is_valid_int_greater_zero_param(id_tipo_acesso):
                 self.log.error(
-                    u'The id_tipo_acesso parameter is not a valid value: %s.', id_tipo_acesso)
+                    'The id_tipo_acesso parameter is not a valid value: %s.', id_tipo_acesso)
                 raise InvalidValueError(None, 'id_tipo_acesso', id_tipo_acesso)
 
             Equipamento.get_by_pk(id_equipamento)

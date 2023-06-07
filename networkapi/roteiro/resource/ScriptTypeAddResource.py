@@ -49,7 +49,7 @@ class ScriptTypeAddResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.SCRIPT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -58,11 +58,11 @@ class ScriptTypeAddResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             script_type_map = networkapi_map.get('script_type')
             if script_type_map is None:
-                return self.response_error(3, u'There is no value to the script_type tag  of XML request.')
+                return self.response_error(3, 'There is no value to the script_type tag  of XML request.')
 
             # Get XML data
             type = script_type_map.get('type')
@@ -70,19 +70,19 @@ class ScriptTypeAddResource(RestResource):
 
             # Valid type
             if not is_valid_string_minsize(type, 3) or not is_valid_string_maxsize(type, 40):
-                self.log.error(u'Parameter type is invalid. Value: %s', type)
+                self.log.error('Parameter type is invalid. Value: %s', type)
                 raise InvalidValueError(None, 'type', type)
 
             # Valid description
             if not is_valid_string_minsize(description, 3) or not is_valid_string_maxsize(description, 100):
                 self.log.error(
-                    u'Parameter description is invalid. Value: %s', description)
+                    'Parameter description is invalid. Value: %s', description)
                 raise InvalidValueError(None, 'description', description)
 
             try:
                 TipoRoteiro.get_by_name(type)
                 raise TipoRoteiroNameDuplicatedError(
-                    None, u'Já existe um tipo de roteiro com o tipo %s.' % type)
+                    None, 'Já existe um tipo de roteiro com o tipo %s.' % type)
             except TipoRoteiroNotFoundError:
                 pass
 
@@ -95,9 +95,9 @@ class ScriptTypeAddResource(RestResource):
             try:
                 # save Script Type
                 script_type.save()
-            except Exception, e:
-                self.log.error(u'Failed to save the Script Type.')
-                raise RoteiroError(e, u'Failed to save the Script Type.')
+            except Exception as e:
+                self.log.error('Failed to save the Script Type.')
+                raise RoteiroError(e, 'Failed to save the Script Type.')
 
             script_map = dict()
             script_map['script_type'] = model_to_dict(

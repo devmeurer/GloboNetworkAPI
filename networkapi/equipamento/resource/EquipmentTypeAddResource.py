@@ -57,13 +57,13 @@ class EquipmentTypeAddResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
             equipment_type_map = networkapi_map.get('equipment_type')
             if equipment_type_map is None:
-                msg = u'There is no value to the equipment_type tag of XML request.'
+                msg = 'There is no value to the equipment_type tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -72,7 +72,7 @@ class EquipmentTypeAddResource(RestResource):
 
             # Valid Name
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 100) or not is_valid_regex(name, '^[A-Za-z0-9 -]+$'):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Business Rules
@@ -95,7 +95,7 @@ class EquipmentTypeAddResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
 
-        except EquipamentoError, e:
+        except EquipamentoError as e:
             return self.response_error(1)
 
         except XMLError, e:

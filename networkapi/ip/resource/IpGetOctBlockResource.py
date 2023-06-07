@@ -55,12 +55,12 @@ class IpGetOctBlockResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             ip_map = networkapi_map.get('ip_map')
             if ip_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -70,12 +70,12 @@ class IpGetOctBlockResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Valid ip
             if not is_valid_ip_ipaddr(ip):
-                self.log.error(u'Parameter ip is invalid. Value: %s.', ip)
+                self.log.error('Parameter ip is invalid. Value: %s.', ip)
                 raise InvalidValueError(None, 'ip', ip)
 
             # Business Rules
@@ -104,7 +104,7 @@ class IpGetOctBlockResource(RestResource):
             return self.response(dumps_networkapi({'ips': ips_list}))
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
 
         except InvalidValueError, e:

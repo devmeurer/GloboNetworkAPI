@@ -103,7 +103,7 @@ class ChannelV3View(APIView):
             raise api_exceptions.ObjectDoesNotExistException(e.detail)
         except api_exceptions.ValidationAPIException, e:
             raise api_exceptions.NetworkAPIException(e.detail)
-        except Exception, e:
+        except Exception as e:
             raise api_exceptions.NetworkAPIException(str(e))
 
         return Response(response, status=status.HTTP_201_CREATED)

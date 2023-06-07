@@ -60,7 +60,7 @@ class NetworkIPv4DeallocateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -71,7 +71,7 @@ class NetworkIPv4DeallocateResource(RestResource):
             # Valid NetworkIpv4 ID
             if not is_valid_int_greater_zero_param(network_ipv4_id):
                 self.log.error(
-                    u'Parameter id_network_ipv4 is invalid. Value: %s.', network_ipv4_id)
+                    'Parameter id_network_ipv4 is invalid. Value: %s.', network_ipv4_id)
                 raise InvalidValueError(
                     None, 'id_network_ipv4', network_ipv4_id)
 
@@ -119,9 +119,9 @@ class NetworkIPv4DeallocateResource(RestResource):
 
         except IpCantRemoveFromServerPool, e:
             return self.response_error(386, e.cause.get('network_ip'), e.cause.get('ip'), e.cause.get('server_pool_identifiers'))
-        except EquipamentoAmbienteNotFoundError, e:
+        except EquipamentoAmbienteNotFoundError as e:
             return self.response_error(320)
-        except IpCantBeRemovedFromVip, e:
+        except IpCantBeRemovedFromVip as e:
             return self.response_error(319, 'network', 'networkipv4', network_ipv4_id)
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
@@ -129,10 +129,10 @@ class NetworkIPv4DeallocateResource(RestResource):
             return self.response_error(281)
         except UserNotAuthorizedError, e:
             return self.not_authorized()
-        except Exception, e:
+        except Exception as e:
             if isinstance(e, IntegrityError):
                 # IP associated VIP
-                self.log.error(u'Failed to update the request vip.')
+                self.log.error('Failed to update the request vip.')
                 return self.response_error(355, network_ipv4_id)
             else:
                 return self.response_error(1)

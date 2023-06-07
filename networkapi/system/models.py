@@ -32,5 +32,5 @@ class Variable (BaseModel):
     log = logging.getLogger('Variable')
 
     class Meta(BaseModel.Meta):
-        db_table = u'variables'
+        db_table = 'variables'
         managed = True

@@ -60,7 +60,7 @@ class RemoveVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_REMOVE_SCRIPT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -71,12 +71,12 @@ class RemoveVipResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             vip_map = networkapi_map.get('vip')
             if vip_map is None:
-                msg = u'There is no value to the vlan tag of XML request.'
+                msg = 'There is no value to the vlan tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -86,7 +86,7 @@ class RemoveVipResource(RestResource):
             # Valid vip ID
             if not is_valid_int_greater_zero_param(vip_id):
                 self.log.error(
-                    u'Parameter id_vip is invalid. Value: %s.', vip_id)
+                    'Parameter id_vip is invalid. Value: %s.', vip_id)
                 raise InvalidValueError(None, 'id_vip', vip_id)
 
             map = dict()
@@ -170,7 +170,7 @@ class RemoveVipResource(RestResource):
         except RequisicaoVipsNotFoundError, e:
             return self.response_error(152)
         except XMLError, e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)
         except ScriptError, s:
             return self.response_error(2, s)

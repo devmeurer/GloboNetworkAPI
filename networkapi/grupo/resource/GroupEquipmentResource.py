@@ -49,13 +49,13 @@ class GroupEquipmentResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_GROUP_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Group Equipment ID
             if not is_valid_int_greater_zero_param(id_egroup):
                 self.log.error(
-                    u'The id_egroup parameter is not a valid value: %s.', id_egroup)
+                    'The id_egroup parameter is not a valid value: %s.', id_egroup)
                 raise InvalidValueError(None, 'id_egroup', id_egroup)
 
             # Find Group Equipment by ID to check if it exist

@@ -46,7 +46,7 @@ class ScriptGetEquipmentResource(RestResource):
             # Valid ID Equipment
             if not is_valid_int_greater_zero_param(id_equipment):
                 self.log.error(
-                    u'The id_equipment parameter is not a valid value: %s.', id_equipment)
+                    'The id_equipment parameter is not a valid value: %s.', id_equipment)
                 raise InvalidValueError(None, 'id_equipment', id_equipment)
 
             # Find Equipment by ID to check if it exist
@@ -55,7 +55,7 @@ class ScriptGetEquipmentResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.READ_OPERATION, None, id_equipment, AdminPermission.EQUIP_READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             script_list = []

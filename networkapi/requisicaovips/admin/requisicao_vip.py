@@ -9,7 +9,7 @@ class RequisicaoVipsAdmin(admin.ModelAdmin):
     list_filter = ('validado', 'vip_criado')
 
     def get_ip(self, obj):
-        return u'{} (id {})'.format(obj.ip.ip_formated, obj.ip.id)
+        return '{} (id {})'.format(obj.ip.ip_formated, obj.ip.id)
 
     get_ip.short_description = 'IP'
     # get_ip.admin_order_field = 'book__author'

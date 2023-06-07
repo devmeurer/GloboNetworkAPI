@@ -54,7 +54,7 @@ class ModelAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.BRAND_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_model = kwargs.get('id_model')
@@ -66,11 +66,11 @@ class ModelAlterRemoveResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             model_map = networkapi_map.get('model')
             if model_map is None:
-                return self.response_error(3, u'There is no value to the model tag  of XML request.')
+                return self.response_error(3, 'There is no value to the model tag  of XML request.')
 
             # Get XML data
             name = model_map.get('name')
@@ -79,18 +79,18 @@ class ModelAlterRemoveResource(RestResource):
             # Valid ID Model
             if not is_valid_int_greater_zero_param(id_model):
                 self.log.error(
-                    u'The id_model parameter is not a valid value: %s.', id_model)
+                    'The id_model parameter is not a valid value: %s.', id_model)
                 raise InvalidValueError(None, 'id_model', id_model)
 
             # Valid name
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 100):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Valid ID Brand
             if not is_valid_int_greater_zero_param(id_brand):
                 self.log.error(
-                    u'The id_brand parameter is not a valid value: %s.', id_brand)
+                    'The id_brand parameter is not a valid value: %s.', id_brand)
                 raise InvalidValueError(None, 'id_brand', id_brand)
 
             # Find Brand by ID to check if it exist
@@ -106,7 +106,7 @@ class ModelAlterRemoveResource(RestResource):
                     if not (model.nome.lower() == name.lower() and model.marca.id == id_brand):
                         Modelo.get_by_name_brand(name, id_brand)
                         raise MarcaModeloNameDuplicatedError(
-                            None, u'Já existe um modelo com o nome %s com marca %s.' % (name, brand.nome))
+                            None, 'Já existe um modelo com o nome %s com marca %s.' % (name, brand.nome))
                 except ModeloNotFoundError:
                     pass
 
@@ -117,9 +117,9 @@ class ModelAlterRemoveResource(RestResource):
                 try:
                     # update Model
                     model.save()
-                except Exception, e:
-                    self.log.error(u'Failed to update the Model.')
-                    raise EquipamentoError(e, u'Failed to update the Model.')
+                except Exception as e:
+                    self.log.error('Failed to update the Model.')
+                    raise EquipamentoError(e, 'Failed to update the Model.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -153,7 +153,7 @@ class ModelAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.BRAND_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_model = kwargs.get('id_model')
@@ -161,7 +161,7 @@ class ModelAlterRemoveResource(RestResource):
             # Valid ID Model
             if not is_valid_int_greater_zero_param(id_model):
                 self.log.error(
-                    u'The id_model parameter is not a valid value: %s.', id_model)
+                    'The id_model parameter is not a valid value: %s.', id_model)
                 raise InvalidValueError(None, 'id_model', id_model)
 
             # Find Model by ID to check if it exist
@@ -173,16 +173,16 @@ class ModelAlterRemoveResource(RestResource):
 
                     if model.equipamento_set.count() > 0:
                         raise ModeloUsedByEquipamentoError(
-                            None, u'O modelo %s tem equipamento associado.' % model.id)
+                            None, 'O modelo %s tem equipamento associado.' % model.id)
 
                     # remove Model
                     model.delete()
 
                 except ModeloUsedByEquipamentoError, e:
                     raise e
-                except Exception, e:
-                    self.log.error(u'Failed to remove the Model.')
-                    raise EquipamentoError(e, u'Failed to remove the Model.')
+                except Exception as e:
+                    self.log.error('Failed to remove the Model.')
+                    raise EquipamentoError(e, 'Failed to remove the Model.')
 
                 return self.response(dumps_networkapi({}))
 

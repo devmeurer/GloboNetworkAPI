@@ -55,14 +55,14 @@ class InterfaceDisconnectResource(RestResource):
             id_interface = kwargs.get('id_interface')
             if not is_valid_int_greater_zero_param(id_interface):
                 self.log.error(
-                    u'The id_interface parameter is not a valid value: %s.', id_interface)
+                    'The id_interface parameter is not a valid value: %s.', id_interface)
                 raise InvalidValueError(None, 'id_interface', id_interface)
 
             # Valid back or front param
             back_or_front = kwargs.get('back_or_front')
             if not is_valid_zero_one_param(back_or_front):
                 self.log.error(
-                    u'The back_or_front parameter is not a valid value: %s.', back_or_front)
+                    'The back_or_front parameter is not a valid value: %s.', back_or_front)
                 raise InvalidValueError(None, 'back_or_front', back_or_front)
             else:
                 back_or_front = int(back_or_front)
@@ -70,7 +70,7 @@ class InterfaceDisconnectResource(RestResource):
             # User permission equip 1
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Checks if interface exists in database
@@ -142,5 +142,5 @@ class InterfaceDisconnectResource(RestResource):
         except api_interface_exceptions.InterfaceException:
             return self.response_error(413)
         except XMLError, e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)

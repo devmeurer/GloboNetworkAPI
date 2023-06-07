@@ -75,13 +75,13 @@ class InterfaceResource(RestResource):
             # Valid id_equipamento value
             if not is_valid_int_greater_zero_param(equipment_id):
                 self.log.error(
-                    u'Parameter equipment_id is invalid. Value: %s', equipment_id)
+                    'Parameter equipment_id is invalid. Value: %s', equipment_id)
                 raise InvalidValueError(None, 'equipment_id', equipment_id)
 
             # Valid interface_name value
             if not is_valid_string_minsize(interface_name, 1, required=False) or not is_valid_string_maxsize(interface_name, 20, required=False):
                 self.log.error(
-                    u'Parameter interface_name is invalid. Value: %s', interface_name)
+                    'Parameter interface_name is invalid. Value: %s', interface_name)
                 raise InvalidValueError(None, 'interface_name', interface_name)
 
             # Check permission
@@ -120,18 +120,18 @@ class InterfaceResource(RestResource):
             # (networkapi)
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             # Verifica a existência do node "interface"
             interface_map = networkapi_map.get('interface')
             if interface_map is None:
-                return self.response_error(3, u'Não existe valor para a tag interface do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag interface do XML de requisição.')
 
             # Valid id_equipamento value
             id_equipamento = interface_map.get('id_equipamento')
             if not is_valid_int_greater_zero_param(id_equipamento):
                 self.log.error(
-                    u'Parameter id_equipamento is invalid. Value: %s', id_equipamento)
+                    'Parameter id_equipamento is invalid. Value: %s', id_equipamento)
                 raise InvalidValueError(None, 'id_equipamento', id_equipamento)
             else:
                 id_equipamento = int(id_equipamento)
@@ -147,14 +147,14 @@ class InterfaceResource(RestResource):
             # Valid name value
             nome = interface_map.get('nome')
             if not is_valid_string_minsize(nome, 1) or not is_valid_string_maxsize(nome, 20):
-                self.log.error(u'Parameter nome is invalid. Value: %s', nome)
+                self.log.error('Parameter nome is invalid. Value: %s', nome)
                 raise InvalidValueError(None, 'nome', nome)
 
             # Valid protegida value
             protegida = interface_map.get('protegida')
             if not is_valid_boolean_param(protegida):
                 self.log.error(
-                    u'Parameter protegida is invalid. Value: %s', protegida)
+                    'Parameter protegida is invalid. Value: %s', protegida)
                 raise InvalidValueError(None, 'protegida', protegida)
             else:
                 protegida = convert_string_or_int_to_boolean(protegida)
@@ -164,7 +164,7 @@ class InterfaceResource(RestResource):
             if descricao is not None:
                 if not is_valid_string_minsize(descricao, 3) or not is_valid_string_maxsize(descricao, 200):
                     self.log.error(
-                        u'Parameter descricao is invalid. Value: %s', descricao)
+                        'Parameter descricao is invalid. Value: %s', descricao)
                     raise InvalidValueError(None, 'descricao', descricao)
 
             # Valid "id_ligacao_front" value
@@ -172,7 +172,7 @@ class InterfaceResource(RestResource):
             if id_ligacao_front is not None:
                 if not is_valid_int_greater_zero_param(id_ligacao_front):
                     self.log.error(
-                        u'The id_ligacao_front parameter is not a valid value: %s.', id_ligacao_front)
+                        'The id_ligacao_front parameter is not a valid value: %s.', id_ligacao_front)
                     raise InvalidValueError(
                         None, 'id_ligacao_front', id_ligacao_front)
                 else:
@@ -186,7 +186,7 @@ class InterfaceResource(RestResource):
             if id_ligacao_back is not None:
                 if not is_valid_int_greater_zero_param(id_ligacao_back):
                     self.log.error(
-                        u'The id_ligacao_back parameter is not a valid value: %s.', id_ligacao_back)
+                        'The id_ligacao_back parameter is not a valid value: %s.', id_ligacao_back)
                     raise InvalidValueError(
                         None, 'id_ligacao_back', id_ligacao_back)
                 else:
@@ -227,7 +227,7 @@ class InterfaceResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except EquipamentoNotFoundError:
             return self.response_error(117, id_equipamento)
@@ -252,7 +252,7 @@ class InterfaceResource(RestResource):
             id_interface = kwargs.get('id_interface')
             if not is_valid_int_greater_zero_param(id_interface):
                 self.log.error(
-                    u'The id_interface parameter is not a valid value: %s.', id_interface)
+                    'The id_interface parameter is not a valid value: %s.', id_interface)
                 raise InvalidValueError(None, 'id_interface', id_interface)
 
             # Get interface and equipment to check permission
@@ -273,23 +273,23 @@ class InterfaceResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no networkapi tag in XML request.')
+                return self.response_error(3, 'There is no networkapi tag in XML request.')
 
             interface_map = networkapi_map.get('interface')
             if interface_map is None:
-                return self.response_error(3, u'There is no interface tag in XML request.')
+                return self.response_error(3, 'There is no interface tag in XML request.')
 
             # Valid name value
             nome = interface_map.get('nome')
             if not is_valid_string_minsize(nome, 1) or not is_valid_string_maxsize(nome, 20):
-                self.log.error(u'Parameter nome is invalid. Value: %s', nome)
+                self.log.error('Parameter nome is invalid. Value: %s', nome)
                 raise InvalidValueError(None, 'nome', nome)
 
             # Valid protegida value
             protegida = interface_map.get('protegida')
             if not is_valid_boolean_param(protegida):
                 self.log.error(
-                    u'Parameter protegida is invalid. Value: %s', protegida)
+                    'Parameter protegida is invalid. Value: %s', protegida)
                 raise InvalidValueError(None, 'protegida', protegida)
             else:
                 protegida = convert_string_or_int_to_boolean(protegida)
@@ -299,7 +299,7 @@ class InterfaceResource(RestResource):
             if descricao is not None:
                 if not is_valid_string_minsize(descricao, 3) or not is_valid_string_maxsize(descricao, 200):
                     self.log.error(
-                        u'Parameter descricao is invalid. Value: %s', descricao)
+                        'Parameter descricao is invalid. Value: %s', descricao)
                     raise InvalidValueError(None, 'descricao', descricao)
 
             # Valid "id_ligacao_front" value
@@ -307,7 +307,7 @@ class InterfaceResource(RestResource):
             if id_ligacao_front is not None:
                 if not is_valid_int_greater_zero_param(id_ligacao_front):
                     self.log.error(
-                        u'The id_ligacao_front parameter is not a valid value: %s.', id_ligacao_front)
+                        'The id_ligacao_front parameter is not a valid value: %s.', id_ligacao_front)
                     raise InvalidValueError(
                         None, 'id_ligacao_front', id_ligacao_front)
                 else:
@@ -318,7 +318,7 @@ class InterfaceResource(RestResource):
             if id_ligacao_back is not None:
                 if not is_valid_int_greater_zero_param(id_ligacao_back):
                     self.log.error(
-                        u'The id_ligacao_back parameter is not a valid value: %s.', id_ligacao_back)
+                        'The id_ligacao_back parameter is not a valid value: %s.', id_ligacao_back)
                     raise InvalidValueError(
                         None, 'id_ligacao_back', id_ligacao_back)
                 else:
@@ -347,7 +347,7 @@ class InterfaceResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except InterfaceNotFoundError:
             return self.response_error(141)
@@ -372,7 +372,7 @@ class InterfaceResource(RestResource):
             id_interface = kwargs.get('id_interface')
             if not is_valid_int_greater_zero_param(id_interface):
                 self.log.error(
-                    u'The id_interface parameter is not a valid value: %s.', id_interface)
+                    'The id_interface parameter is not a valid value: %s.', id_interface)
                 raise InvalidValueError(None, 'id_interface', id_interface)
 
             # Get interface and equipment to check permission
@@ -398,7 +398,7 @@ class InterfaceResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except InterfaceNotFoundError:
             return self.response_error(141)

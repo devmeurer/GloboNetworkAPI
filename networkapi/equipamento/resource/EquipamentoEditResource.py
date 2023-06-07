@@ -70,12 +70,12 @@ class EquipamentoEditResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             equip_map = networkapi_map.get('equipamento')
             if equip_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -89,25 +89,25 @@ class EquipamentoEditResource(RestResource):
             # Valid equip_id
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'Parameter equip_id is invalid. Value: %s.', equip_id)
+                    'Parameter equip_id is invalid. Value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             # Valid id_modelo
             if not is_valid_int_greater_zero_param(id_modelo):
                 self.log.error(
-                    u'Parameter id_modelo is invalid. Value: %s.', id_modelo)
+                    'Parameter id_modelo is invalid. Value: %s.', id_modelo)
                 raise InvalidValueError(None, 'id_modelo', id_modelo)
 
             # Valid id_tipo_equipamento
             if not is_valid_int_greater_zero_param(id_tipo_equipamento):
                 self.log.error(
-                    u'Parameter id_tipo_equipamento is invalid. Value: %s.', id_tipo_equipamento)
+                    'Parameter id_tipo_equipamento is invalid. Value: %s.', id_tipo_equipamento)
                 raise InvalidValueError(
                     None, 'id_tipo_equipamento', id_tipo_equipamento)
 
             # Valid nome
             if not is_valid_string_minsize(nome, 3) or not is_valid_string_maxsize(nome, 80) or not is_valid_regex(nome, '^[A-Z0-9-_]+$'):
-                self.log.error(u'Parameter nome is invalid. Value: %s', nome)
+                self.log.error('Parameter nome is invalid. Value: %s', nome)
                 raise InvalidValueError(None, 'nome', nome)
 
             # Business Rules
@@ -122,7 +122,7 @@ class EquipamentoEditResource(RestResource):
                 maintenance = equip.maintenance
             if not is_valid_boolean_param(maintenance):
                 self.log.error(
-                    u'The maintenance parameter is not a valid value: %s.', maintenance)
+                    'The maintenance parameter is not a valid value: %s.', maintenance)
                 raise InvalidValueError(None, 'maintenance', maintenance)
 
             if maintenance in ['1', 'True', True]:
@@ -133,7 +133,7 @@ class EquipamentoEditResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, equip_id, AdminPermission.EQUIP_WRITE_OPERATION):
                 raise UserNotAuthorizedError(
-                    None, u'User does not have permission to perform the operation.')
+                    None, 'User does not have permission to perform the operation.')
 
             with distributedlock(LOCK_EQUIPMENT % equip_id):
                 tipo_equip = TipoEquipamento.get_by_pk(id_tipo_equipamento)
@@ -303,5 +303,5 @@ class EquipamentoEditResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)

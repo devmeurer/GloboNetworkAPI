@@ -48,7 +48,7 @@ class IPv6GetAvailableResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -58,7 +58,7 @@ class IPv6GetAvailableResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_network6):
                 self.log.error(
-                    u'Parameter id_rede6 is invalid. Value: %s.', id_network6)
+                    'Parameter id_rede6 is invalid. Value: %s.', id_network6)
                 raise InvalidValueError(None, 'id_rede6', id_network6)
 
             # Business Rules
@@ -86,7 +86,7 @@ class IPv6GetAvailableResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except (IpError, NetworkIPv6Error, EquipamentoError, GrupoError):
             return self.response_error(1)

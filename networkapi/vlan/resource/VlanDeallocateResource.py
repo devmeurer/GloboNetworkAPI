@@ -58,7 +58,7 @@ class VlanDeallocateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load URL param
@@ -67,7 +67,7 @@ class VlanDeallocateResource(RestResource):
             # Valid vlan id
             if not is_valid_int_greater_zero_param(id_vlan):
                 self.log.error(
-                    u'The id_vlan parameter is not a valid value: %s.', id_vlan)
+                    'The id_vlan parameter is not a valid value: %s.', id_vlan)
                 raise InvalidValueError(None, 'id_vlan', id_vlan)
 
             # Find Vlan by id to check if it exist
@@ -152,7 +152,7 @@ class VlanDeallocateResource(RestResource):
 
         except IpCantRemoveFromServerPool, e:
             return self.response_error(387, e.cause.get('vlan_name'), e.cause.get('network_ip'), e.cause.get('ip'), e.cause.get('server_pool_identifiers'))
-        except EquipamentoAmbienteNotFoundError, e:
+        except EquipamentoAmbienteNotFoundError as e:
             return self.response_error(320)
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
@@ -160,14 +160,14 @@ class VlanDeallocateResource(RestResource):
             return self.not_authorized()
         except VlanCantDeallocate, e:
             return self.response_error(293)
-        except IpCantBeRemovedFromVip, e:
+        except IpCantBeRemovedFromVip as e:
             return self.response_error(319, 'vlan', 'vlan', id_vlan)
         except VlanNotFoundError:
             return self.response_error(116)
         except (VlanError):
             return self.response_error(1)
-        except Exception, e:
-            self.log.exception(u'Failed to deallocate vlan.')
+        except Exception as e:
+            self.log.exception('Failed to deallocate vlan.')
             if isinstance(e, IntegrityError):
                 return self.response_error(356, id_vlan)
             else:

@@ -49,12 +49,12 @@ class GrupoEquipamentoAssociaEquipamentoResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             equip_map = networkapi_map.get('equipamento_grupo')
             if equip_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -65,13 +65,13 @@ class GrupoEquipamentoAssociaEquipamentoResource(RestResource):
             # Valid equip_id
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'Parameter equip_id is invalid. Value: %s.', equip_id)
+                    'Parameter equip_id is invalid. Value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             # Valid id_modelo
             if not is_valid_int_greater_zero_param(id_grupo):
                 self.log.error(
-                    u'Parameter id_grupo is invalid. Value: %s.', id_grupo)
+                    'Parameter id_grupo is invalid. Value: %s.', id_grupo)
                 raise InvalidValueError(None, 'id_modelo', id_grupo)
 
             if not has_perm(user,
@@ -81,7 +81,7 @@ class GrupoEquipamentoAssociaEquipamentoResource(RestResource):
                             equip_id,
                             AdminPermission.EQUIP_WRITE_OPERATION):
                 raise UserNotAuthorizedError(
-                    None, u'User does not have permission to perform the operation.')
+                    None, 'User does not have permission to perform the operation.')
 
             # Business Rules
 
@@ -95,7 +95,7 @@ class GrupoEquipamentoAssociaEquipamentoResource(RestResource):
                 if ((int(egrupo.GRUPO_EQUIPAMENTO_ORQUESTRACAO) == int(id_grupo)) and (int(equip.tipo_equipamento.id) != int(tipo_equipamento.TIPO_EQUIPAMENTO_SERVIDOR_VIRTUAL))):
                     raise EquipamentoError(
                         None, "Equipamentos que não sejam do tipo 'Servidor Virtual' não podem fazer parte do grupo 'Equipamentos Orquestração'.")
-            except EquipamentoError, e:
+            except EquipamentoError as e:
                 return self.response_error(150, e.message)
 
             equipamento_grupo = EquipamentoGrupo()
@@ -124,8 +124,8 @@ class GrupoEquipamentoAssociaEquipamentoResource(RestResource):
             return self.response_error(117, equip_id)
         except EquipamentoNameDuplicatedError, e:
             return self.response_error(e.message)
-        except EquipamentoError, e:
+        except EquipamentoError as e:
             return self.response_error(150, e.message)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)

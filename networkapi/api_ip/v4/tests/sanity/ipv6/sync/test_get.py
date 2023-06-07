@@ -59,7 +59,7 @@ class IPv6GetTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Dont there is a IP by pk = 1000.',
+            'Dont there is a IP by pk = 1000.',
             response.data['detail']
         )
 
@@ -89,7 +89,7 @@ class IPv6GetTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Dont there is a IP by pk = 1000.',
+            'Dont there is a IP by pk = 1000.',
             response.data['detail']
         )
 
@@ -104,7 +104,7 @@ class IPv6GetTestCaseV4(NetworkApiTestCase):
 
         self.compare_status(404, response.status_code)
         self.compare_values(
-            u'Dont there is a IP by pk = 1001.',
+            'Dont there is a IP by pk = 1001.',
             response.data['detail']
         )
 

@@ -50,7 +50,7 @@ class RequestAllVipsIPv4Resource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Business Validations
@@ -61,10 +61,10 @@ class RequestAllVipsIPv4Resource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag of XML request.')
             vip_map = networkapi_map.get('vip')
             if vip_map is None:
-                return self.response_error(3, u'There is no value to the vip tag of XML request.')
+                return self.response_error(3, 'There is no value to the vip tag of XML request.')
 
             # Get XML data
             ip_str = str(vip_map['ipv4'])
@@ -73,18 +73,18 @@ class RequestAllVipsIPv4Resource(RestResource):
             # Valid IPv4
             if not is_valid_ip(ip_str):
                 self.log.error(
-                    u'Parameter ipv4 is invalid. Value: %s.', ip_str)
+                    'Parameter ipv4 is invalid. Value: %s.', ip_str)
                 raise InvalidValueError(None, 'ipv4', ip_str)
 
             # Valid all_prop
             if not is_valid_int_param(all_prop):
                 self.log.error(
-                    u'Parameter all_prop is invalid. Value: %s.', all_prop)
+                    'Parameter all_prop is invalid. Value: %s.', all_prop)
                 raise InvalidValueError(None, 'all_prop', all_prop)
             all_prop = int(all_prop)
             if all_prop not in (0, 1):
                 self.log.error(
-                    u'Parameter all_prop is invalid. Value: %s.', all_prop)
+                    'Parameter all_prop is invalid. Value: %s.', all_prop)
                 raise InvalidValueError(None, 'all_prop', all_prop)
 
             # Find IPv4 by octs
@@ -92,7 +92,7 @@ class RequestAllVipsIPv4Resource(RestResource):
 
             if len(octs) != 4:
                 self.log.error(
-                    u'Parameter ipv4 is invalid. Value: %s.', ip_str)
+                    'Parameter ipv4 is invalid. Value: %s.', ip_str)
                 raise InvalidValueError(None, 'ipv4', ip_str)
 
             ipv4 = Ip().get_by_octs(octs[0], octs[1], octs[2], octs[3])

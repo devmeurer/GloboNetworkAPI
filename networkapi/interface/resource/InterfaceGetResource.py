@@ -101,7 +101,7 @@ class InterfaceGetResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Get id_interface param
@@ -117,7 +117,7 @@ class InterfaceGetResource(RestResource):
             if interface is not None:
                 if not is_valid_int_greater_zero_param(interface):
                     self.log.error(
-                        u'The id_interface parameter is not a valid value: %s.', interface)
+                        'The id_interface parameter is not a valid value: %s.', interface)
                     raise InvalidValueError(None, 'id_interface', interface)
                 id_interface = interface
                 # Checks if interface exists in database
@@ -160,5 +160,5 @@ class InterfaceGetResource(RestResource):
         except (InterfaceError, GrupoError, EquipamentoError):
             return self.response_error(1)
         except XMLError, e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)

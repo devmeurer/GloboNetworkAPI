@@ -109,11 +109,11 @@ class RoteiroResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             script_map = networkapi_map.get('roteiro')
             if script_map is None:
-                return self.response_error(3, u'Não existe valor para a tag roteiro do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag roteiro do XML de requisição.')
 
             script_type_id = script_map.get('id_tipo_roteiro')
             if script_type_id is None:
@@ -130,7 +130,7 @@ class RoteiroResource(RestResource):
                 script.tipo_roteiro.id = int(script_type_id)
             except (TypeError, ValueError):
                 self.log.error(
-                    u'Valor do id_tipo_roteiro inválido: %s.', script_type_id)
+                    'Valor do id_tipo_roteiro inválido: %s.', script_type_id)
                 return self.response_error(158, script_type_id)
 
             script.roteiro = script_name
@@ -150,7 +150,7 @@ class RoteiroResource(RestResource):
         except RoteiroNameDuplicatedError:
             return self.response_error(250, script_name)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
         except (RoteiroError, GrupoError):
             return self.response_error(1)
@@ -174,11 +174,11 @@ class RoteiroResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             script_map = networkapi_map.get('roteiro')
             if script_map is None:
-                return self.response_error(3, u'Não existe valor para a tag roteiro do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag roteiro do XML de requisição.')
 
             script_type_id = script_map.get('id_tipo_roteiro')
             if script_type_id is None:
@@ -187,7 +187,7 @@ class RoteiroResource(RestResource):
                 script_type_id = int(script_type_id)
             except (TypeError, ValueError):
                 self.log.error(
-                    u'Valor do id_tipo_roteiro inválido: %s.', script_type_id)
+                    'Valor do id_tipo_roteiro inválido: %s.', script_type_id)
                 return self.response_error(158, script_type_id)
 
             script_name = script_map.get('nome')
@@ -209,7 +209,7 @@ class RoteiroResource(RestResource):
         except RoteiroNameDuplicatedError:
             return self.response_error(250, script_name)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
         except (RoteiroError, GrupoError):
             return self.response_error(1)

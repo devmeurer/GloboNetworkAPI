@@ -48,7 +48,7 @@ class RackEditResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -57,11 +57,11 @@ class RackEditResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             rack_map = networkapi_map.get('rack')
             if rack_map is None:
-                return self.response_error(3, u'There is no value to the rack tag  of XML request.')
+                return self.response_error(3, 'There is no value to the rack tag  of XML request.')
 
             # Get XML data
             id_rack = rack_map.get('id_rack')

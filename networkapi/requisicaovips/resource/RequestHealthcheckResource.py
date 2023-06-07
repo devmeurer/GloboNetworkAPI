@@ -92,14 +92,14 @@ class RequestHealthcheckResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Vip ID
             vip_id = kwargs.get('id_vip')
             if not is_valid_int_greater_zero_param(vip_id):
                 self.log.error(
-                    u'The vip_id parameter is not a valid value: %s.', vip_id)
+                    'The vip_id parameter is not a valid value: %s.', vip_id)
                 raise InvalidValueError(None)
 
             # Existing Vip ID
@@ -112,7 +112,7 @@ class RequestHealthcheckResource(RestResource):
                 # Vip must be created
                 if not vip.vip_criado:
                     self.log.error(
-                        u'Healthcheck can not be changed because VIP has not yet been created.')
+                        'Healthcheck can not be changed because VIP has not yet been created.')
                     raise RequestVipsNotBeenCreatedError(None)
 
                 # Vip equipments permission
@@ -120,14 +120,14 @@ class RequestHealthcheckResource(RestResource):
                     for ip_equipment in vip.ip.ipequipamento_set.all():
                         if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION, None, ip_equipment.equipamento_id, AdminPermission.EQUIP_UPDATE_CONFIG_OPERATION):
                             self.log.error(
-                                u'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
+                                'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
                             raise EquipmentGroupsNotAuthorizedError(None)
 
                 if vip.ipv6 is not None:
                     for ip_equipment in vip.ipv6.ipv6equipament_set.all():
                         if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION, None, ip_equipment.equipamento_id, AdminPermission.EQUIP_UPDATE_CONFIG_OPERATION):
                             self.log.error(
-                                u'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
+                                'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
                             raise EquipmentGroupsNotAuthorizedError(None)
 
                 # Business Validations
@@ -138,10 +138,10 @@ class RequestHealthcheckResource(RestResource):
                 # XML data format
                 networkapi_map = xml_map.get('networkapi')
                 if networkapi_map is None:
-                    return self.response_error(3, u'There is no value to the networkapi tag of XML request.')
+                    return self.response_error(3, 'There is no value to the networkapi tag of XML request.')
                 vip_map = networkapi_map.get('vip')
                 if vip_map is None:
-                    return self.response_error(3, u'There is no value to the vip tag of XML request.')
+                    return self.response_error(3, 'There is no value to the vip tag of XML request.')
 
                 # Get XML data
                 healthcheck_type = upper(str(vip_map['healthcheck_type']))
@@ -158,15 +158,15 @@ class RequestHealthcheckResource(RestResource):
                 # healthcheck_type exist'
                 if not healthcheck_is_valid:
                     self.log.error(
-                        u'The healthcheck_type parameter not exist.')
+                        'The healthcheck_type parameter not exist.')
                     raise InvalidValueError(
-                        u'The healthcheck_type parameter not exist.', 'healthcheck_type', healthcheck_type)
+                        'The healthcheck_type parameter not exist.', 'healthcheck_type', healthcheck_type)
 
                 # If healthcheck_type is not HTTP id_healthcheck_expect and
                 # healthcheck must be None
                 if healthcheck_type != 'HTTP':
                     if not (id_healthcheck_expect is None and healthcheck is None):
-                        msg = u'The healthcheck_type parameter is %s, then healthcheck and id_healthcheck_expect must be None.' % healthcheck_type
+                        msg = 'The healthcheck_type parameter is %s, then healthcheck and id_healthcheck_expect must be None.' % healthcheck_type
                         self.log.error(msg)
                         raise InvalidValueError(msg)
 #                         return self.response_error(276)
@@ -174,7 +174,7 @@ class RequestHealthcheckResource(RestResource):
                 # healthcheck must NOT be None
                 elif healthcheck_type == 'HTTP':
                     if id_healthcheck_expect is None or healthcheck is None:
-                        msg = u'The healthcheck_type parameter is HTTP, then healthcheck and id_healthcheck_expect must NOT be None.'
+                        msg = 'The healthcheck_type parameter is HTTP, then healthcheck and id_healthcheck_expect must NOT be None.'
                         self.log.error(msg)
                         raise InvalidValueError(msg)
                     else:
@@ -183,7 +183,7 @@ class RequestHealthcheckResource(RestResource):
                             # Valid healthcheck_expect ID
                             if not is_valid_int_greater_zero_param(id_healthcheck_expect):
                                 self.log.error(
-                                    u'The id_healthcheck_expect parameter is not a valid value: %s.', id_healthcheck_expect)
+                                    'The id_healthcheck_expect parameter is not a valid value: %s.', id_healthcheck_expect)
                                 raise InvalidValueError(
                                     None, 'id_healthcheck_expect', id_healthcheck_expect)
 
@@ -194,13 +194,13 @@ class RequestHealthcheckResource(RestResource):
 
                             # Check if healthcheck is a string
                             if not isinstance(healthcheck, basestring):
-                                msg = u'The healthcheck must be a string.'
+                                msg = 'The healthcheck must be a string.'
                                 self.log.error(msg)
                                 raise InvalidValueError(
                                     msg, 'healthcheck', healthcheck)
 
                         except HealthcheckExpectNotFoundError:
-                            msg = u'The id_healthcheck_expect parameter does not exist.'
+                            msg = 'The id_healthcheck_expect parameter does not exist.'
                             self.log.error(msg)
                             raise InvalidValueError(
                                 msg, 'id_healthcheck_expect', id_healthcheck_expect)
@@ -282,7 +282,7 @@ class RequestHealthcheckResource(RestResource):
                     return self.response_error(2, stdout + stderr)
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except ScriptError, s:
             return self.response_error(2, s)

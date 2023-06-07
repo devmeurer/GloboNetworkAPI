@@ -57,13 +57,13 @@ class Ipv6RemoveResource(RestResource):
             # Valid Ipv6 ID
             if not is_valid_int_greater_zero_param(ipv6_id):
                 self.log.error(
-                    u'The id_ipv6 parameter is not a valid value: %s.', ipv6_id)
+                    'The id_ipv6 parameter is not a valid value: %s.', ipv6_id)
                 raise InvalidValueError(None, 'id_ipv6', ipv6_id)
 
             # Valid Ipv6 ID
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'The id_equip parameter is not a valid value: %s.', equip_id)
+                    'The id_equip parameter is not a valid value: %s.', equip_id)
                 raise InvalidValueError(None, 'id_equip', equip_id)
 
             # Find Equipament by ID to check if it exist
@@ -77,7 +77,7 @@ class Ipv6RemoveResource(RestResource):
                 # User permission
                 if not has_perm(user, AdminPermission.IPS, AdminPermission.WRITE_OPERATION, None, equip_id, AdminPermission.EQUIP_WRITE_OPERATION):
                     self.log.error(
-                        u'User does not have permission to perform the operation.')
+                        'User does not have permission to perform the operation.')
                     raise UserNotAuthorizedError(None)
 
                 ip = Ipv6().get_by_pk(ipv6_id)
@@ -115,7 +115,7 @@ class Ipv6RemoveResource(RestResource):
 
         except IpCantRemoveFromServerPool, e:
             return self.response_error(385, e.cause.get('ip'), e.cause.get('equip_name'), e.cause.get('server_pool_identifiers'))
-        except IpCantBeRemovedFromVip, e:
+        except IpCantBeRemovedFromVip as e:
             return self.response_error(319, 'ip', 'ipv6', ipv6_id)
         except IpEquipCantDissociateFromVip, e:
             return self.response_error(352, e.cause['ip'], e.cause['equip_name'], e.cause['vip_id'])

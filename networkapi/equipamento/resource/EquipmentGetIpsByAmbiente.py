@@ -47,7 +47,7 @@ class EquipmentGetIpsByAmbiente(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -134,7 +134,7 @@ class EquipmentGetIpsByAmbiente(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except (EquipamentoError, GrupoError):
             return self.response_error(1)

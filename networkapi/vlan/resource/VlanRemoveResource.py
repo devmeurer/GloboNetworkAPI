@@ -60,7 +60,7 @@ class VlanRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -71,7 +71,7 @@ class VlanRemoveResource(RestResource):
             # Valid VLAN ID
             if not is_valid_int_greater_zero_param(vlan_id):
                 self.log.error(
-                    u'Parameter id_vlan is invalid. Value: %s.', vlan_id)
+                    'Parameter id_vlan is invalid. Value: %s.', vlan_id)
                 raise InvalidValueError(None, 'id_vlan', vlan_id)
 
             # Existing VLAN ID
@@ -86,13 +86,13 @@ class VlanRemoveResource(RestResource):
                 # User permission
                 if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
                     self.log.error(
-                        u'User does not have permission to perform the operation.')
+                        'User does not have permission to perform the operation.')
                     return self.not_authorized()
             for equip in equips_from_ipv6:
                 # User permission
                 if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
                     self.log.error(
-                        u'User does not have permission to perform the operation.')
+                        'User does not have permission to perform the operation.')
                     return self.not_authorized()
 
             with distributedlock(LOCK_VLAN % vlan_id):
@@ -114,7 +114,7 @@ class VlanRemoveResource(RestResource):
                                     net4.deactivate(user, True)
                                 else:
                                     network_errors.append(str(net4.id))
-                            except Exception, e:
+                            except Exception as e:
                                 network_errors.append(str(net4.id))
                                 pass
 
@@ -129,7 +129,7 @@ class VlanRemoveResource(RestResource):
                                     net6.deactivate(user, True)
                                 else:
                                     network_errors.append(str(net6.id))
-                            except Exception, e:
+                            except Exception as e:
                                 network_errors.append(str(net6.id))
                                 pass
 
@@ -175,7 +175,7 @@ class VlanRemoveResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except VlanNotFoundError, e:
             return self.response_error(116)

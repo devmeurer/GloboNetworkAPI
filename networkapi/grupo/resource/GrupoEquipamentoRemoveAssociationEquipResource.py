@@ -67,7 +67,7 @@ class GrupoEquipamentoRemoveAssociationEquipResource(RestResource):
                             id_equip,
                             AdminPermission.EQUIP_WRITE_OPERATION):
                 raise UserNotAuthorizedError(
-                    None, u'User does not have permission to perform the operation.')
+                    None, 'User does not have permission to perform the operation.')
 
             with distributedlock(LOCK_EQUIPMENT_GROUP % id_egrupo):
 
@@ -77,7 +77,7 @@ class GrupoEquipamentoRemoveAssociationEquipResource(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except UserNotAuthorizedError:
             return self.not_authorized()
@@ -87,7 +87,7 @@ class GrupoEquipamentoRemoveAssociationEquipResource(RestResource):
             return self.response_error(117, id_equip)
         except EGrupoNotFoundError, e:
             return self.response_error(102)
-        except EquipamentoError, e:
+        except EquipamentoError as e:
             return self.response_error(1)
         except (XMLError):
             return self.response_error(1)

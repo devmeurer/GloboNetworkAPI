@@ -53,7 +53,7 @@ class UserGroupDissociateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.USER_ADMINISTRATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_user = kwargs.get('id_user')
@@ -62,13 +62,13 @@ class UserGroupDissociateResource(RestResource):
             # Valid ID User
             if not is_valid_int_greater_zero_param(id_user):
                 self.log.error(
-                    u'The id_user parameter is not a valid value: %s.', id_user)
+                    'The id_user parameter is not a valid value: %s.', id_user)
                 raise InvalidValueError(None, 'id_user', id_user)
 
             # Valid ID Group
             if not is_valid_int_greater_zero_param(id_group):
                 self.log.error(
-                    u'The id_group parameter is not a valid value: %s.', id_group)
+                    'The id_group parameter is not a valid value: %s.', id_group)
                 raise InvalidValueError(None, 'id_group', id_group)
 
             # Find User by ID to check if it exist
@@ -87,9 +87,9 @@ class UserGroupDissociateResource(RestResource):
                     # remove UserGroup
                     user_group.delete()
 
-                except Exception, e:
-                    self.log.error(u'Failed to remove the UserGroup.')
-                    raise GrupoError(e, u'Failed to remove the UserGroup.')
+                except Exception as e:
+                    self.log.error('Failed to remove the UserGroup.')
+                    raise GrupoError(e, 'Failed to remove the UserGroup.')
 
                 return self.response(dumps_networkapi({}))
 

@@ -53,7 +53,7 @@ class IPv6DeleteTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Dont there is a IP by pk = 1.',
+            'Dont there is a IP by pk = 1.',
             response.data['detail']
         )
 
@@ -69,7 +69,7 @@ class IPv6DeleteTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Dont there is a IP by pk = 1000.',
+            'Dont there is a IP by pk = 1000.',
             response.data['detail']
         )
 
@@ -85,7 +85,7 @@ class IPv6DeleteTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Dont there is a IP by pk = 1000.',
+            'Dont there is a IP by pk = 1000.',
             response.data['detail']
         )
 
@@ -101,7 +101,7 @@ class IPv6DeleteTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Dont there is a IP by pk = 1001.',
+            'Dont there is a IP by pk = 1001.',
             response.data['detail']
         )
 
@@ -129,7 +129,7 @@ class IPv6DeleteTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Dont there is a IP by pk = 2.',
+            'Dont there is a IP by pk = 2.',
             response.data['detail']
         )
 
@@ -152,7 +152,7 @@ class IPv6DeleteTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Dont there is a IP by pk = 1.',
+            'Dont there is a IP by pk = 1.',
             response.data['detail']
         )
 
@@ -175,7 +175,7 @@ class IPv6DeleteTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Dont there is a IP by pk = 4.',
+            'Dont there is a IP by pk = 4.',
             response.data['detail']
         )
 
@@ -187,7 +187,7 @@ class IPv6DeleteTestCaseV4(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'Vip Request Does Not Exist.',
+            'Vip Request Does Not Exist.',
             response.data['detail']
         )
 
@@ -203,7 +203,7 @@ class IPv6DeleteTestCaseV4(NetworkApiTestCase):
         self.compare_status(400, response.status_code)
 
         self.compare_values(
-            u'IPv6 can not be removed because it is in use by Vip Request 2',
+            'IPv6 can not be removed because it is in use by Vip Request 2',
             response.data['detail']
         )
 

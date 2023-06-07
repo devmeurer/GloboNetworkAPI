@@ -47,7 +47,7 @@ class AsDeleteSuccessTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'ASN 3 do not exist.',
+            'ASN 3 do not exist.',
             response.data['detail']
         )
 
@@ -69,7 +69,7 @@ class AsDeleteSuccessTestCase(NetworkApiTestCase):
             self.compare_status(404, response.status_code)
 
             self.compare_values(
-                u'ASN %s do not exist.' % id_,
+                'ASN %s do not exist.' % id_,
                 response.data['detail']
             )
 
@@ -111,8 +111,8 @@ class AsDeleteErrorTestCase(NetworkApiTestCase):
         self.compare_status(400, response.status_code)
 
         self.compare_values(
-            u'Cannot delete ASN 1 because it is associated '
-            u'with Equipments [1, 2].',
+            'Cannot delete ASN 1 because it is associated '
+            'with Equipments [1, 2].',
             response.data['detail']
         )
 
@@ -128,7 +128,7 @@ class AsDeleteErrorTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'ASN 1000 do not exist.',
+            'ASN 1000 do not exist.',
             response.data['detail']
         )
 
@@ -146,8 +146,8 @@ class AsDeleteErrorTestCase(NetworkApiTestCase):
         self.compare_status(400, response.status_code)
 
         self.compare_values(
-            u'Cannot delete ASN 1 because it is associated '
-            u'with Equipments [1, 2].',
+            'Cannot delete ASN 1 because it is associated '
+            'with Equipments [1, 2].',
             response.data['detail']
         )
 

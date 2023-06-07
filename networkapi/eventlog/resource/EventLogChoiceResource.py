@@ -101,7 +101,7 @@ class EventLogChoiceResource(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except (EventLogError):
             return self.response_error(1)

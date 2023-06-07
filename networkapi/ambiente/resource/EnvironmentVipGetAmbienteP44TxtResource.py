@@ -51,7 +51,7 @@ class EnvironmentVipGetAmbienteP44TxtResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_VIP, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -60,11 +60,11 @@ class EnvironmentVipGetAmbienteP44TxtResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag of XML request.')
 
             environmentvip_map = networkapi_map.get('vip')
             if environmentvip_map is None:
-                return self.response_error(3, u'There is no value to the vip tag of XML request.')
+                return self.response_error(3, 'There is no value to the vip tag of XML request.')
 
             # Get XML data
             finalidade = environmentvip_map.get('finalidade_txt')
@@ -73,13 +73,13 @@ class EnvironmentVipGetAmbienteP44TxtResource(RestResource):
             # finalidade_txt can NOT be greater than 50
             if not is_valid_string_maxsize(finalidade, 50, True) or not is_valid_string_minsize(finalidade, 3, True) or not is_valid_text(finalidade):
                 self.log.error(
-                    u'Parameter finalidade_txt is invalid. Value: %s.', finalidade)
+                    'Parameter finalidade_txt is invalid. Value: %s.', finalidade)
                 raise InvalidValueError(None, 'finalidade_txt', finalidade)
 
             # cliente_txt can NOT be greater than 50
             if not is_valid_string_maxsize(cliente_txt, 50, True) or not is_valid_string_minsize(cliente_txt, 3, True) or not is_valid_text(cliente_txt):
                 self.log.error(
-                    u'Parameter cliente_txt is invalid. Value: %s.', cliente_txt)
+                    'Parameter cliente_txt is invalid. Value: %s.', cliente_txt)
                 raise InvalidValueError(None, 'cliente_txt', cliente_txt)
 
             environmentVip = EnvironmentVip()
@@ -108,7 +108,7 @@ class EnvironmentVipGetAmbienteP44TxtResource(RestResource):
             return self.not_authorized()
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
 
         except EnvironmentVipNotFoundError:
@@ -117,5 +117,5 @@ class EnvironmentVipGetAmbienteP44TxtResource(RestResource):
         except EnvironmentVipError:
             return self.response_error(1)
 
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)

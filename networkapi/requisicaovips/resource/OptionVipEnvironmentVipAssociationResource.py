@@ -60,21 +60,21 @@ class OptionVipEnvironmentVipAssociationResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid OptionVip ID
             option_vip_id = kwargs.get('id_option_vip')
             if not is_valid_int_greater_zero_param(option_vip_id):
                 self.log.error(
-                    u'The id_option_vip parameter is not a valid value: %s.', option_vip_id)
+                    'The id_option_vip parameter is not a valid value: %s.', option_vip_id)
                 raise InvalidValueError(None, 'id_option_vip', option_vip_id)
 
             # Valid EnvironmentVip ID
             environment_vip_id = kwargs.get('id_environment_vip')
             if not is_valid_int_greater_zero_param(environment_vip_id):
                 self.log.error(
-                    u'The id_environment_vip parameter is not a valid value: %s.', environment_vip_id)
+                    'The id_environment_vip parameter is not a valid value: %s.', environment_vip_id)
                 raise InvalidValueError(
                     None, 'id_environment_vip', environment_vip_id)
 
@@ -137,21 +137,21 @@ class OptionVipEnvironmentVipAssociationResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid OptionVip ID
             option_vip_id = kwargs.get('id_option_vip')
             if not is_valid_int_greater_zero_param(option_vip_id):
                 self.log.error(
-                    u'The id_option_vip parameter is not a valid value: %s.', option_vip_id)
+                    'The id_option_vip parameter is not a valid value: %s.', option_vip_id)
                 raise InvalidValueError(None, 'id_option_vip', option_vip_id)
 
             # Valid EnvironmentVip ID
             environment_vip_id = kwargs.get('id_environment_vip')
             if not is_valid_int_greater_zero_param(environment_vip_id):
                 self.log.error(
-                    u'The id_environment_vip parameter is not a valid value: %s.', environment_vip_id)
+                    'The id_environment_vip parameter is not a valid value: %s.', environment_vip_id)
                 raise InvalidValueError(
                     None, 'id_environment_vip', environment_vip_id)
 

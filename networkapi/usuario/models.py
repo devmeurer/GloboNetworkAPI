@@ -46,7 +46,7 @@ class UsuarioError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -112,7 +112,7 @@ class CacheUser(object):
             return salt
 
         except exceptions.VariableDoesNotExistException:
-            self.log.error(u'Error getting time_cache_salt_key variable.')
+            self.log.error('Error getting time_cache_salt_key variable.')
         except Exception as ERROR:
             self.log.error(ERROR)
 
@@ -136,7 +136,7 @@ class CacheUser(object):
                 self.log.error('Problems to take salt_key')
 
         except Exception as ERROR:
-            self.log.error(u'Error on mount hash for cache user: %s' % ERROR)
+            self.log.error('Error on mount hash for cache user: %s' % ERROR)
 
     def get(self, username, password):
         """"Get the cached user.
@@ -156,7 +156,7 @@ class CacheUser(object):
                 self.log.error('Problems to take encrypted_hash_text')
 
         except Exception as ERROR:
-            self.log.error(u'Error on get cached user: %s' % ERROR)
+            self.log.error('Error on get cached user: %s' % ERROR)
 
     def set(self, username, password):
         """"Set the cached user.
@@ -174,7 +174,7 @@ class CacheUser(object):
                 self.log.error('Problems to take encrypted_hash_text')
 
         except exceptions.VariableDoesNotExistException:
-            self.log.error(u'Error getting time_cache_user variable.')
+            self.log.error('Error getting time_cache_user variable.')
         except Exception as ERROR:
             self.log.error(ERROR)
 
@@ -196,7 +196,7 @@ class Usuario(BaseModel):
     cache_user = CacheUser()
 
     class Meta(BaseModel.Meta):
-        db_table = u'usuarios'
+        db_table = 'usuarios'
         managed = True
 
     def is_anonymous(self):
@@ -227,12 +227,12 @@ class Usuario(BaseModel):
         """
         try:
             return Usuario.objects.get(pk=pk)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e: #ajustar aqui!?
             raise UsuarioNotFoundError(
-                e, u'Dont there is a Group L3 by pk = %s.' % pk)
-        except Exception, e:
-            cls.log.error(u'Failure to search the User.')
-            raise UsuarioError(e, u'Failure to search the User.')
+                e, 'Dont there is a Group L3 by pk = %s.' % pk) #pesquisar se aceita dessa forma!?
+        except Exception as e:
+            cls.log.error('Failure to search the User.')
+            raise UsuarioError(e, 'Failure to search the User.')
 
     @classmethod
     def get_by_user(cls, name):
@@ -243,12 +243,12 @@ class Usuario(BaseModel):
         """
         try:
             return Usuario.objects.get(user__iexact=name)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise UsuarioNotFoundError(
-                e, u'There is no User with username = %s.' % name)
-        except Exception, e:
-            cls.log.error(u'Failure to search the User.')
-            raise UsuarioError(e, u'Failure to search the User.')
+                e, 'There is no User with username = %s.' % name)
+        except Exception as e:
+            cls.log.error('Failure to search the User.')
+            raise UsuarioError(e, 'Failure to search the User.')
 
     @classmethod
     def get_by_authapi(cls, username, password):
@@ -275,19 +275,19 @@ class Usuario(BaseModel):
                     return response
 
                 except exceptions.VariableDoesNotExistException:
-                    cls.log.error(u'Error getting authapi_url variable.')
+                    cls.log.error('Error getting authapi_url variable.')
                 except Exception as ERROR:
                     raise Exception('Error uses AuthAPI. %s' % ERROR)
 
             except exceptions.VariableDoesNotExistException:
-                cls.log.error(u'Error getting path_ssl_cert variable.')
+                cls.log.error('Error getting path_ssl_cert variable.')
             except Exception as ERROR:
                 raise Exception('Error to get SSL certificate. %s' % ERROR)
 
         except ObjectDoesNotExist as ERROR:
-            raise UsuarioNotFoundError(ERROR, u'There is no User with username = %s in AuthAPI.' % username)
+            raise UsuarioNotFoundError(ERROR, 'There is no User with username = %s in AuthAPI.' % username)
         except Exception as ERROR:
-            cls.log.error(u'Failure to search the User. Error: %s' % ERROR)
+            cls.log.error('Failure to search the User. Error: %s' % ERROR)
 
     @classmethod
     def get_by_ldap_user(cls, ldap_usr, active=False):
@@ -301,12 +301,12 @@ class Usuario(BaseModel):
                 return Usuario.objects.prefetch_related('grupos').get(user_ldap__iexact=ldap_usr, ativo=1)
             else:
                 return Usuario.objects.prefetch_related('grupos').get(user_ldap__iexact=ldap_usr)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise UsuarioNotFoundError(
-                e, u'There is no User with ldap_user = %s.' % ldap_usr)
-        except Exception, e:
-            cls.log.error(u'Failure to search the User.')
-            raise UsuarioError(e, u'Failure to search the User.')
+                e, 'There is no User with ldap_user = %s.' % ldap_usr)
+        except Exception as e:
+            cls.log.error('Failure to search the User.')
+            raise UsuarioError(e, 'Failure to search the User.')
 
     def get_enabled_user(self, username, password):
         """
@@ -329,9 +329,9 @@ class Usuario(BaseModel):
 
             except exceptions.VariableDoesNotExistException:
                 self.log.error(
-                    u'Error getting cache user variable. Trying AuthAPI authentication')
+                    'Error getting cache user variable. Trying AuthAPI authentication')
             except Exception as ERROR:
-                self.log.error(u'Error to get cached user. %s. Trying AuthAPI authentication. ' % ERROR)
+                self.log.error('Error to get cached user. %s. Trying AuthAPI authentication. ' % ERROR)
 
             # AuthAPI authentication
             try:
@@ -345,7 +345,7 @@ class Usuario(BaseModel):
                             if convert_string_or_int_to_boolean(get_value('use_cache_user')):
                                 self.cache_user.set(username, password)
                         except exceptions.VariableDoesNotExistException:
-                            self.log.debug(u'User will not be cached because cached user is disabled')
+                            self.log.debug('User will not be cached because cached user is disabled')
 
                         return Usuario.objects.prefetch_related('grupos').get(user=username, ativo=1)
 
@@ -357,9 +357,9 @@ class Usuario(BaseModel):
 
             except exceptions.VariableDoesNotExistException:
                 self.log.error(
-                    u'Error getting AuthAPI variable. Trying ldap authentication')
+                    'Error getting AuthAPI variable. Trying ldap authentication')
             except Exception as ERROR:
-                self.log.error(u'Error to get user from AuthAPI. %s. Trying ldap authentication. ' % ERROR)
+                self.log.error('Error to get user from AuthAPI. %s. Trying ldap authentication. ' % ERROR)
 
             try:
                 use_ldap = convert_string_or_int_to_boolean(
@@ -370,11 +370,11 @@ class Usuario(BaseModel):
                     return_user = self.get_by_ldap_user(username, True)
                 else:
                     bypass = 1
-            except exceptions.VariableDoesNotExistException, e:
+            except exceptions.VariableDoesNotExistException as e:
                 self.log.error(
                     'Error getting LDAP config variables (use_ldap). Trying local authentication')
                 bypass = 1
-            except UsuarioNotFoundError, e:
+            except UsuarioNotFoundError as e:
                 self.log.debug(
                     "Using local authentication for user \'%s\'" % username)
                 bypass = 1
@@ -390,13 +390,13 @@ class Usuario(BaseModel):
                         if convert_string_or_int_to_boolean(get_value('use_cache_user')):
                             self.cache_user.set(username, password)
                     except exceptions.VariableDoesNotExistException:
-                        self.log.debug(u'User will not be cached because cached user is disabled')
+                        self.log.debug('User will not be cached because cached user is disabled')
 
                     return return_user
 
-                except ldap.INVALID_CREDENTIALS, e:
+                except UsuarioNotFoundError as e:
                     self.log.error('LDAP authentication error %s' % e)
-                except exceptions.VariableDoesNotExistException, e:
+                except exceptions.VariableDoesNotExistException as e:
                     self.log.error(
                         'Error getting LDAP config variables (ldap_server, ldap_param).')
 
@@ -411,31 +411,31 @@ class Usuario(BaseModel):
                 return user
 
             except exceptions.VariableDoesNotExistException:
-                self.log.debug(u'User will not be cached because cached user is disabled')
+                self.log.debug('User will not be cached because cached user is disabled')
 
             except ObjectDoesNotExist:
                 raise ObjectDoesNotExist
 
         except ObjectDoesNotExist:
-            self.log.error(u'Usuário não autenticado ou inativo: %s', username)
+            self.log.error('Usuário não autenticado ou inativo: %s', username)
         except MultipleObjectsReturned:
             self.log.error(
-                u'Múltiplos usuários encontrados com o mesmo login e senha: %s', username)
-        except Exception, e:
-            self.log.error(u'Falha ao pesquisar o usuário.')
-            raise UsuarioError(e, u'Falha ao pesquisar o usuário.')
+                'Múltiplos usuários encontrados com o mesmo login e senha: %s', username)
+        except Exception as e:
+            self.log.error('Falha ao pesquisar o usuário.')
+            raise UsuarioError(e, 'Falha ao pesquisar o usuário.')
         return None
 
 
 class UsuarioGrupo(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_usuarios_do_grupo')
-    usuario = models.ForeignKey(Usuario, db_column='id_user')
-    ugrupo = models.ForeignKey('grupo.UGrupo', db_column='id_grupo')
+    usuario = models.ForeignKey(Usuario, db_column='id_user', on_delete=models.DO_NOTHING)
+    ugrupo = models.ForeignKey('grupo.UGrupo', db_column='id_grupo', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('UsuarioGrupo')
 
     class Meta(BaseModel.Meta):
-        db_table = u'usuarios_do_grupo'
+        db_table = 'usuarios_do_grupo'
         managed = True
         unique_together = ('usuario', 'ugrupo')
 
@@ -448,12 +448,12 @@ class UsuarioGrupo(BaseModel):
         """
         try:
             return UsuarioGrupo.objects.filter(usuario__id=user_id)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise UsuarioNotFoundError(
-                e, u'Dont there is a UserGroup by user = %s.' % user_id)
-        except Exception, e:
-            cls.log.error(u'Failure to search the UserGroup.')
-            raise UsuarioError(e, u'Failure to search the UserGroup.')
+                e, 'Dont there is a UserGroup by user = %s.' % user_id)
+        except Exception as e:
+            cls.log.error('Failure to search the UserGroup.')
+            raise UsuarioError(e, 'Failure to search the UserGroup.')
 
     @classmethod
     def get_by_user_group(cls, user_id, group_id):
@@ -464,9 +464,9 @@ class UsuarioGrupo(BaseModel):
         """
         try:
             return UsuarioGrupo.objects.get(usuario__id=user_id, ugrupo__id=group_id)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise UserGroupNotFoundError(
-                e, u'Dont there is a UserGroup by user = %s and group = %s.' % (user_id, group_id))
-        except Exception, e:
-            cls.log.error(u'Failure to search the UserGroup.')
-            raise UsuarioError(e, u'Failure to search the UserGroup.')
+                e, 'Dont there is a UserGroup by user = %s and group = %s.' % (user_id, group_id))
+        except Exception as e:
+            cls.log.error('Failure to search the UserGroup.')
+            raise UsuarioError(e, 'Failure to search the UserGroup.')

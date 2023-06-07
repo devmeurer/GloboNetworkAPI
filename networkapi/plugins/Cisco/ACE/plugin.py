@@ -36,7 +36,7 @@ class ACE(BasePlugin):
                             'id']
                         log.info('calling script: %s' % command)
                         code, stdout, stderr = exec_script(command)
-        except Exception, e:
+        except Exception as e:
             log.error(e)
             raise base_exceptions.CommandErrorException(e)
 
@@ -62,7 +62,7 @@ class ACE(BasePlugin):
                             'id']
                         log.info('calling script: %s' % command)
                         code, stdout, stderr = exec_script(command)
-        except Exception, e:
+        except Exception as e:
             log.error(e)
             raise base_exceptions.CommandErrorException(e)
 

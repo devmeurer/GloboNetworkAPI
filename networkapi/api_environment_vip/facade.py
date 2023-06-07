@@ -105,7 +105,7 @@ def get_environmentvip_by_ids(environment_vip_ids):
             envvips.append(envvip)
         except ObjectDoesNotExistException, e:
             raise ObjectDoesNotExistException(str(e))
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
     environmentvips = EnvironmentVip.objects.filter(id__in=envvips)
@@ -130,7 +130,7 @@ def update_environment_vip(environment_vip):
         env.update_v3(environment_vip)
     except ObjectDoesNotExistException, e:
         raise ObjectDoesNotExistException(str(e))
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return env
@@ -141,7 +141,7 @@ def create_environment_vip(environment_vip):
     try:
         env = EnvironmentVip()
         env.create_v3(environment_vip)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return env
@@ -157,5 +157,5 @@ def delete_environment_vip(envvip_ids):
             raise ValidationAPIException(str(e))
         except ObjectDoesNotExistException, e:
             raise ObjectDoesNotExistException(str(e))
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))

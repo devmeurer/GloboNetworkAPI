@@ -33,13 +33,13 @@ def update_equipment(equipments, user):
             response.append({'id': equipment_obj.id})
     except ObjectDoesNotExistException, e:
         raise ObjectDoesNotExistException(e.detail)
-    except EquipamentoError, e:
+    except EquipamentoError as e:
         raise ValidationAPIException(e.message)
     except EquipmentInvalidValueException, e:
         raise ValidationAPIException(str(e))
     except ValidationAPIException, e:
         raise ValidationAPIException(str(e))
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
     finally:
         destroy_lock(locks_list)
@@ -57,13 +57,13 @@ def create_equipment(equipments, user):
             equipment_obj = Equipamento()
             equipment_obj.create_v4(equipment)
             response.append({'id': equipment_obj.id})
-    except EquipamentoError, e:
+    except EquipamentoError as e:
         raise ValidationAPIException(e.message)
     except EquipmentInvalidValueException, e:
         raise ValidationAPIException(e.detail)
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return response
@@ -80,13 +80,13 @@ def delete_equipment(equipments):
             equipment_obj.delete_v4()
     except ObjectDoesNotExistException, e:
         raise ObjectDoesNotExistException(e.detail)
-    except EquipamentoError, e:
+    except EquipamentoError as e:
         raise ValidationAPIException(e.message)
     except EquipmentInvalidValueException, e:
         raise ValidationAPIException(e.detail)
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
     finally:
         destroy_lock(locks_list)

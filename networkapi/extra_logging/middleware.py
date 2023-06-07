@@ -84,22 +84,22 @@ class ExtraLoggingMiddleware(object):
         local.request_context = get_context(request)
         request.id = identity
 
-        msg = u'INICIO da requisição %s. Data: [%s].' % (
+        msg = 'INICIO da requisição %s. Data: [%s].' % (
             request.method, request.raw_post_data)
         logger.debug(search_hide_password(msg))
 
     def process_response(self, request, response):
 
         if 399 < response.status_code < 600:
-            # logger.debug(u'Requisição concluída com falha. Conteúdo: [%s].' % response.content)
-            logger.warning(u'Requisição concluída com falha. Conteúdo: [].')
+            # logger.debug('Requisição concluída com falha. Conteúdo: [%s].' % response.content)
+            logger.warning('Requisição concluída com falha. Conteúdo: [].')
         else:
-            logger.debug(u'Requisição concluída com sucesso.')
+            logger.debug('Requisição concluída com sucesso.')
 
-        logger.debug(u'FIM da requisição.')
+        logger.debug('FIM da requisição.')
 
         return response
 
     def process_exception(self, request, exception):
 
-        logger.error(u'Erro não esperado.')
+        logger.error('Erro não esperado.')

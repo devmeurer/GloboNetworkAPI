@@ -43,7 +43,7 @@ class OptionVipAllResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Find All Option VIP

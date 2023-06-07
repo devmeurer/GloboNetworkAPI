@@ -83,7 +83,7 @@ class ScriptSavedState():
 
         # valida se foi chamado o número desejado de vezes
         if self.ensure_running_times:
-            assert times_called == self.ensure_running_times, u'Era necessário ao teste executar o script %d vezes, mas ele rodou %d' % (
+            assert times_called == self.ensure_running_times, 'Era necessário ao teste executar o script %d vezes, mas ele rodou %d' % (
                 self.ensure_running_times, times_called)
 
         # propaga a exception em caso de erro no bloco executado

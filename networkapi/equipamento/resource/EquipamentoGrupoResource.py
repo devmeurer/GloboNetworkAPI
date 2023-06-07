@@ -55,39 +55,39 @@ class EquipamentoGrupoResource(RestResource):
         try:
             xml_map, attrs_map = loads(request.raw_post_data)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
 
         self.log.debug('XML_MAP: %s', xml_map)
 
         networkapi_map = xml_map.get('networkapi')
         if networkapi_map is None:
-            return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
         equipment_group_map = networkapi_map.get('equipamento_grupo')
         if equipment_group_map is None:
-            return self.response_error(3, u'Não existe valor para a tag equipamento_grupo do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag equipamento_grupo do XML de requisição.')
 
         self.log.debug('EGROUP_MAP: %s', equipment_group_map)
 
         # equip_id = equipment_group_map.get('id_equipamento')
         # if not is_valid_int_greater_zero_param(equip_id):
-        #    self.log.error(u'The equip_id parameter is not a valid value: %s.', equip_id)
+        #    self.log.error('The equip_id parameter is not a valid value: %s.', equip_id)
         #    raise InvalidValueError(None, 'equip_id', equip_id)
         # try:
         #    equip_id = int(equip_id)
         # except (TypeError, ValueError):
-        #    self.log.error(u'Valor do id_equipamento inválido: %s.', equip_id)
+        #    self.log.error('Valor do id_equipamento inválido: %s.', equip_id)
         #    return self.response_error(117, equip_id)
         #
         # group_id = equipment_group_map.get('id_grupo')
         # if not is_valid_int_greater_zero_param(group_id):
-        #    self.log.error(u'The group_id parameter is not a valid value: %s.', group_id)
+        #    self.log.error('The group_id parameter is not a valid value: %s.', group_id)
         #    raise InvalidValueError(None, 'group_id', group_id)
         # try:
         #    group_id = int(group_id)
         # except (TypeError, ValueError):
-        #    self.log.error(u'Valor do id_grupo inválido: %s.', group_id)
+        #    self.log.error('Valor do id_grupo inválido: %s.', group_id)
         #    return self.response_error(102)
 
         # verifica permissao e se o equipamento está cadastrado
@@ -96,7 +96,7 @@ class EquipamentoGrupoResource(RestResource):
             equip_id = equipment_group_map.get('id_equipamento')
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'The equip_id parameter is not a valid value: %s.', equip_id)
+                    'The equip_id parameter is not a valid value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
             else:
                 equip_id = int(equip_id)
@@ -104,7 +104,7 @@ class EquipamentoGrupoResource(RestResource):
             group_id = equipment_group_map.get('id_grupo')
             if not is_valid_int_greater_zero_param(group_id):
                 self.log.error(
-                    u'The group_id parameter is not a valid value: %s.', group_id)
+                    'The group_id parameter is not a valid value: %s.', group_id)
                 raise InvalidValueError(None, 'group_id', group_id)
             else:
                 equip_id = int(equip_id)
@@ -160,13 +160,13 @@ class EquipamentoGrupoResource(RestResource):
             equip_id = kwargs.get('id_equip')
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'The equip_id parameter is not a valid value: %s.', equip_id)
+                    'The equip_id parameter is not a valid value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             egroup_id = kwargs.get('id_egrupo')
             if not is_valid_int_greater_zero_param(egroup_id):
                 self.log.error(
-                    u'The egroup_id parameter is not a valid value: %s.', egroup_id)
+                    'The egroup_id parameter is not a valid value: %s.', egroup_id)
                 raise InvalidValueError(None, 'egroup_id', egroup_id)
 
             Equipamento.get_by_pk(equip_id)

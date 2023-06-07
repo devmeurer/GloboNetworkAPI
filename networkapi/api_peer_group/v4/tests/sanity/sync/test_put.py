@@ -123,7 +123,7 @@ class PeerGroupPutErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(404, response.status_code)
         self.compare_values(
-            u'PeerGroup id = 1000 do not exist',
+            'PeerGroup id = 1000 do not exist',
             response.data['detail']
         )
 
@@ -141,7 +141,7 @@ class PeerGroupPutErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'PeerGroup id = 1 is associated with deployed '
-            u'NeighborsV4 id = [1] and NeighborsV6 id = [1]',
+            'PeerGroup id = 1 is associated with deployed '
+            'NeighborsV4 id = [1] and NeighborsV6 id = [1]',
             response.data['detail']
         )

@@ -96,43 +96,43 @@ class RequestVipsResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             vip_map = networkapi_map.get('vip')
             if vip_map is None:
-                return self.response_error(3, u'There is no value to the vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the vip tag  of XML request.')
 
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Ipv4 and Ipv6 ID
             if (vip_map.get('id_ipv4') is None and vip_map.get('id_ipv6') is None):
                 self.log.error(
-                    u'The id_ipv4 and id_ipv6 parameter is not a valid value: %s.', vip_map.get('id_ipv4'))
+                    'The id_ipv4 and id_ipv6 parameter is not a valid value: %s.', vip_map.get('id_ipv4'))
                 raise InvalidValueError(
                     None, 'id_ipv4 e id_vip6', vip_map.get('id_ipv4'))
 
             if (vip_map.get('id_ipv4') is not None):
                 if not is_valid_int_greater_zero_param(vip_map.get('id_ipv4')):
                     self.log.error(
-                        u'The id_ipv4 parameter is not a valid value: %s.', vip_map.get('id_ipv4'))
+                        'The id_ipv4 parameter is not a valid value: %s.', vip_map.get('id_ipv4'))
                     raise InvalidValueError(
                         None, 'id_ipv4', vip_map.get('id_ipv4'))
 
             if (vip_map.get('id_ipv6') is not None):
                 if not is_valid_int_greater_zero_param(vip_map.get('id_ipv6')):
                     self.log.error(
-                        u'The id_ipv6 parameter is not a valid value: %s.', vip_map.get('id_ipv6'))
+                        'The id_ipv6 parameter is not a valid value: %s.', vip_map.get('id_ipv6'))
                     raise InvalidValueError(
                         None, 'id_ipv6', vip_map.get('id_ipv6'))
 
             # Valid maxcon
             if not is_valid_int_greater_equal_zero_param(vip_map.get('maxcon')):
                 self.log.error(
-                    u'The maxcon parameter is not a valid value: %s.', vip_map.get('maxcon'))
+                    'The maxcon parameter is not a valid value: %s.', vip_map.get('maxcon'))
                 raise InvalidValueError(None, 'maxcon', vip_map.get('maxcon'))
 
             vip = RequisicaoVips()
@@ -144,7 +144,7 @@ class RequestVipsResource(RestResource):
             try:
                 evip = EnvironmentVip.get_by_values(
                     finalidade, cliente, ambiente)
-            except Exception, e:
+            except Exception as e:
                 raise EnvironmentVipNotFoundError(
                     e, 'The fields finality or client or ambiente is None')
 
@@ -158,7 +158,7 @@ class RequestVipsResource(RestResource):
                         equip = Equipamento.get_by_name(equip_aux_error)
                     else:
                         self.log.error(
-                            u'The real_name parameter is not a valid value: None.')
+                            'The real_name parameter is not a valid value: None.')
                         raise InvalidValueError(None, 'real_name', 'None')
 
                     # Valid Real
@@ -197,21 +197,21 @@ class RequestVipsResource(RestResource):
             # Host
             host_name = vip_map.get('host')
             if not is_valid_string_minsize(host_name, 3) or not is_valid_string_maxsize(host_name, 100):
-                self.log.error(u'Host_name value is invalid: %s.', host_name)
+                self.log.error('Host_name value is invalid: %s.', host_name)
                 raise InvalidValueError(None, 'host_name', host_name)
 
             # Areanegocio
             areanegocio = vip_map.get('areanegocio')
             if not is_valid_string_minsize(areanegocio, 3) or not is_valid_string_maxsize(areanegocio, 100):
                 self.log.error(
-                    u'Areanegocio value is invalid: %s.', areanegocio)
+                    'Areanegocio value is invalid: %s.', areanegocio)
                 raise InvalidValueError(None, 'areanegocio', areanegocio)
 
             # Nome_servico
             nome_servico = vip_map.get('nome_servico')
             if not is_valid_string_minsize(nome_servico, 3) or not is_valid_string_maxsize(nome_servico, 100):
                 self.log.error(
-                    u'Nome_servico value is invalid: %s.', nome_servico)
+                    'Nome_servico value is invalid: %s.', nome_servico)
                 raise InvalidValueError(None, 'nome_servico', nome_servico)
 
             # Existing l7_filter
@@ -222,7 +222,7 @@ class RequestVipsResource(RestResource):
             if vip_map.get('rule_id') is not None:
                 if not is_valid_int_greater_zero_param(vip_map.get('rule_id')):
                     self.log.error(
-                        u'The rule_id parameter is not a valid value: %s.', vip_map.get('rule_id'))
+                        'The rule_id parameter is not a valid value: %s.', vip_map.get('rule_id'))
                     raise InvalidValueError(
                         None, 'rule_id', vip_map.get('rule_id'))
 
@@ -247,15 +247,15 @@ class RequestVipsResource(RestResource):
                 # SYNC_VIP
                 old_to_new(vip)
 
-            except Exception, e:
+            except Exception as e:
                 if isinstance(e, IntegrityError):
                     # Duplicate value for Port Vip, Port Real and IP
-                    self.log.error(u'Failed to save the request vip.')
+                    self.log.error('Failed to save the request vip.')
                     return self.response_error(353)
                 else:
                     raise e
-#                    self.log.error(u'Failed to save the request vip.')
-#                    raise RequisicaoVipsError(e, u'Failed to save the request vip')
+#                    self.log.error('Failed to save the request vip.')
+#                    raise RequisicaoVipsError(e, 'Failed to save the request vip')
 
             vip_map = dict()
             vip_map['id'] = vip.id
@@ -344,63 +344,63 @@ class RequestVipsResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             vip_map = networkapi_map.get('vip')
             if vip_map is None:
-                return self.response_error(3, u'There is no value to the vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the vip tag  of XML request.')
 
             # User permission
             if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Vip ID
             if not is_valid_int_greater_zero_param(vip_id):
                 self.log.error(
-                    u'The vip_id parameter is not a valid value: %s.', vip_id)
+                    'The vip_id parameter is not a valid value: %s.', vip_id)
                 raise InvalidValueError(None, 'vip_id', vip_id)
 
             # Valid Ipv4 and Ipv6 ID
             if (vip_map.get('id_ipv4') is None and vip_map.get('id_ipv6') is None):
                 self.log.error(
-                    u'The id_ipv4 and id_ipv6 parameter is not a valid value: %s.', vip_map.get('id_ipv4'))
+                    'The id_ipv4 and id_ipv6 parameter is not a valid value: %s.', vip_map.get('id_ipv4'))
                 raise InvalidValueError(
                     None, 'id_ipv4 e id_vip6', vip_map.get('id_ipv4'))
 
             if (vip_map.get('id_ipv4') is not None):
                 if not is_valid_int_greater_zero_param(vip_map.get('id_ipv4')):
                     self.log.error(
-                        u'The id_ipv4 parameter is not a valid value: %s.', vip_map.get('id_ipv4'))
+                        'The id_ipv4 parameter is not a valid value: %s.', vip_map.get('id_ipv4'))
                     raise InvalidValueError(
                         None, 'id_ipv4', vip_map.get('id_ipv4'))
 
             if (vip_map.get('id_ipv6') is not None):
                 if not is_valid_int_greater_zero_param(vip_map.get('id_ipv6')):
                     self.log.error(
-                        u'The id_ipv6 parameter is not a valid value: %s.', vip_map.get('id_ipv6'))
+                        'The id_ipv6 parameter is not a valid value: %s.', vip_map.get('id_ipv6'))
                     raise InvalidValueError(
                         None, 'id_ipv6', vip_map.get('id_ipv6'))
 
             # Valid Vip validated
             if not is_valid_boolean_param(vip_map.get('validado')):
                 self.log.error(
-                    u'The validated parameter is not a valid value: %s.', vip_map.get('validado'))
+                    'The validated parameter is not a valid value: %s.', vip_map.get('validado'))
                 raise InvalidValueError(
                     None, 'validated', vip_map.get('validado'))
 
             # Valid Vip vip_created
             if not is_valid_boolean_param(vip_map.get('vip_criado')):
                 self.log.error(
-                    u'The vip_created parameter is not a valid value: %s.', vip_map.get('vip_criado'))
+                    'The vip_created parameter is not a valid value: %s.', vip_map.get('vip_criado'))
                 raise InvalidValueError(
                     None, 'vip_created', vip_map.get('vip_criado'))
 
             # Valid maxcon
             if not is_valid_int_greater_equal_zero_param(vip_map.get('maxcon')):
                 self.log.error(
-                    u'The maxcon parameter is not a valid value: %s.', vip_map.get('maxcon'))
+                    'The maxcon parameter is not a valid value: %s.', vip_map.get('maxcon'))
                 raise InvalidValueError(None, 'maxcon', vip_map.get('maxcon'))
 
             # Existing Vip ID
@@ -411,7 +411,7 @@ class RequestVipsResource(RestResource):
                 # Valid Vip created
                 if vip.vip_criado:
                     self.log.error(
-                        u'The IP of the request for VIP %d can not be changed because the VIP is already created.' % vip.id)
+                        'The IP of the request for VIP %d can not be changed because the VIP is already created.' % vip.id)
                     raise RequisicaoVipsAlreadyCreatedError(None)
 
                 # Get variables
@@ -433,7 +433,7 @@ class RequestVipsResource(RestResource):
                             equip = Equipamento.get_by_name(equip_aux_error)
                         else:
                             self.log.error(
-                                u'The real_name parameter is not a valid value: None.')
+                                'The real_name parameter is not a valid value: None.')
                             raise InvalidValueError(None, 'real_name', 'None')
 
                         # Valid Real
@@ -484,7 +484,7 @@ class RequestVipsResource(RestResource):
                     # Valid rule
                     if not is_valid_int_greater_zero_param(vip_map.get('rule_id')):
                         self.log.error(
-                            u'The rule_id parameter is not a valid value: %s.', vip_map.get('rule_id'))
+                            'The rule_id parameter is not a valid value: %s.', vip_map.get('rule_id'))
                         raise InvalidValueError(
                             None, 'rule_id', vip_map.get('rule_id'))
 
@@ -513,15 +513,15 @@ class RequestVipsResource(RestResource):
                     self.log.error(e.message)
                     return self.response_error(384, e.message)
 
-                except Exception, e:
+                except Exception as e:
                     if isinstance(e, IntegrityError):
                         # Duplicate value for Port Vip, Port Real and IP
-                        self.log.error(u'Failed to update the request vip.')
+                        self.log.error('Failed to update the request vip.')
                         return self.response_error(353)
                     else:
-                        self.log.error(u'Failed to update the request vip.')
+                        self.log.error('Failed to update the request vip.')
                         raise RequisicaoVipsError(
-                            e, u'Failed to update the request vip')
+                            e, 'Failed to update the request vip')
 
                 return self.response(dumps_networkapi({}))
 

@@ -53,7 +53,7 @@ class LogicalEnvironmentAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_logicalenvironment = kwargs.get('id_logicalenvironment')
@@ -64,11 +64,11 @@ class LogicalEnvironmentAlterRemoveResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             logical_environment_map = networkapi_map.get('logical_environment')
             if logical_environment_map is None:
-                return self.response_error(3, u'There is no value to the logical_environment tag  of XML request.')
+                return self.response_error(3, 'There is no value to the logical_environment tag  of XML request.')
 
             # Get XML data
             name = logical_environment_map.get('name')
@@ -76,13 +76,13 @@ class LogicalEnvironmentAlterRemoveResource(RestResource):
             # Valid ID Logical Environment
             if not is_valid_int_greater_zero_param(id_logicalenvironment):
                 self.log.error(
-                    u'The id_logicalenvironment parameter is not a valid value: %s.', id_logicalenvironment)
+                    'The id_logicalenvironment parameter is not a valid value: %s.', id_logicalenvironment)
                 raise InvalidValueError(
                     None, 'id_logicalenvironment', id_logicalenvironment)
 
             # Valid name
             if not is_valid_string_minsize(name, 2) or not is_valid_string_maxsize(name, 80):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Find Logical Environment by ID to check if it exist
@@ -94,7 +94,7 @@ class LogicalEnvironmentAlterRemoveResource(RestResource):
                     if loc_env.nome.lower() != name.lower():
                         AmbienteLogico.get_by_name(name)
                         raise AmbienteLogicoNameDuplicatedError(
-                            None, u'Já existe um Ambiente Lógico com o valor name %s.' % name)
+                            None, 'Já existe um Ambiente Lógico com o valor name %s.' % name)
                 except AmbienteLogicoNotFoundError:
                     pass
 
@@ -104,11 +104,11 @@ class LogicalEnvironmentAlterRemoveResource(RestResource):
                 try:
                     # update Logical Environment
                     loc_env.save()
-                except Exception, e:
+                except Exception as e:
                     self.log.error(
-                        u'Failed to update the Logical Environment.')
+                        'Failed to update the Logical Environment.')
                     raise AmbienteError(
-                        e, u'Failed to update the Logical Environment.')
+                        e, 'Failed to update the Logical Environment.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -139,7 +139,7 @@ class LogicalEnvironmentAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_logicalenvironment = kwargs.get('id_logicalenvironment')
@@ -147,7 +147,7 @@ class LogicalEnvironmentAlterRemoveResource(RestResource):
             # Valid ID Logical Environment
             if not is_valid_int_greater_zero_param(id_logicalenvironment):
                 self.log.error(
-                    u'The id_logicalenvironment parameter is not a valid value: %s.', id_logicalenvironment)
+                    'The id_logicalenvironment parameter is not a valid value: %s.', id_logicalenvironment)
                 raise InvalidValueError(
                     None, 'id_logicalenvironment', id_logicalenvironment)
 
@@ -160,18 +160,18 @@ class LogicalEnvironmentAlterRemoveResource(RestResource):
 
                     if loc_env.ambiente_set.count() > 0:
                         raise AmbienteLogicoUsedByEnvironmentError(
-                            None, u'O Ambiente Lógico %s tem ambiente associado.' % loc_env.id)
+                            None, 'O Ambiente Lógico %s tem ambiente associado.' % loc_env.id)
 
                     # remove Logical Environment
                     loc_env.delete()
 
                 except AmbienteLogicoUsedByEnvironmentError, e:
                     raise e
-                except Exception, e:
+                except Exception as e:
                     self.log.error(
-                        u'Failed to remove the Logical Environment.')
+                        'Failed to remove the Logical Environment.')
                     raise AmbienteError(
-                        e, u'Failed to remove the Logical Environment.')
+                        e, 'Failed to remove the Logical Environment.')
 
                 return self.response(dumps_networkapi({}))
 

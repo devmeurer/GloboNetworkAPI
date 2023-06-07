@@ -119,7 +119,7 @@ class RouteMapPutErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(404, response.status_code)
         self.compare_values(
-            u'RouteMap id = 1000 do not exist',
+            'RouteMap id = 1000 do not exist',
             response.data['detail']
         )
 
@@ -137,7 +137,7 @@ class RouteMapPutErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'RouteMap id = 5 is deployed at NeighborsV4 id = [1] '
-            u'and NeighborsV6 id = []',
+            'RouteMap id = 5 is deployed at NeighborsV4 id = [1] '
+            'and NeighborsV6 id = []',
             response.data['detail']
         )

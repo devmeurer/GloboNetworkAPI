@@ -58,7 +58,7 @@ class Ipv4GetAvailableForVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Load XML data
@@ -74,7 +74,7 @@ class Ipv4GetAvailableForVipResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_evip):
                 self.log.error(
-                    u'Parameter id_evip is invalid. Value: %s.', id_evip)
+                    'Parameter id_evip is invalid. Value: %s.', id_evip)
                 raise InvalidValueError(None, 'id_evip', id_evip)
 
             # Business Rules
@@ -165,7 +165,7 @@ class Ipv4GetAvailableForVipResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except (IpError, EquipamentoError, GrupoError), e:
             return self.response_error(1)

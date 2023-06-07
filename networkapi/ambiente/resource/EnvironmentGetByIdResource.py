@@ -47,7 +47,7 @@ class EnvironmentGetByIdResource(RestResource):
 
             if not is_valid_int_greater_zero_param(environment_id):
                 self.log.error(
-                    u'Parameter environment_id is invalid. Value: %s.', environment_id)
+                    'Parameter environment_id is invalid. Value: %s.', environment_id)
                 raise InvalidValueError(None, 'environment_id', environment_id)
 
             environment_list.append(

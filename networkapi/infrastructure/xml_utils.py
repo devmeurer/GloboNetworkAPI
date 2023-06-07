@@ -27,7 +27,7 @@ class XMLError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Erro ao criar ou ler o XML: Causa: %s, Mensagem: %s' % (
+        msg = 'Erro ao criar ou ler o XML: Causa: %s, Mensagem: %s' % (
             self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
@@ -62,7 +62,7 @@ def _add_text_node(value, node, doc):
         node.appendChild(textNode)
     except TypeError, t:
         raise InvalidNodeTypeXMLError(
-            t, u'Conteúdo de um Nó do XML com tipo de dado inválido: %s ' % value)
+            t, 'Conteúdo de um Nó do XML com tipo de dado inválido: %s ' % value)
 
 
 def _add_list_node(nodeName, list, parent, doc):
@@ -99,7 +99,7 @@ def _add_nodes_to_parent(map, parent, doc):
 
         except InvalidCharacterErr, i:
             raise InvalidNodeNameXMLError(
-                i, u'Valor inválido para nome de uma TAG de XML: %s' % key)
+                i, 'Valor inválido para nome de uma TAG de XML: %s' % key)
 
 
 def dumps(map, root_name, root_attributes=None):
@@ -115,7 +115,7 @@ def dumps(map, root_name, root_attributes=None):
     try:
         implementation = getDOMImplementation()
     except ImportError, i:
-        raise XMLError(i, u'Erro ao obter o DOMImplementation')
+        raise XMLError(i, 'Erro ao obter o DOMImplementation')
 
     doc = implementation.createDocument(None, root_name, None)
 
@@ -133,7 +133,7 @@ def dumps(map, root_name, root_attributes=None):
         xml = doc.toxml('UTF-8')
     except InvalidCharacterErr, i:
         raise InvalidNodeNameXMLError(
-            i, u'Valor inválido para nome de uma TAG de XML: %s' % root_name)
+            i, 'Valor inválido para nome de uma TAG de XML: %s' % root_name)
     finally:
         doc.unlink()
 
@@ -212,8 +212,8 @@ def loads(xml, force_list=None):
 
     try:
         doc = parseString(xml)
-    except Exception, e:
-        raise XMLError(e, u'Falha ao realizar o parse do xml.')
+    except Exception as e:
+        raise XMLError(e, 'Falha ao realizar o parse do xml.')
 
     root = doc.documentElement
 

@@ -161,6 +161,6 @@ class ListConfigBGPGetErrorTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'ListConfigBGP id = 1000 do not exist',
+            'ListConfigBGP id = 1000 do not exist',
             response.data['detail']
         )

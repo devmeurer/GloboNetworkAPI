@@ -45,14 +45,14 @@ class Vrf(BaseModel):
             return Vrf.objects.filter(id=id_vrf).uniqueResult()
         except ObjectDoesNotExist as e:
             raise VrfNotFoundError(
-                u'Vrf id = %s does not exist.' % id_vrf)
+                'Vrf id = %s does not exist.' % id_vrf)
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                u'Lock wait timeout exceeded; try restarting transaction')
+                'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
-            cls.log.error(u'Failure to search the Vrf. Error: {}'.format(e))
-            raise VrfError(u'Failure to search the Vrf. Error: {}'.format(e))
+            cls.log.error('Failure to search the Vrf. Error: {}'.format(e))
+            raise VrfError('Failure to search the Vrf. Error: {}'.format(e))
 
     def create(self, authenticated_user):
         """Include new Vrf.
@@ -68,7 +68,7 @@ class Vrf(BaseModel):
         except FilterNotFoundError as e:
             raise e
         except Exception:
-            self.log.error(u'Fail on inserting Vrf.')
+            self.log.error('Fail on inserting Vrf.')
 
     @classmethod
     def update(cls, authenticated_user, pk, **kwargs):
@@ -92,7 +92,7 @@ class Vrf(BaseModel):
             vrf.save(authenticated_user)
 
         except Exception as e:
-            cls.log.error(u'Fail to change Vrf. Error: {}'.format(e))
+            cls.log.error('Fail to change Vrf. Error: {}'.format(e))
 
     @classmethod
     def remove(cls, pk):
@@ -114,17 +114,17 @@ class Vrf(BaseModel):
         entry_env = vrf.ambiente_set.all()
 
         if len(entry_env) > 0:
-            cls.log.error(u'Fail to remove Vrf.')
+            cls.log.error('Fail to remove Vrf.')
             raise VrfRelatedToEnvironment(
-                u'Vrf with pk = %s is being used at some environment.' %
+                'Vrf with pk = %s is being used at some environment.' %
                 pk)
 
         entry_vlan_eqpt = VrfVlanEquipment.objects.filter(vrf=pk)
 
         if len(entry_vlan_eqpt) > 0:
-            cls.log.error(u'Fail to remove Vrf.')
+            cls.log.error('Fail to remove Vrf.')
             raise VrfAssociatedToVlanEquipment(
-                u'Vrf with pk = %s is associated to some Vlan and Equipment.' %
+                'Vrf with pk = %s is associated to some Vlan and Equipment.' %
                 pk)
 
         # Remove assoc between Vrf and Equipment
@@ -135,7 +135,7 @@ class Vrf(BaseModel):
 
     class Meta (BaseModel.Meta):
         managed = True
-        db_table = u'vrf'
+        db_table = 'vrf'
 
 
 class VrfVlanEquipment(BaseModel):
@@ -147,23 +147,26 @@ class VrfVlanEquipment(BaseModel):
     vrf = models.ForeignKey(
         Vrf,
         db_column='id_vrf',
-        null=False
+        null=False,
+        on_delete=models.DO_NOTHING
     )
     vlan = models.ForeignKey(
         'vlan.Vlan',
         db_column='id_vlan',
-        null=False
+        null=False,
+        on_delete=models.DO_NOTHING
     )
     equipment = models.ForeignKey(
         'equipamento.Equipamento',
         db_column='id_equipment',
-        null=False
+        null=False,
+        on_delete=models.DO_NOTHING
     )
 
     log = logging.getLogger('VrfVlanEquipment')
 
     class Meta (BaseModel.Meta):
-        db_table = u'vrf_vlan_eqpt'
+        db_table = 'vrf_vlan_eqpt'
         managed = True
         unique_together = ('vlan', 'equipment')
 
@@ -177,12 +180,14 @@ class VrfEquipment(BaseModel):
     vrf = models.ForeignKey(
         'api_vrf.Vrf',
         db_column='id_vrf',
-        null=False
+        null=False,
+        on_delete=models.DO_NOTHING
     )
     equipment = models.ForeignKey(
         'equipamento.Equipamento',
         db_column='id_equipment',
-        null=False
+        null=False,
+        on_delete=models.DO_NOTHING
     )
     internal_name = models.TextField(
         max_length=45,
@@ -192,6 +197,6 @@ class VrfEquipment(BaseModel):
     log = logging.getLogger('VrfVlanEquipment')
 
     class Meta (BaseModel.Meta):
-        db_table = u'vrf_eqpt'
+        db_table = 'vrf_eqpt'
         managed = True
         unique_together = ('vrf', 'equipment')

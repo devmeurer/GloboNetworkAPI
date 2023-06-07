@@ -161,7 +161,7 @@ class VirtualServer(F5Base):
                 rl = rule.Rule(self._lb)
                 rl.create(rules=rule_l7)
 
-        except Exception, e:
+        except Exception as e:
             log.error(e)
             self._lb._channel.System.Session.rollback_transaction()
             raise e
@@ -200,13 +200,13 @@ class VirtualServer(F5Base):
                 self.__set_translate_port_state(
                     self.__properties['translate_port_state'])
 
-            except Exception, e:
+            except Exception as e:
                 log.error(e)
                 self._lb._channel.System.Session.rollback_transaction()
 
                 try:
                     rule.delete(rule_name=rule_l7['rule_name'])
-                except Exception, e:
+                except Exception as e:
                     log.error(e)
                     raise e
                 raise e
@@ -218,7 +218,7 @@ class VirtualServer(F5Base):
                     try:
                         self._lb._channel.System.Session.start_transaction()
                         self.__set_traffic_group(vip_traffic_groups)
-                    except Exception, e:
+                    except Exception as e:
                         log.error(e)
                         self._lb._channel.System.Session.rollback_transaction()
                         raise e
@@ -280,7 +280,7 @@ class VirtualServer(F5Base):
             self.__add_persistence_profile(
                 self.__properties['profiles_persistence'])
 
-        except Exception, e:
+        except Exception as e:
             log.error(e)
             self._lb._channel.System.Session.rollback_transaction()
             raise e
@@ -398,7 +398,7 @@ class VirtualServer(F5Base):
                     else:
                         rl.create(rules=[rl_l7])
 
-        except Exception, e:
+        except Exception as e:
             log.error(e)
             self._lb._channel.System.Session.rollback_transaction()
             raise e
@@ -429,7 +429,7 @@ class VirtualServer(F5Base):
                 self.__set_translate_port_state(
                     self.__properties['translate_port_state'])
 
-            except Exception, e:
+            except Exception as e:
                 log.error(e)
                 self._lb._channel.System.Session.rollback_transaction()
                 raise e
@@ -441,7 +441,7 @@ class VirtualServer(F5Base):
                     for rl_l7 in rule_l7_delete:
                         try:
                             rl.delete(rule_names=[rl_l7])
-                        except Exception, e:
+                        except Exception as e:
                             log.info(e)
                             pass
 
@@ -694,9 +694,9 @@ class VirtualServer(F5Base):
                                         except:
                                             if '/Common/' + profile_name not in profiles_list:
                                                 log.error(
-                                                    u'Profile %s nao existe')
+                                                    'Profile %s nao existe')
                                                 raise Exception(
-                                                    u'Profile %s nao existe')
+                                                    'Profile %s nao existe')
                                             pass
                                     profiles.append({
                                         'profile_name': '/Common/' + profile_name,

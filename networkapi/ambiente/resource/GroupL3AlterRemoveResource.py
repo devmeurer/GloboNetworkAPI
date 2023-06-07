@@ -54,7 +54,7 @@ class GroupL3AlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_groupl3 = kwargs.get('id_groupl3')
@@ -66,11 +66,11 @@ class GroupL3AlterRemoveResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             group_l3_map = networkapi_map.get('group_l3')
             if group_l3_map is None:
-                return self.response_error(3, u'There is no value to the group_l3 tag  of XML request.')
+                return self.response_error(3, 'There is no value to the group_l3 tag  of XML request.')
 
             # Get XML data
             name = group_l3_map.get('name')
@@ -78,12 +78,12 @@ class GroupL3AlterRemoveResource(RestResource):
             # Valid ID Group L3
             if not is_valid_int_greater_zero_param(id_groupl3):
                 self.log.error(
-                    u'The id_groupl3 parameter is not a valid value: %s.', id_groupl3)
+                    'The id_groupl3 parameter is not a valid value: %s.', id_groupl3)
                 raise InvalidValueError(None, 'id_groupl3', id_groupl3)
 
             # Valid name
             if not is_valid_string_minsize(name, 2) or not is_valid_string_maxsize(name, 80):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Find GroupL3 by ID to check if it exist
@@ -95,7 +95,7 @@ class GroupL3AlterRemoveResource(RestResource):
                     if groupl3.nome.lower() != name.lower():
                         GrupoL3.get_by_name(name)
                         raise GrupoL3NameDuplicatedError(
-                            None, u'Já existe um grupo l3 com o valor name %s.' % name)
+                            None, 'Já existe um grupo l3 com o valor name %s.' % name)
                 except GroupL3NotFoundError:
                     pass
 
@@ -105,9 +105,9 @@ class GroupL3AlterRemoveResource(RestResource):
                 try:
                     # update Group l3
                     groupl3.save()
-                except Exception, e:
-                    self.log.error(u'Failed to update the Group l3.')
-                    raise AmbienteError(e, u'Failed to update the Group l3.')
+                except Exception as e:
+                    self.log.error('Failed to update the Group l3.')
+                    raise AmbienteError(e, 'Failed to update the Group l3.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -138,7 +138,7 @@ class GroupL3AlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_groupl3 = kwargs.get('id_groupl3')
@@ -146,7 +146,7 @@ class GroupL3AlterRemoveResource(RestResource):
             # Valid ID Group L3
             if not is_valid_int_greater_zero_param(id_groupl3):
                 self.log.error(
-                    u'The id_groupl3 parameter is not a valid value: %s.', id_groupl3)
+                    'The id_groupl3 parameter is not a valid value: %s.', id_groupl3)
                 raise InvalidValueError(None, 'id_groupl3', id_groupl3)
 
             # Find GroupL3 by ID to check if it exist
@@ -158,16 +158,16 @@ class GroupL3AlterRemoveResource(RestResource):
 
                     if groupl3.ambiente_set.count() > 0:
                         raise GrupoL3UsedByEnvironmentError(
-                            None, u'O GrupoL3 %s tem ambiente associado.' % groupl3.id)
+                            None, 'O GrupoL3 %s tem ambiente associado.' % groupl3.id)
 
                     # remove Group l3
                     groupl3.delete()
 
                 except GrupoL3UsedByEnvironmentError, e:
                     raise e
-                except Exception, e:
-                    self.log.error(u'Failed to remove the Group l3.')
-                    raise GrupoError(e, u'Failed to remove the Group l3.')
+                except Exception as e:
+                    self.log.error('Failed to remove the Group l3.')
+                    raise GrupoError(e, 'Failed to remove the Group l3.')
 
                 return self.response(dumps_networkapi({}))
 

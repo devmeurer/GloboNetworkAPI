@@ -499,10 +499,10 @@ def cache_function(length, equipment=False):
                 logging.debug(equipment)
                 logging.debug(args)
                 key = sha1(str(args[0].id) + 'equipment').hexdigest()
-                print str(args[0].id) + 'equipment'
+                print(str(args[0].id) + 'equipment') 
             else:
                 key = sha1(str(args[0].id)).hexdigest()
-                print str(args[0].id)
+                print(str(args[0].id))
             logging.debug("32")
             # Search in cache if it exists
             logging.debug("cache %s" % cache)

@@ -32,17 +32,17 @@ class OpcaoPool(BaseModel):
     log = logging.getLogger('OpcaoPool')
 
     class Meta(BaseModel.Meta):
-        db_table = u'opcoes_pool'
+        db_table = 'opcoes_pool'
         managed = True
 
 
 class OpcaoPoolAmbiente(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_opcao_pool_ambiente')
-    opcao_pool = models.ForeignKey(OpcaoPool, db_column='id_opcao_pool')
-    ambiente = models.ForeignKey(Ambiente, db_column='id_ambiente')
+    opcao_pool = models.ForeignKey(OpcaoPool, db_column='id_opcao_pool', on_delete=models.DO_NOTHING)
+    ambiente = models.ForeignKey(Ambiente, db_column='id_ambiente', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('OpcaoPoolAmbiente')
 
     class Meta(BaseModel.Meta):
-        db_table = u'opcoes_pool_ambiente'
+        db_table = 'opcoes_pool_ambiente'
         managed = True

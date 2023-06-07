@@ -24,7 +24,7 @@ class Lb(object):
 
             self.service_clients = (ClientCache
                                     .get_adx_service_client(device))
-        except Exception, e:
+        except Exception as e:
             logging.critical('Unable to connect to BROCADE. Details: %s' % (e))
             raise base_exceptions.CommandErrorException(e)
 

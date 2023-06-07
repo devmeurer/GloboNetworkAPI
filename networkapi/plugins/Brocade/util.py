@@ -34,7 +34,7 @@ def connection(func):
             self.baddi = BrocadeAdxDeviceDriverImpl(
                 service_clients=self._lb.service_clients)
             return func(self, *args, **kwargs)
-        except Exception, e:
+        except Exception as e:
             log.error(e)
             raise base_exceptions.CommandErrorException(e)
         else:

@@ -55,7 +55,7 @@ class HealthcheckExpectResource(RestResource):
             environment_id = kwargs.get('id_amb')
             if not is_valid_int_greater_zero_param(environment_id):
                 self.log.error(
-                    u'The environment_id parameter is not a valid value: %s.', environment_id)
+                    'The environment_id parameter is not a valid value: %s.', environment_id)
                 raise InvalidValueError(None, 'environment_id', environment_id)
 
             environment = Ambiente().get_by_pk(environment_id)

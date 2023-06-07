@@ -98,7 +98,7 @@ def mkdir_divison_dc(divison_dc, user, acl_path=None):
                     path = '%s/%s' % (path, folder)
                     os.chdir(path)
 
-    except Exception, e:
+    except Exception as e:
         logger.error('Erro quando o usuário %s tentou criar o diretório: %s no Cvs' % (
             user.user, dir))
         logger.error(e)
@@ -156,7 +156,7 @@ def chdir(type_path, network, path=None):
 
         os.chdir(path)
 
-    except Exception, e:
+    except Exception as e:
         logger.error(e)
         raise Exception(e)
 
@@ -638,7 +638,7 @@ def parse_template(vlan, network):
 
         return net, block, wmasc, special_1, special_2
 
-    except Exception, e:
+    except Exception as e:
         logger.error(
             'Erro quando realizava parse das variaveis da rede para o replace no template.')
         raise Exception(e)

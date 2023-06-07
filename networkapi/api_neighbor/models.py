@@ -41,40 +41,45 @@ class NeighborV4(BaseModel):
     local_asn = models.ForeignKey(
         'api_asn.Asn',
         db_column='id_local_asn',
-        related_name='neighborv4_local_asn'
+        related_name='neighborv4_local_asn',
+        on_delete=models.DO_NOTHING
 
     )
 
     remote_asn = models.ForeignKey(
         'api_asn.Asn',
         db_column='id_remote_asn',
-        related_name='neighborv4_remote_asn'
+        related_name='neighborv4_remote_asn',
+        on_delete=models.DO_NOTHING
 
     )
 
     local_ip = models.ForeignKey(
         'ip.Ip',
         db_column='id_local_ip',
-        related_name='neighborv4_local_ip'
+        related_name='neighborv4_local_ip',
+        on_delete=models.DO_NOTHING
 
     )
 
     remote_ip = models.ForeignKey(
         'ip.Ip',
         db_column='id_remote_ip',
-        related_name='neighborv4_remote_ip'
+        related_name='neighborv4_remote_ip',
+        on_delete=models.DO_NOTHING
 
     )
 
     peer_group = models.ForeignKey(
         'api_peer_group.PeerGroup',
-        db_column='id_peer_group'
+        db_column='id_peer_group',
+        on_delete=models.DO_NOTHING
     )
 
     virtual_interface = models.CharField(
         blank=False,
         max_length=45,
-        db_column='virtual_interface'
+        db_column='virtual_interface',
     )
 
     created = models.BooleanField(
@@ -142,7 +147,7 @@ class NeighborV4(BaseModel):
     log = logging.getLogger('NeighborV4')
 
     class Meta(BaseModel.Meta):
-        db_table = u'neighbor_v4'
+        db_table = 'neighbor_v4'
         managed = True
 
     @classmethod
@@ -158,15 +163,15 @@ class NeighborV4(BaseModel):
         try:
             return NeighborV4.objects.get(id=id)
         except ObjectDoesNotExist:
-            cls.log.error(u'NeighborV4 not found. pk {}'.format(id))
+            cls.log.error('NeighborV4 not found. pk {}'.format(id))
             raise exceptions.NeighborV4NotFoundError(id)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded')
+            cls.log.error('Lock wait timeout exceeded')
             raise OperationalError()
         except Exception:
-            cls.log.error(u'Failure to search the NeighborV4')
+            cls.log.error('Failure to search the NeighborV4')
             raise exceptions.NeighborV4Error(
-                u'Failure to search the NeighborV4')
+                'Failure to search the NeighborV4')
 
     def create_v4(self, neighbor, user):
         """Create NeighborV4."""
@@ -391,7 +396,8 @@ class NeighborV6(BaseModel):
     local_asn = models.ForeignKey(
         'api_asn.Asn',
         db_column='id_local_asn',
-        related_name='neighborv6_local_asn'
+        related_name='neighborv6_local_asn',
+        on_delete=models.DO_NOTHING
     )
 
     remote_asn = models.ForeignKey(
@@ -403,18 +409,21 @@ class NeighborV6(BaseModel):
     local_ip = models.ForeignKey(
         'ip.Ipv6',
         db_column='id_local_ip',
-        related_name='neighborv6_local_ip'
+        related_name='neighborv6_local_ip',
+        on_delete=models.DO_NOTHING
     )
 
     remote_ip = models.ForeignKey(
         'ip.Ipv6',
         db_column='id_remote_ip',
-        related_name='neighborv6_remote_ip'
+        related_name='neighborv6_remote_ip',
+        on_delete=models.DO_NOTHING
     )
 
     peer_group = models.ForeignKey(
         'api_peer_group.PeerGroup',
-        db_column='id_peer_group'
+        db_column='id_peer_group',
+        on_delete=models.DO_NOTHING
     )
 
     virtual_interface = models.CharField(
@@ -488,7 +497,7 @@ class NeighborV6(BaseModel):
     log = logging.getLogger('NeighborV6')
 
     class Meta(BaseModel.Meta):
-        db_table = u'neighbor_v6'
+        db_table = 'neighbor_v6'
         managed = True
 
     @classmethod
@@ -504,15 +513,15 @@ class NeighborV6(BaseModel):
         try:
             return NeighborV6.objects.get(id=id)
         except ObjectDoesNotExist:
-            cls.log.error(u'NeighborV6 not found. pk {}'.format(id))
+            cls.log.error('NeighborV6 not found. pk {}'.format(id))
             raise exceptions.NeighborV6NotFoundError(id)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded')
+            cls.log.error('Lock wait timeout exceeded')
             raise OperationalError()
         except Exception:
-            cls.log.error(u'Failure to search the NeighborV6')
+            cls.log.error('Failure to search the NeighborV6')
             raise exceptions.NeighborV6Error(
-                u'Failure to search the NeighborV6')
+                'Failure to search the NeighborV6')
 
     def create_v6(self, neighbor, user):
         """Create NeighborV6."""

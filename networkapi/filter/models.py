@@ -37,7 +37,7 @@ class FilterError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -75,7 +75,7 @@ class Filter(BaseModel):
     log = logging.getLogger('Filter')
 
     class Meta(BaseModel.Meta):
-        db_table = u'filter'
+        db_table = 'filter'
         managed = True
 
     @classmethod
@@ -89,12 +89,12 @@ class Filter(BaseModel):
         """
         try:
             return Filter.objects.get(pk=id_)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise FilterNotFoundError(
-                e, u'There is no Filter with pk = %s.' % id_)
-        except Exception, e:
-            cls.log.error(u'Failure to search the filter.')
-            raise FilterError(e, u'Failure to search the filter.')
+                e, 'There is no Filter with pk = %s.' % id_)
+        except Exception as e:
+            cls.log.error('Failure to search the filter.')
+            raise FilterError(e, 'Failure to search the filter.')
 
     def delete(self):
         """Override Django's method to remove filter
@@ -122,19 +122,19 @@ class Filter(BaseModel):
 
         # name can NOT be greater than 100
         if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 100) or not is_valid_text(name):
-            self.log.error(u'Parameter name is invalid. Value: %s.', name)
+            self.log.error('Parameter name is invalid. Value: %s.', name)
             raise InvalidValueError(None, 'name', name)
 
         # description can NOT be greater than 200
         if not is_valid_string_minsize(description, 3, False) or not is_valid_string_maxsize(description, 200, False) or not is_valid_text(description, True):
             self.log.error(
-                u'Parameter description is invalid. Value: %s.', description)
+                'Parameter description is invalid. Value: %s.', description)
             raise InvalidValueError(None, 'description', description)
 
         # Verify existence
         if len(Filter.objects.filter(name=name).exclude(id=self.id)) > 0:
             raise FilterDuplicateError(
-                None, u'Já existe um filtro com o nome %s no banco de dados.' % name)
+                None, 'Já existe um filtro com o nome %s no banco de dados.' % name)
 
         # set variables
         self.name = name
@@ -192,7 +192,7 @@ def check_filter_use(new_filter_id, env):
                 env_aux_id = nets_ipv4[i].get('vlan_env').id
                 if env.id == env_aux_id:
                     raise CannotDissociateFilterError(
-                        old_fil.name, u'Filter %s cannot be dissociated, its in use.' % old_fil.name)
+                        old_fil.name, 'Filter %s cannot be dissociated, its in use.' % old_fil.name)
 
         # Verify subnet ipv6
         for i in range(0, len(nets_ipv6)):
@@ -210,7 +210,7 @@ def check_filter_use(new_filter_id, env):
                 env_aux_id = nets_ipv6[i].get('vlan_env').id
                 if env.id == env_aux_id:
                     raise CannotDissociateFilterError(
-                        old_fil.name, u'Filter %s cannot be dissociated, its in use.' % old_fil.name)
+                        old_fil.name, 'Filter %s cannot be dissociated, its in use.' % old_fil.name)
 
         old_tp_equips = [
             fet.equiptype.id for fet in old_fil.filterequiptype_set.all()]
@@ -258,7 +258,7 @@ def check_filter_use(new_filter_id, env):
 
                         if len(other_envs) > 0:
                             raise CannotDissociateFilterError(
-                                old_fil.name, u'Filter %s cannot be dissociated, its in use.' % old_fil.name)
+                                old_fil.name, 'Filter %s cannot be dissociated, its in use.' % old_fil.name)
 
             # Check for networks v6 with same ip range
             nets_same_range_v6 = NetworkIPv6.objects.values(
@@ -295,7 +295,7 @@ def check_filter_use(new_filter_id, env):
 
                         if len(other_envs) > 0:
                             raise CannotDissociateFilterError(
-                                old_fil.name, u'Filter %s cannot be dissociated, its in use.' % old_fil.name)
+                                old_fil.name, 'Filter %s cannot be dissociated, its in use.' % old_fil.name)
 
             # End of filter case 1 and 2
 
@@ -326,7 +326,7 @@ def check_filter_use(new_filter_id, env):
 
                         if len(other_envs) > 0:
                             raise CannotDissociateFilterError(
-                                old_fil.name, u'Filter %s cannot be dissociated, its in use.' % old_fil.name)
+                                old_fil.name, 'Filter %s cannot be dissociated, its in use.' % old_fil.name)
 
     env.filter = new_fil
     return env

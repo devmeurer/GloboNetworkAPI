@@ -23,7 +23,7 @@ class FileError(Exception):
         self.error = error
 
     def __str__(self):
-        msg = u'%s' % (self.error)
+        msg = '%s' % (self.error)
         return msg.encode('utf-8', 'replace')
 
 
@@ -50,7 +50,7 @@ class File():
 
             return content
 
-        except Exception, e:
+        except Exception as e:
             logger.error(e)
             raise FileError(e)
 
@@ -71,7 +71,7 @@ class File():
             file_acl.write(content)
             file_acl.close()
 
-        except Exception, e:
+        except Exception as e:
             logger.error(e)
             raise FileError(e)
 
@@ -90,7 +90,7 @@ class File():
             file_acl = open(file_name, 'w')
             file_acl.close()
 
-        except Exception, e:
+        except Exception as e:
             logger.error(e)
             raise FileError(e)
 
@@ -108,6 +108,6 @@ class File():
 
             erro = os.system('rm %s' % file_name)
 
-        except Exception, e:
+        except Exception as e:
             logger.error(e)
             raise FileError(e)

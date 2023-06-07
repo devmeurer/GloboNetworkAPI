@@ -56,7 +56,7 @@ class AdministrativePermissionAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.USER_ADMINISTRATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_perm = kwargs.get('id_perm')
@@ -68,11 +68,11 @@ class AdministrativePermissionAlterRemoveResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             perm_map = networkapi_map.get('administrative_permission')
             if perm_map is None:
-                return self.response_error(3, u'There is no value to the administrative_permission tag  of XML request.')
+                return self.response_error(3, 'There is no value to the administrative_permission tag  of XML request.')
 
             # Get XML data
             id_permission = perm_map.get('id_permission')
@@ -83,31 +83,31 @@ class AdministrativePermissionAlterRemoveResource(RestResource):
             # Valid ID Administrative Permission
             if not is_valid_int_greater_zero_param(id_perm):
                 self.log.error(
-                    u'The id_perm parameter is not a valid value: %s.', id_perm)
+                    'The id_perm parameter is not a valid value: %s.', id_perm)
                 raise InvalidValueError(None, 'id_perm', id_perm)
 
             # Valid ID Permission
             if not is_valid_int_greater_zero_param(id_permission):
                 self.log.error(
-                    u'The id_permission parameter is not a valid value: %s.', id_permission)
+                    'The id_permission parameter is not a valid value: %s.', id_permission)
                 raise InvalidValueError(None, 'id_permission', id_permission)
 
             # Valid ID Group
             if not is_valid_int_greater_zero_param(id_group):
                 self.log.error(
-                    u'The id_group parameter is not a valid value: %s.', id_group)
+                    'The id_group parameter is not a valid value: %s.', id_group)
                 raise InvalidValueError(None, 'id_group', id_group)
 
             # Valid Read
             if not is_valid_boolean_param(read):
                 self.log.error(
-                    u'The read parameter is not a valid value: %s.', read)
+                    'The read parameter is not a valid value: %s.', read)
                 raise InvalidValueError(None, 'read', read)
 
             # Valid Read
             if not is_valid_boolean_param(write):
                 self.log.error(
-                    u'The write parameter is not a valid value: %s.', write)
+                    'The write parameter is not a valid value: %s.', write)
                 raise InvalidValueError(None, 'write', write)
 
             # Find Permission by ID to check if it exist
@@ -139,11 +139,11 @@ class AdministrativePermissionAlterRemoveResource(RestResource):
                 try:
                     # update Administrative Permission
                     adm_perm.save()
-                except Exception, e:
+                except Exception as e:
                     self.log.error(
-                        u'Failed to update the administrative permission.')
+                        'Failed to update the administrative permission.')
                     raise PermissionError(
-                        e, u'Failed to update the administrative permission.')
+                        e, 'Failed to update the administrative permission.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -180,7 +180,7 @@ class AdministrativePermissionAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.USER_ADMINISTRATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_perm = kwargs.get('id_perm')
@@ -188,7 +188,7 @@ class AdministrativePermissionAlterRemoveResource(RestResource):
             # Valid ID Administrative Permission
             if not is_valid_int_greater_zero_param(id_perm):
                 self.log.error(
-                    u'The id_perm parameter is not a valid value: %s.', id_perm)
+                    'The id_perm parameter is not a valid value: %s.', id_perm)
                 raise InvalidValueError(None, 'id_perm', id_perm)
 
             # Find Permission by ID to check if it exist
@@ -199,9 +199,9 @@ class AdministrativePermissionAlterRemoveResource(RestResource):
                 try:
                     # Remove Administrative Permission
                     adm_perm.delete()
-                except Exception, e:
-                    self.log.error(u'Failed to remove the permission.')
-                    raise GrupoError(e, u'Failed to remove the permission.')
+                except Exception as e:
+                    self.log.error('Failed to remove the permission.')
+                    raise GrupoError(e, 'Failed to remove the permission.')
 
                 return self.response(dumps_networkapi({}))
 

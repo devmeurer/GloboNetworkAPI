@@ -46,7 +46,7 @@ class NetworkIPv6GetResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -56,7 +56,7 @@ class NetworkIPv6GetResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_network):
                 self.log.error(
-                    u'Parameter id_rede is invalid. Value: %s.', id_network)
+                    'Parameter id_rede is invalid. Value: %s.', id_network)
                 raise InvalidValueError(None, 'id_rede6', id_network)
 
             # Business Rules
@@ -76,5 +76,5 @@ class NetworkIPv6GetResource(RestResource):
         except (NetworkIPv6Error):
             return self.response_error(1)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)

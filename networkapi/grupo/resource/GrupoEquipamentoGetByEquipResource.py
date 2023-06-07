@@ -77,13 +77,13 @@ class GrupoEquipamentoGetByEquipResource(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except EquipamentoNotFoundError, e:
             return self.response_error(117, id_equip)
         except EGrupoNotFoundError, e:
             return self.response_error(150, e.message)
-        except EquipamentoError, e:
+        except EquipamentoError as e:
             return self.response_error(1)
         except (XMLError):
             return self.response_error(1)

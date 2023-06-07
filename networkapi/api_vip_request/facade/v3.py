@@ -84,7 +84,7 @@ def get_vip_request_by_ids(vip_request_ids):
             raise ObjectDoesNotExistException(e)
         except exceptions.VipRequestDoesNotExistException, e:
             raise ObjectDoesNotExistException(e)
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(e)
 
     vip_requests = VipRequest.objects.filter(id__in=vps_ids)
@@ -100,7 +100,7 @@ def create_vip_request(vip_request, user):
         vip.create_v3(vip_request, user)
     except ValidationAPIException, e:
         raise ValidationAPIException(str(e))
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(e)
     else:
         return vip
@@ -116,7 +116,7 @@ def update_vip_request(vip_request, user, permit_created=False):
         raise ObjectDoesNotExistException(e.detail)
     except ValidationAPIException, e:
         raise ValidationAPIException(e)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(e)
     else:
         return vip
@@ -136,7 +136,7 @@ def delete_vip_request(vip_request_ids, keep_ip='0'):
             raise ValidationAPIException(e)
         except ValidationAPIException, e:
             raise ValidationAPIException(e)
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(e)
     return vip
 
@@ -314,7 +314,7 @@ def prepare_apply(load_balance, vip, created=True, user=None):
                                         eqpts = Equipamento.objects.filter(
                                             id__in=eqpts,
                                             maintenance=0,
-                                            tipo_equipamento__tipo_equipamento=u'Balanceador').distinct()
+                                            tipo_equipamento__tipo_equipamento='Balanceador').distinct()
 
                                         if facade_eqpt.all_equipments_are_in_maintenance(equips):
                                             raise exceptions_eqpt.AllEquipmentsAreInMaintenanceException()

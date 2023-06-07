@@ -9,7 +9,7 @@ class PoolDoesNotExistException(APIException):
 
     def __init__(self, msg=None):
         if msg:
-            self.detail = u'Pools <<%s>> do not exists.' % (
+            self.detail = 'Pools <<%s>> do not exists.' % (
                 msg)
         else:
             self.detail = self.default_detail
@@ -72,7 +72,7 @@ class CreatedPoolValuesException(APIException):
     default_detail = 'Pool already created. Cannot change values.'
 
     def __init__(self, msg=None):
-        self.detail = u'Not is possible to change pool when pool is created. <<%s>>' % (
+        self.detail = 'Not is possible to change pool when pool is created. <<%s>>' % (
             msg)
 
 
@@ -167,7 +167,7 @@ class IpNotFoundByEnvironment(APIException):
     default_detail = 'O ambiente do IP e diferente do ambiente do Server Pool.'
 
     def __init__(self, msg=default_detail):
-        self.detail = u'%s' % (msg)
+        self.detail = '%s' % (msg)
 
 
 class InvalidRealPoolException(APIException):
@@ -175,7 +175,7 @@ class InvalidRealPoolException(APIException):
     default_detail = 'Parametros invalidos do real.'
 
     def __init__(self, msg=None):
-        self.detail = u'Parametros invalidos do real: <<%s>>' % (
+        self.detail = 'Parametros invalidos do real: <<%s>>' % (
             msg)
 
 
@@ -249,7 +249,7 @@ class DiffStatesEquipament(APIException):
     default_detail = 'Poolmember has states different in equipments.'
 
     def __init__(self, msg=None):
-        self.detail = u'The poolmember <<%s>> has states different in equipments.' % (
+        self.detail = 'The poolmember <<%s>> has states different in equipments.' % (
             msg)
 
 
@@ -273,7 +273,7 @@ class PoolAlreadyCreated(APIException):
     default_detail = 'Pool already created.'
 
     def __init__(self, msg=None):
-        self.detail = u'Pool <<%s>> already created.' % (
+        self.detail = 'Pool <<%s>> already created.' % (
             msg)
 
 
@@ -282,7 +282,7 @@ class PoolNotCreated(APIException):
     default_detail = 'Pool not created.'
 
     def __init__(self, msg=None):
-        self.detail = u'Pool <<%s>> not created.' % (
+        self.detail = 'Pool <<%s>> not created.' % (
             msg)
 
 
@@ -291,7 +291,7 @@ class PoolNameChange(APIException):
     default_detail = 'Not is possible change name of pool when pool is created.'
 
     def __init__(self, msg=None):
-        self.detail = u'Not is possible change name of pool when pool is created. <<%s>>' % (
+        self.detail = 'Not is possible change name of pool when pool is created. <<%s>>' % (
             msg)
 
 
@@ -300,7 +300,7 @@ class PoolEnvironmentChange(APIException):
     default_detail = 'Not is possible change environment of pool when pool is created.'
 
     def __init__(self, msg=None):
-        self.detail = u'Not is possible change environment of pool when pool is created. <<%s>>' % (
+        self.detail = 'Not is possible change environment of pool when pool is created. <<%s>>' % (
             msg)
 
 
@@ -309,7 +309,7 @@ class PoolMemberChange(APIException):
     default_detail = 'Not is possible to change pool members when pool is created.'
 
     def __init__(self, msg=None):
-        self.detail = u'Not is possible to change pool members when pool is created. <<%s>>' % (
+        self.detail = 'Not is possible to change pool members when pool is created. <<%s>>' % (
             msg)
 
 
@@ -317,4 +317,4 @@ class PoolError(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
 
     def __init__(self, msg=None):
-        self.detail = u'%s' % (msg)
+        self.detail = '%s' % (msg)

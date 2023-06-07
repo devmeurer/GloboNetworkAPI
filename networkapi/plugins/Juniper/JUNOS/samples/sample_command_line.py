@@ -55,7 +55,7 @@ try:
 
     print ("DONE")
 
-except Exception, e:
+except Exception as e:
 
     print(e)
 

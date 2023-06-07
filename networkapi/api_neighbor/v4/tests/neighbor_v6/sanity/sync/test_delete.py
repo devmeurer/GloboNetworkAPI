@@ -63,7 +63,7 @@ class NeighborV6DeleteSuccessTestCase(NetworkApiTestCase):
 
         self.compare_status(404, response.status_code)
         self.compare_values(
-            u'NeighborV6 id = 1 do not exist',
+            'NeighborV6 id = 1 do not exist',
             response.data['detail']
         )
 
@@ -113,7 +113,7 @@ class NeighborV6DeleteErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(404, response.status_code)
         self.compare_values(
-            u'NeighborV6 id = 1000 do not exist',
+            'NeighborV6 id = 1000 do not exist',
             response.data['detail']
         )
 
@@ -131,6 +131,6 @@ class NeighborV6DeleteErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'NeighborV6 id = 2 is deployed',
+            'NeighborV6 id = 2 is deployed',
             response.data['detail']
         )

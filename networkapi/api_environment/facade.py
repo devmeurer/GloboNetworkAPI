@@ -64,7 +64,7 @@ def create_l3_environment(env):
         raise ValidationAPIException(str(e))
     except ValidationAPIException, e:
         raise ValidationAPIException(str(e))
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return env_obj
@@ -94,7 +94,7 @@ def create_logic_environment(env):
         raise ValidationAPIException(str(e))
     except ValidationAPIException, e:
         raise ValidationAPIException(str(e))
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return env_obj
@@ -124,7 +124,7 @@ def create_dc_environment(env):
         raise ValidationAPIException(str(e))
     except ValidationAPIException, e:
         raise ValidationAPIException(str(e))
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return env_obj
@@ -173,7 +173,7 @@ def get_environment_by_ids(environment_ids):
             env_ids.append(env)
         except exceptions.EnvironmentDoesNotExistException, e:
             raise ObjectDoesNotExistException(str(e))
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
     environments = Ambiente.objects.filter(id__in=env_ids)
@@ -209,7 +209,7 @@ def list_environment_environment_vip_related(env_id=None):
 
     except ObjectDoesNotExistException, e:
         raise ObjectDoesNotExistException(str(e))
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return env_list_net_related
@@ -227,7 +227,7 @@ def update_environment(env):
         raise ValidationAPIException(str(e))
     except exceptions.EnvironmentDoesNotExistException, e:
         raise ObjectDoesNotExistException(str(e))
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return env_obj
@@ -262,7 +262,7 @@ def delete_environment(env_ids):
             raise ObjectDoesNotExistException(str(e))
         except AmbienteError, e:
             raise NetworkAPIException(str(e))
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
 

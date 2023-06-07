@@ -119,7 +119,7 @@ class ListConfigBGPPutErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(404, response.status_code)
         self.compare_values(
-            u'ListConfigBGP id = 1000 do not exist',
+            'ListConfigBGP id = 1000 do not exist',
             response.data['detail']
         )
 
@@ -137,7 +137,7 @@ class ListConfigBGPPutErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'ListConfigBGP id = 1 is deployed at NeighborsV4 = [1] '
-            u'and NeighborsV6 = []',
+            'ListConfigBGP id = 1 is deployed at NeighborsV4 = [1] '
+            'and NeighborsV6 = []',
             response.data['detail']
         )

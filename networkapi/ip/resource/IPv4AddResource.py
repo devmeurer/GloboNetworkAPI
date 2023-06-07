@@ -59,12 +59,12 @@ class IPv4AddResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             ip_map = networkapi_map.get('ip')
             if ip_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -76,20 +76,20 @@ class IPv4AddResource(RestResource):
             # Valid equip_id
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'Parameter equip_id is invalid. Value: %s.', equip_id)
+                    'Parameter equip_id is invalid. Value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             # Valid network_ipv4_id
             if not is_valid_int_greater_zero_param(network_ipv4_id):
                 self.log.error(
-                    u'Parameter network_ipv4_id is invalid. Value: %s.', network_ipv4_id)
+                    'Parameter network_ipv4_id is invalid. Value: %s.', network_ipv4_id)
                 raise InvalidValueError(
                     None, 'network_ipv4_id', network_ipv4_id)
 
             # Description can NOT be greater than 100
             if not is_valid_string_maxsize(description, 100) or not is_valid_string_minsize(description, 3):
                 self.log.error(
-                    u'Parameter descricao is invalid. Value: %s.', description)
+                    'Parameter descricao is invalid. Value: %s.', description)
                 raise InvalidValueError(None, 'descricao', description)
 
             # User permission
@@ -100,7 +100,7 @@ class IPv4AddResource(RestResource):
                             equip_id,
                             AdminPermission.EQUIP_WRITE_OPERATION):
                 raise UserNotAuthorizedError(
-                    None, u'User does not have permission to perform the operation.')
+                    None, 'User does not have permission to perform the operation.')
 
             # Business Rules
 
@@ -134,7 +134,7 @@ class IPv4AddResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except (IpError, NetworkIPv4Error, EquipamentoError, GrupoError):
             return self.response_error(1)

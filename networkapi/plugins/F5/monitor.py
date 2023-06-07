@@ -133,7 +133,7 @@ class Monitor(F5Base):
                                 monitor_associations_nodes[
                                     'nodes'].append(node['address'])
 
-        except Exception, e:
+        except Exception as e:
             log.error(e)
             raise base_exceptions.CommandErrorException(e)
 
@@ -162,7 +162,7 @@ class Monitor(F5Base):
                     templates=templates,
                     template_attributes=template_attributes
                 )
-            except Exception, e:
+            except Exception as e:
                 self._lb._channel.System.Session.rollback_transaction()
                 raise base_exceptions.CommandErrorException(e)
             else:
@@ -176,7 +176,7 @@ class Monitor(F5Base):
                         values=values
                     )
 
-                except Exception, e:
+                except Exception as e:
                     self._lb._channel.System.Session.rollback_transaction()
                     raise base_exceptions.CommandErrorException(e)
 

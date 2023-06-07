@@ -54,7 +54,7 @@ class IPv4DeleteResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -64,7 +64,7 @@ class IPv4DeleteResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_ip):
                 self.log.error(
-                    u'Parameter id_ip is invalid. Value: %s.', id_ip)
+                    'Parameter id_ip is invalid. Value: %s.', id_ip)
                 raise InvalidValueError(None, 'id_rede', id_ip)
 
             ip = Ip.get_by_pk(id_ip)
@@ -77,7 +77,7 @@ class IPv4DeleteResource(RestResource):
 
                 return self.response(dumps_networkapi({}))
 
-        except IpCantBeRemovedFromVip, e:
+        except IpCantBeRemovedFromVip as e:
             return self.response_error(319, 'ip', 'ipv4', id_ip)
         except IpCantRemoveFromServerPool, e:
             return self.response_error(385, e.cause.get('ip'), e.cause.get('equip_name'), e.cause.get('server_pool_identifiers'))
@@ -87,7 +87,7 @@ class IPv4DeleteResource(RestResource):
             return self.response_error(269, e.param, e.value)
         except IpEquipmentNotFoundError, e:
             return self.response_error(308, id_ip)
-        except EquipamentoAmbienteNotFoundError, e:
+        except EquipamentoAmbienteNotFoundError as e:
             return self.response_error(307, e.message)
         except IpNotFoundError, e:
             return self.response_error(119)

@@ -120,8 +120,8 @@ class RouteMapEntryPostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'It already exists RouteMapEntry with ListConfigBGP '
-            u'id = 2',
+            'It already exists RouteMapEntry with ListConfigBGP '
+            'id = 2',
             response.data['detail']
         )
 
@@ -139,7 +139,7 @@ class RouteMapEntryPostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'RouteMap id = 2 is deployed at '
-            u'NeighborsV4 = [1] and NeighborsV6 = []',
+            'RouteMap id = 2 is deployed at '
+            'NeighborsV4 = [1] and NeighborsV6 = []',
             response.data['detail']
         )

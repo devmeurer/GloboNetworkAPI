@@ -47,7 +47,7 @@ class EquipmentGetRealRelated(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             id_equip = kwargs.get('id_equip')
@@ -55,7 +55,7 @@ class EquipmentGetRealRelated(RestResource):
             # Valid equipment ID
             if not is_valid_int_greater_zero_param(id_equip):
                 self.log.error(
-                    u'The id_equip parameter is not a valid value: %s.', id_equip)
+                    'The id_equip parameter is not a valid value: %s.', id_equip)
                 raise InvalidValueError(None, 'id_equip', id_equip)
 
             equipment = Equipamento.get_by_pk(id_equip)
@@ -130,7 +130,7 @@ class EquipmentGetRealRelated(RestResource):
         except (EquipamentoError, GrupoError):
             return self.response_error(1)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)

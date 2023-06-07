@@ -31,7 +31,7 @@ class SQLLogMiddleware(object):
         from django.db import connection
         for q in connection.queries:
             self.log.debug(
-                u'Query: %s, Time spent: %s', q['sql'], q['time'])
+                'Query: %s, Time spent: %s', q['sql'], q['time'])
         return response
 
 

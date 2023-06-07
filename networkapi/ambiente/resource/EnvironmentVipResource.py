@@ -59,7 +59,7 @@ class EnvironmentVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_VIP, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Rules
@@ -93,7 +93,7 @@ class EnvironmentVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_VIP, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -102,11 +102,11 @@ class EnvironmentVipResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             environmentvip_map = networkapi_map.get('environment_vip')
             if environmentvip_map is None:
-                return self.response_error(3, u'There is no value to the environment_vip tag of XML request.')
+                return self.response_error(3, 'There is no value to the environment_vip tag of XML request.')
 
             # New Environment Vip
             environment_vip = EnvironmentVip()
@@ -117,10 +117,10 @@ class EnvironmentVipResource(RestResource):
             try:
                 # Save Environment Vip
                 environment_vip.save()
-            except Exception, e:
-                self.log.error(u'Failed to save the environment vip.')
+            except Exception as e:
+                self.log.error('Failed to save the environment vip.')
                 raise EnvironmentVipError(
-                    e, u'Failed to save the environment vip')
+                    e, 'Failed to save the environment vip')
 
             environment_map = dict()
             environment_map['id'] = environment_vip.id
@@ -134,7 +134,7 @@ class EnvironmentVipResource(RestResource):
             return self.not_authorized()
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
 
         except EnvironmentVipError:
@@ -155,7 +155,7 @@ class EnvironmentVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_VIP, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -164,16 +164,16 @@ class EnvironmentVipResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             environmentvip_map = networkapi_map.get('environment_vip')
             if environmentvip_map is None:
-                return self.response_error(3, u'There is no value to the environment_vip tag of XML request.')
+                return self.response_error(3, 'There is no value to the environment_vip tag of XML request.')
 
             # Valid Environment VIP ID
             if not is_valid_int_greater_zero_param(id_environment_vip):
                 self.log.error(
-                    u'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
+                    'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
                 raise InvalidValueError(
                     None, 'id_environment_vip', id_environment_vip)
 
@@ -188,10 +188,10 @@ class EnvironmentVipResource(RestResource):
                 try:
                     # Update Environment Vip
                     environment_vip.save()
-                except Exception, e:
-                    self.log.error(u'Failed to update the environment vip.')
+                except Exception as e:
+                    self.log.error('Failed to update the environment vip.')
                     raise EnvironmentVipError(
-                        e, u'Failed to update the environment vip')
+                        e, 'Failed to update the environment vip')
 
                 return self.response(dumps_networkapi({}))
 
@@ -202,7 +202,7 @@ class EnvironmentVipResource(RestResource):
             return self.not_authorized()
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
 
         except EnvironmentVipNotFoundError:
@@ -226,13 +226,13 @@ class EnvironmentVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_VIP, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Environment VIP ID
             if not is_valid_int_greater_zero_param(id_environment_vip):
                 self.log.error(
-                    u'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
+                    'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
                 raise InvalidValueError(
                     None, 'id_environment_vip', id_environment_vip)
 
@@ -254,10 +254,10 @@ class EnvironmentVipResource(RestResource):
                 try:
                     # Delete Environment Vip
                     environment_vip.delete()
-                except Exception, e:
-                    self.log.error(u'Failed to delete the environment vip.')
+                except Exception as e:
+                    self.log.error('Failed to delete the environment vip.')
                     raise EnvironmentVipError(
-                        e, u'Failed to delete the environment vip')
+                        e, 'Failed to delete the environment vip')
 
                 return self.response(dumps_networkapi({}))
 

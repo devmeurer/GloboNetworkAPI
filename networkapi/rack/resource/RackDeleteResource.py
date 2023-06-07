@@ -58,7 +58,7 @@ def desativar_vlan_rede(user, rack):
                 if net4.active:
                     try:
                         net4.deactivate(user, True)
-                    except Exception, e:
+                    except Exception as e:
                         network_errors.append(str(net4.id))
                         pass
 
@@ -69,7 +69,7 @@ def desativar_vlan_rede(user, rack):
                 if net6.active:
                     try:
                         net6.deactivate(user, True)
-                    except Exception, e:
+                    except Exception as e:
                         network_errors.append(str(net6.id))
                         pass
 
@@ -173,7 +173,7 @@ class RackDeleteResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.SCRIPT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             rack_id = kwargs.get('id_rack')
@@ -225,7 +225,7 @@ class RackDeleteResource(RestResource):
                 remover_vlan_so(user, rack)
             except:
                 raise RackError(
-                    None, u'Failed to remove the Vlans and Environments.')
+                    None, 'Failed to remove the Vlans and Environments.')
 
             # Remove rack config from spines and core oob
             # aplicar(rack)
@@ -237,9 +237,9 @@ class RackDeleteResource(RestResource):
                     rack.delete()
                 except RackNumberNotFoundError, e:
                     raise e
-                except Exception, e:
-                    self.log.error(u'Failed to remove the Rack.')
-                    raise RackError(e, u'Failed to remove the Rack.')
+                except Exception as e:
+                    self.log.error('Failed to remove the Rack.')
+                    raise RackError(e, 'Failed to remove the Rack.')
 
             return self.response(dumps_networkapi({}))
 

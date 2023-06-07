@@ -46,7 +46,7 @@ class ScriptGetScriptTypeResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.SCRIPT_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_script_type = kwargs.get('id_script_type')
@@ -54,7 +54,7 @@ class ScriptGetScriptTypeResource(RestResource):
             # Valid ID Script Type
             if not is_valid_int_greater_zero_param(id_script_type):
                 self.log.error(
-                    u'The id_script_type parameter is not a valid value: %s.', id_script_type)
+                    'The id_script_type parameter is not a valid value: %s.', id_script_type)
                 raise InvalidValueError(None, 'id_script_type', id_script_type)
 
             # Find Script Type by ID to check if it exist

@@ -81,14 +81,14 @@ class RequestPersistenceResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Vip ID
             vip_id = kwargs.get('id_vip')
             if not is_valid_int_greater_zero_param(vip_id):
                 self.log.error(
-                    u'The vip_id parameter is not a valid value: %s.', vip_id)
+                    'The vip_id parameter is not a valid value: %s.', vip_id)
                 raise InvalidValueError(None)
 
             # Existing Vip ID
@@ -101,7 +101,7 @@ class RequestPersistenceResource(RestResource):
                 # Vip must be created
                 if not vip.vip_criado:
                     self.log.error(
-                        u'Persistence can not be changed because VIP has not yet been created.')
+                        'Persistence can not be changed because VIP has not yet been created.')
                     raise RequestVipsNotBeenCreatedError(None)
 
                 # Vip equipments permission
@@ -109,14 +109,14 @@ class RequestPersistenceResource(RestResource):
                     for ip_equipment in vip.ip.ipequipamento_set.all():
                         if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION, None, ip_equipment.equipamento_id, AdminPermission.EQUIP_UPDATE_CONFIG_OPERATION):
                             self.log.error(
-                                u'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
+                                'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
                             raise EquipmentGroupsNotAuthorizedError(None)
 
                 if vip.ipv6 is not None:
                     for ip_equipment in vip.ipv6.ipv6equipament_set.all():
                         if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION, None, ip_equipment.equipamento_id, AdminPermission.EQUIP_UPDATE_CONFIG_OPERATION):
                             self.log.error(
-                                u'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
+                                'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
                             raise EquipmentGroupsNotAuthorizedError(None)
 
                 # Business Validations
@@ -127,10 +127,10 @@ class RequestPersistenceResource(RestResource):
                 # XML data format
                 networkapi_map = xml_map.get('networkapi')
                 if networkapi_map is None:
-                    return self.response_error(3, u'There is no value to the networkapi tag of XML request.')
+                    return self.response_error(3, 'There is no value to the networkapi tag of XML request.')
                 vip_map = networkapi_map.get('vip')
                 if vip_map is None:
-                    return self.response_error(3, u'There is no value to the vip tag of XML request.')
+                    return self.response_error(3, 'There is no value to the vip tag of XML request.')
 
                 # Get variables
                 variables_map = vip.variables_to_map()
@@ -168,7 +168,7 @@ class RequestPersistenceResource(RestResource):
                     return self.response_error(2, stdout + stderr)
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except ScriptError, s:
             return self.response_error(2, s)

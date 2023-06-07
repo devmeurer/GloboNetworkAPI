@@ -52,7 +52,7 @@ class ListConfigBGPDeleteSuccessTestCase(NetworkApiTestCase):
 
         self.compare_status(404, response.status_code)
         self.compare_values(
-            u'ListConfigBGP id = 1 do not exist',
+            'ListConfigBGP id = 1 do not exist',
             response.data['detail']
         )
 
@@ -100,8 +100,8 @@ class ListConfigBGPDeleteErrorTestCase(NetworkApiTestCase):
         self.compare_status(400, response.status_code)
 
         self.compare_values(
-            u'ListConfigBGP id = 1 is associated '
-            u'in RouteMapEntries = [1]',
+            'ListConfigBGP id = 1 is associated '
+            'in RouteMapEntries = [1]',
             response.data['detail']
         )
 
@@ -120,6 +120,6 @@ class ListConfigBGPDeleteErrorTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'ListConfigBGP id = 1000 do not exist',
+            'ListConfigBGP id = 1000 do not exist',
             response.data['detail']
         )

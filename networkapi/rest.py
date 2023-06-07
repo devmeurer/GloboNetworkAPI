@@ -40,7 +40,7 @@ class RestError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Erro ao realizar requisição REST: Causa: %s, Mensagem: %s' % (
+        msg = 'Erro ao realizar requisição REST: Causa: %s, Mensagem: %s' % (
             self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
@@ -87,16 +87,16 @@ class RestResource(object):
                 elif request.method == 'PUT':
                     response = self.handle_put(request, user, args, **kwargs)
         except AuthenticationFailed:
-            self.log.error(u'Authentication failed.')
+            self.log.error('Authentication failed.')
             response = self.not_authenticated()
-        except (LockNotAcquiredError, OperationalError), e:
-            self.log.error(u'Lock wait timeout exceeded.')
+        except (LockNotAcquiredError, OperationalError) as e:
+            self.log.error('Lock wait timeout exceeded.')
             return self.response_error(273)
-        except XMLError, e:
-            self.log.error(u'Error reading the XML request.')
+        except XMLError as e:
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)
-        except Exception, e:
-            self.log.exception(u'Erro não esperado.')
+        except Exception as e:
+            self.log.exception('Erro não esperado.')
             response = self.response_error(1)
         finally:
             username, password, user_ldap = RestResource.read_user_data(
@@ -109,7 +109,7 @@ class RestResource(object):
                     transaction.rollback()
             else:
                 transaction.rollback()
-                self.log.debug(u'Requisição concluída com falha.')
+                self.log.debug('Requisição concluída com falha.')
 
         return response
 
@@ -160,7 +160,7 @@ class RestResource(object):
 
     def not_authenticated(self):
         http_res = HttpResponse(
-            u'401 - Usuário não autenticado. Usuário e/ou senha incorretos.',
+            '401 - Usuário não autenticado. Usuário e/ou senha incorretos.',
             status=401,
             content_type='text/plain')
 
@@ -171,7 +171,7 @@ class RestResource(object):
 
     def not_authorized(self):
         http_res = HttpResponse(
-            u'402 - Usuário não autorizado para executar a operação.',
+            '402 - Usuário não autorizado para executar a operação.',
             status=402,
             content_type='text/plain')
 
@@ -183,7 +183,7 @@ class RestResource(object):
     def not_implemented(self):
         """Cria um HttpResponse com o código HTTP 501 - Not implemented."""
         http_res = HttpResponse(
-            u'501 - Chamada não implementada.',
+            '501 - Chamada não implementada.',
             status=501,
             content_type='text/plain')
 
@@ -207,7 +207,7 @@ class RestResource(object):
     def not_found(self):
         """Cria um HttpResponse com código HTTP 404 - Not Found."""
         http_res = HttpResponse(
-            u'404 - Chamada não encontrada.',
+            '404 - Chamada não encontrada.',
             status=404,
             content_type='text/plain')
 

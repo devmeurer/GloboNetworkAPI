@@ -48,7 +48,7 @@ class FilterAddResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Load XML data
@@ -57,11 +57,11 @@ class FilterAddResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             filter_map = networkapi_map.get('filter')
             if filter_map is None:
-                return self.response_error(3, u'There is no value to the filter tag  of XML request.')
+                return self.response_error(3, 'There is no value to the filter tag  of XML request.')
 
             # New Filter
             filter_ = Filter()
@@ -72,9 +72,9 @@ class FilterAddResource(RestResource):
             try:
                 # Save filter
                 filter_.save()
-            except Exception, e:
-                self.log.error(u'Failed to save the filter.')
-                raise FilterError(e, u'Failed to save the filter')
+            except Exception as e:
+                self.log.error('Failed to save the filter.')
+                raise FilterError(e, 'Failed to save the filter')
 
             filter_map = dict()
             filter_map['id'] = filter_.id

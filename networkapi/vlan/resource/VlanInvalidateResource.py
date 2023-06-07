@@ -52,19 +52,19 @@ class VlanInvalidateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ACL_VLAN_VALIDATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Vlan ID
             if not is_valid_int_greater_zero_param(id_vlan):
                 self.log.error(
-                    u'The id_vlan parameter is not a valid value: %s.', id_vlan)
+                    'The id_vlan parameter is not a valid value: %s.', id_vlan)
                 raise InvalidValueError(None, 'vlan_id', id_vlan)
 
             # Valid Network
             if not is_valid_version_ip(network, IP_VERSION):
                 self.log.error(
-                    u'The network parameter is not a valid value: %s.', network)
+                    'The network parameter is not a valid value: %s.', network)
                 raise InvalidValueError(None, 'network', network)
 
             # Find Vlan by ID to check if it exist

@@ -55,13 +55,13 @@ class Ipv6AssociateResource(RestResource):
             # Valid Ipv6 ID
             if not is_valid_int_greater_zero_param(ipv6_id):
                 self.log.error(
-                    u'The id_ipv6 parameter is not a valid value: %s.', ipv6_id)
+                    'The id_ipv6 parameter is not a valid value: %s.', ipv6_id)
                 raise InvalidValueError(None, 'id_ipv6', ipv6_id)
 
             # Valid Ipv6 ID
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'The id_equip parameter is not a valid value: %s.', equip_id)
+                    'The id_equip parameter is not a valid value: %s.', equip_id)
                 raise InvalidValueError(None, 'id_equip', equip_id)
 
             # Existing Ipv6Equipament ID
@@ -71,7 +71,7 @@ class Ipv6AssociateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.WRITE_OPERATION, None, equip_id, AdminPermission.EQUIP_WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Existing IPv6 ID
@@ -91,9 +91,9 @@ class Ipv6AssociateResource(RestResource):
                         ea.save()
 
                     ipv6_equipment.save()
-                except Exception, e:
-                    self.log.error(u'Failed to insert a ip_equipamento.')
-                    raise IpError(e, u'Failed to insert a ip_equipamento.')
+                except Exception as e:
+                    self.log.error('Failed to insert a ip_equipamento.')
+                    raise IpError(e, 'Failed to insert a ip_equipamento.')
 
                 ipequipamento_map = dict()
                 ipequipamento_map['id'] = ipv6_equipment.id

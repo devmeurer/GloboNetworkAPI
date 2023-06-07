@@ -64,7 +64,7 @@ class VlanAllocateIPv6Resorce(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Load XML data
@@ -73,11 +73,11 @@ class VlanAllocateIPv6Resorce(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             vlan_map = networkapi_map.get('vlan')
             if vlan_map is None:
-                return self.response_error(3, u'There is no value to the vlan tag  of XML request.')
+                return self.response_error(3, 'There is no value to the vlan tag  of XML request.')
 
             # Get XML data
             environment = vlan_map.get('id_environment')
@@ -88,18 +88,18 @@ class VlanAllocateIPv6Resorce(RestResource):
 
             # Name must NOT be none and NOT be greater than 50
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 50):
-                self.log.error(u'Parameter name is invalid. Value: %s.', name)
+                self.log.error('Parameter name is invalid. Value: %s.', name)
                 raise InvalidValueError(None, 'name', name)
 
             if not is_valid_vlan_name(name):
                 self.log.error(
-                    u'Parameter %s is invalid because is using special characters and/or breaklines.', name)
+                    'Parameter %s is invalid because is using special characters and/or breaklines.', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Description can NOT be greater than 200
             if not is_valid_string_minsize(description, 3, False) or not is_valid_string_maxsize(description, 200, False):
                 self.log.error(
-                    u'Parameter descricao is invalid. Value: %s.', description)
+                    'Parameter descricao is invalid. Value: %s.', description)
                 raise InvalidValueError(None, 'descricao', description)
 
             # Environment
@@ -107,7 +107,7 @@ class VlanAllocateIPv6Resorce(RestResource):
             # Valid environment ID
             if not is_valid_int_greater_zero_param(environment):
                 self.log.error(
-                    u'Parameter id_environment is invalid. Value: %s.', environment)
+                    'Parameter id_environment is invalid. Value: %s.', environment)
                 raise InvalidValueError(None, 'id_environment', environment)
 
             # Find environment by ID to check if it exist
@@ -120,7 +120,7 @@ class VlanAllocateIPv6Resorce(RestResource):
                 # Valid environment_vip ID
                 if not is_valid_int_greater_zero_param(environment_vip):
                     self.log.error(
-                        u'Parameter id_environment_vip is invalid. Value: %s.', environment_vip)
+                        'Parameter id_environment_vip is invalid. Value: %s.', environment_vip)
                     raise InvalidValueError(
                         None, 'id_environment_vip', environment_vip)
 
@@ -135,7 +135,7 @@ class VlanAllocateIPv6Resorce(RestResource):
             # Valid network_type ID
             if not is_valid_int_greater_zero_param(network_type):
                 self.log.error(
-                    u'Parameter id_network_type is invalid. Value: %s.', network_type)
+                    'Parameter id_network_type is invalid. Value: %s.', network_type)
                 raise InvalidValueError(None, 'id_network_type', network_type)
 
             # Find network_type by ID to check if it exist
@@ -176,7 +176,7 @@ class VlanAllocateIPv6Resorce(RestResource):
             return self.response(dumps_networkapi(vlan_map))
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)

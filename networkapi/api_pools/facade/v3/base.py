@@ -40,7 +40,7 @@ def create_pool(pool, user):
         raise ValidationAPIException(e.detail)
     except ValidationAPIException, e:
         raise ValidationAPIException(e)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
     else:
         return sp
@@ -70,7 +70,7 @@ def update_pool(pool, user):
         raise ValidationAPIException(e.detail)
     except ValidationAPIException, e:
         raise ValidationAPIException(e)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
     else:
         return sp
@@ -93,7 +93,7 @@ def delete_pool(pools_ids):
             raise ValidationAPIException(e.detail)
         except ValidationAPIException, e:
             raise ValidationAPIException(e)
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
 
@@ -113,7 +113,7 @@ def get_pool_by_ids(pools_ids):
             raise ObjectDoesNotExistException(e)
         except exceptions.PoolNotExist, e:
             raise ObjectDoesNotExistException(e.detail)
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
     server_pools = ServerPool.objects.filter(id__in=pls_ids)

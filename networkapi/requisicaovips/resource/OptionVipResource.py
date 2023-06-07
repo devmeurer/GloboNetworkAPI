@@ -55,7 +55,7 @@ class OptionVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -64,11 +64,11 @@ class OptionVipResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             optionvip_map = networkapi_map.get('option_vip')
             if optionvip_map is None:
-                return self.response_error(3, u'There is no value to the option_vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the option_vip tag  of XML request.')
 
             # New Option Vip
             option_vip = OptionVip()
@@ -79,9 +79,9 @@ class OptionVipResource(RestResource):
             try:
                 # Save Option Vip
                 option_vip.save()
-            except Exception, e:
-                self.log.error(u'Failed to save the option vip.')
-                raise OptionVipError(e, u'Failed to save the option vip')
+            except Exception as e:
+                self.log.error('Failed to save the option vip.')
+                raise OptionVipError(e, 'Failed to save the option vip')
 
             option_map = dict()
             option_map['option_vip'] = model_to_dict(option_vip, fields=['id'])
@@ -95,7 +95,7 @@ class OptionVipResource(RestResource):
             return self.not_authorized()
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
 
         except OptionVipError:
@@ -116,7 +116,7 @@ class OptionVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -125,16 +125,16 @@ class OptionVipResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             optionvip_map = networkapi_map.get('option_vip')
             if optionvip_map is None:
-                return self.response_error(3, u'There is no value to the option_vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the option_vip tag  of XML request.')
 
             # Valid Option VIP ID
             if not is_valid_int_greater_zero_param(id_option_vip):
                 self.log.error(
-                    u'The id_option_vip parameter is not a valid value: %s.', id_option_vip)
+                    'The id_option_vip parameter is not a valid value: %s.', id_option_vip)
                 raise InvalidValueError(None, 'id_option_vip', id_option_vip)
 
             # Find Option VIP by ID to check if it exist
@@ -148,9 +148,9 @@ class OptionVipResource(RestResource):
                 try:
                     # Update Option Vip
                     option_vip.save()
-                except Exception, e:
-                    self.log.error(u'Failed to update the option vip.')
-                    raise OptionVipError(e, u'Failed to update the option vip')
+                except Exception as e:
+                    self.log.error('Failed to update the option vip.')
+                    raise OptionVipError(e, 'Failed to update the option vip')
 
                 return self.response(dumps_networkapi({}))
 
@@ -161,7 +161,7 @@ class OptionVipResource(RestResource):
             return self.not_authorized()
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
 
         except OptionVipNotFoundError:
@@ -185,13 +185,13 @@ class OptionVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Option VIP ID
             if not is_valid_int_greater_zero_param(id_option_vip):
                 self.log.error(
-                    u'The id_option_vip parameter is not a valid value: %s.', id_option_vip)
+                    'The id_option_vip parameter is not a valid value: %s.', id_option_vip)
                 raise InvalidValueError(None, 'id_option_vip', id_option_vip)
 
             # Find Option VIP by ID to check if it exist
@@ -202,9 +202,9 @@ class OptionVipResource(RestResource):
                 try:
                     # Delete Option Vip
                     option_vip.delete(user)
-                except Exception, e:
-                    self.log.error(u'Failed to delete the option vip.')
-                    raise OptionVipError(e, u'Failed to delete the option vip')
+                except Exception as e:
+                    self.log.error('Failed to delete the option vip.')
+                    raise OptionVipError(e, 'Failed to delete the option vip')
 
                 return self.response(dumps_networkapi({}))
 
@@ -235,13 +235,13 @@ class OptionVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Option VIP ID
             if not is_valid_int_greater_zero_param(id_option_vip):
                 self.log.error(
-                    u'The id_option_vip parameter is not a valid value: %s.', id_option_vip)
+                    'The id_option_vip parameter is not a valid value: %s.', id_option_vip)
                 raise InvalidValueError(None, 'id_option_vip', id_option_vip)
 
             try:
@@ -249,9 +249,9 @@ class OptionVipResource(RestResource):
                 # Find Option VIP by ID to check if it exist
                 option_vip = OptionVip.objects.get(id=id_option_vip)
 
-            except ObjectDoesNotExist, e:
+            except ObjectDoesNotExist as e:
                 self.log.error(
-                    u'There is no option vip with pk = %s.', id_option_vip)
+                    'There is no option vip with pk = %s.', id_option_vip)
                 return self.response_error(289)
 
             option_map = dict()

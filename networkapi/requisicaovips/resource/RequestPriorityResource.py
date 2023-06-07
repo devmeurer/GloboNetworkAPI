@@ -64,22 +64,22 @@ class RequestPriorityResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             vip_map = networkapi_map.get('vip')
             if vip_map is None:
-                return self.response_error(3, u'There is no value to the vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the vip tag  of XML request.')
 
             # User permission
             if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Vip ID
             if not is_valid_int_greater_zero_param(vip_id):
                 self.log.error(
-                    u'The vip_id parameter is not a valid value: %s.', vip_id)
+                    'The vip_id parameter is not a valid value: %s.', vip_id)
                 raise InvalidValueError(None, 'vip_id', vip_id)
 
             # Valid reals_prioritys
@@ -93,7 +93,7 @@ class RequestPriorityResource(RestResource):
                     for reals_priority in reals_priority_map:
                         if not is_valid_int_greater_equal_zero_param(reals_priority):
                             self.log.error(
-                                u'The reals_priority parameter is not a valid value: %s.', reals_priority)
+                                'The reals_priority parameter is not a valid value: %s.', reals_priority)
                             raise InvalidValueError(
                                 None, 'reals_priority', reals_priority)
 
@@ -102,17 +102,17 @@ class RequestPriorityResource(RestResource):
                             reals_priority_map)
                     else:
                         self.log.error(
-                            u'The reals_priority_map parameter is not a valid value: %s.', reals_priority_map)
+                            'The reals_priority_map parameter is not a valid value: %s.', reals_priority_map)
                         raise InvalidValueError(
                             None, 'reals_priority_map', reals_priority_map)
                 else:
                     self.log.error(
-                        u'The reals_priority parameter is not a valid value: %s.', reals_priority_map)
+                        'The reals_priority parameter is not a valid value: %s.', reals_priority_map)
                     raise InvalidValueError(
                         None, 'reals_priority', reals_priority_map)
             else:
                 self.log.error(
-                    u'The reals_prioritys parameter is not a valid value: %s.', reals_prioritys_map)
+                    'The reals_prioritys parameter is not a valid value: %s.', reals_prioritys_map)
                 raise InvalidValueError(
                     None, 'reals_prioritys', reals_prioritys_map)
 
@@ -126,21 +126,21 @@ class RequestPriorityResource(RestResource):
                 # Vip must be created
                 if not vip.vip_criado:
                     self.log.error(
-                        u'Priority can not be changed because VIP has not yet been created.')
+                        'Priority can not be changed because VIP has not yet been created.')
                     raise RequestVipsNotBeenCreatedError(None)
 
                 # Vip equipments permission
                 for ip_equipment in vip.ip.ipequipamento_set.all():
                     if not has_perm(user, AdminPermission.VIP_CREATE_SCRIPT, AdminPermission.WRITE_OPERATION, None, ip_equipment.equipamento_id, AdminPermission.EQUIP_UPDATE_CONFIG_OPERATION):
                         self.log.error(
-                            u'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
+                            'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
                         raise EquipmentGroupsNotAuthorizedError(None)
 
                 variables_map = vip.variables_to_map()
 
                 # Valid list reals_server
                 """if len(variables_map.get('reals').get('real')) != len(vip_map.get('reals_prioritys').get('reals_priority')):
-                    self.log.error(u'List the Reals_priority is higher or lower than list the real_server.')
+                    self.log.error('List the Reals_priority is higher or lower than list the real_server.')
                     return self.response_error(272)"""
 
                 variables_map['reals_prioritys'] = vip_map.get(
@@ -168,7 +168,7 @@ class RequestPriorityResource(RestResource):
                     return self.response_error(2, stdout + stderr)
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except ScriptError, s:
             return self.response_error(2, s)

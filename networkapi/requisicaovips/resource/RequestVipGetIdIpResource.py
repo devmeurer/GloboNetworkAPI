@@ -144,7 +144,7 @@ def get_vips(vips):
                     if equip.equipamento.nome not in list_equips:
 
                         list_equips.append(equip.equipamento.nome)
-        except Exception, e:
+        except Exception as e:
             pass
 
         vip_dict['ipv4_description'] = descricao_ipv4
@@ -176,7 +176,7 @@ class RequestVipGetIdIpResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -188,13 +188,13 @@ class RequestVipGetIdIpResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
             vip_map = networkapi_map.get('vip')
             if vip_map is None:
-                msg = u'There is no value to the vip tag of XML request.'
+                msg = 'There is no value to the vip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -307,7 +307,7 @@ class RequestVipGetIdIpResource(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except BaseException, e:
             return self.response_error(1)

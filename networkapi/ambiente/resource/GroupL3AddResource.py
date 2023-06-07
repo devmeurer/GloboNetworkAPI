@@ -50,7 +50,7 @@ class GroupL3AddResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -59,11 +59,11 @@ class GroupL3AddResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             group_l3_map = networkapi_map.get('group_l3')
             if group_l3_map is None:
-                return self.response_error(3, u'There is no value to the group_l3 tag  of XML request.')
+                return self.response_error(3, 'There is no value to the group_l3 tag  of XML request.')
 
             # Get XML data
             name = group_l3_map.get('name')
@@ -71,7 +71,7 @@ class GroupL3AddResource(RestResource):
             try:
                 GrupoL3.get_by_name(name)
                 raise GrupoL3NameDuplicatedError(
-                    None, u'Já existe um grupo l3 com o valor name %s.' % name)
+                    None, 'Já existe um grupo l3 com o valor name %s.' % name)
             except GroupL3NotFoundError:
                 pass
 
@@ -83,9 +83,9 @@ class GroupL3AddResource(RestResource):
             try:
                 # save Group l3
                 l3_group.save()
-            except Exception, e:
-                self.log.error(u'Failed to save the Group l3.')
-                raise AmbienteError(e, u'Failed to save the Group l3.')
+            except Exception as e:
+                self.log.error('Failed to save the Group l3.')
+                raise AmbienteError(e, 'Failed to save the Group l3.')
 
             l3_group_map = dict()
             l3_group_map['group_l3'] = model_to_dict(

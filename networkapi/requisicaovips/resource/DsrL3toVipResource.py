@@ -53,13 +53,13 @@ class DsrL3toVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Option VIP ID
             if not is_valid_int_greater_zero_param(id_dsrl3_vip):
                 self.log.error(
-                    u'The id_dsrl3_vip parameter is not a valid value: %s.', id_dsrl3_vip)
+                    'The id_dsrl3_vip parameter is not a valid value: %s.', id_dsrl3_vip)
                 raise InvalidValueError(None, 'id_option_vip', id_dsrl3_vip)
 
             try:
@@ -67,9 +67,9 @@ class DsrL3toVipResource(RestResource):
                 # Find Option VIP by ID to check if it exist
                 dsrl3 = DsrL3_to_Vip.objects.get(id=id_dsrl3_vip)
 
-            except ObjectDoesNotExist, e:
+            except ObjectDoesNotExist as e:
                 self.log.error(
-                    u'There is no dsrl3 with pk = %s.', id_dsrl3_vip)
+                    'There is no dsrl3 with pk = %s.', id_dsrl3_vip)
                 return self.response_error(289)
 
             option_map = dict()

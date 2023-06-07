@@ -35,7 +35,7 @@ class RoteiroError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -95,7 +95,7 @@ class TipoRoteiro(BaseModel):
     log = logging.getLogger('TipoRoteiro')
 
     class Meta(BaseModel.Meta):
-        db_table = u'tipo_roteiro'
+        db_table = 'tipo_roteiro'
         managed = True
 
     @classmethod
@@ -109,12 +109,12 @@ class TipoRoteiro(BaseModel):
         """
         try:
             return TipoRoteiro.objects.filter(id=idt).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise TipoRoteiroNotFoundError(
-                e, u'Dont there is a Script Type by pk = %s.' % idt)
-        except Exception, e:
-            cls.log.error(u'Failure to search the Script Type.')
-            raise RoteiroError(e, u'Failure to search the Script Type.')
+                e, 'Dont there is a Script Type by pk = %s.' % idt)
+        except Exception as e:
+            cls.log.error('Failure to search the Script Type.')
+            raise RoteiroError(e, 'Failure to search the Script Type.')
 
     @classmethod
     def get_by_name(cls, name):
@@ -127,24 +127,24 @@ class TipoRoteiro(BaseModel):
         """
         try:
             return TipoRoteiro.objects.get(tipo__iexact=name)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise TipoRoteiroNotFoundError(
-                e, u'Dont there is a Script Type by name = %s.' % name)
-        except Exception, e:
-            cls.log.error(u'Failure to search the Script Type.')
-            raise RoteiroError(e, u'Failure to search the Script Type.')
+                e, 'Dont there is a Script Type by name = %s.' % name)
+        except Exception as e:
+            cls.log.error('Failure to search the Script Type.')
+            raise RoteiroError(e, 'Failure to search the Script Type.')
 
 
 class Roteiro(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_roteiros')
     roteiro = models.CharField(max_length=50)
-    tipo_roteiro = models.ForeignKey(TipoRoteiro, db_column='id_tipo_roteiro')
+    tipo_roteiro = models.ForeignKey(TipoRoteiro, db_column='id_tipo_roteiro', on_delete=models.DO_NOTHING)
     descricao = models.CharField(max_length=100, blank=True)
 
     log = logging.getLogger('Roteiro')
 
     class Meta(BaseModel.Meta):
-        db_table = u'roteiros'
+        db_table = 'roteiros'
         managed = True
 
     @classmethod
@@ -158,12 +158,12 @@ class Roteiro(BaseModel):
         """
         try:
             return Roteiro.objects.filter(id=idt).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise RoteiroNotFoundError(
-                e, u'Dont there is a Script by pk = %s.' % idt)
-        except Exception, e:
-            cls.log.error(u'Failure to search the Script.')
-            raise RoteiroError(e, u'Failure to search the Script.')
+                e, 'Dont there is a Script by pk = %s.' % idt)
+        except Exception as e:
+            cls.log.error('Failure to search the Script.')
+            raise RoteiroError(e, 'Failure to search the Script.')
 
     @classmethod
     def get_by_name(cls, name):
@@ -176,12 +176,12 @@ class Roteiro(BaseModel):
         """
         try:
             return Roteiro.objects.get(roteiro__iexact=name)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise RoteiroNotFoundError(
-                e, u'Dont there is a Script by name = %s.' % name)
-        except Exception, e:
-            cls.log.error(u'Failure to search the Script.')
-            raise RoteiroError(e, u'Failure to search the Script.')
+                e, 'Dont there is a Script by name = %s.' % name)
+        except Exception as e:
+            cls.log.error('Failure to search the Script.')
+            raise RoteiroError(e, 'Failure to search the Script.')
 
     @classmethod
     def get_by_name_script(cls, name, id_script_type):
@@ -194,9 +194,9 @@ class Roteiro(BaseModel):
         """
         try:
             return Roteiro.objects.get(roteiro__iexact=name, tipo_roteiro__id=id_script_type)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise RoteiroNotFoundError(
-                e, u'Dont there is a Script by name = %s and Script Type = %s.' % (name, id_script_type))
-        except Exception, e:
-            cls.log.error(u'Failure to search the Script.')
-            raise RoteiroError(e, u'Failure to search the Script.')
+                e, 'Dont there is a Script by name = %s and Script Type = %s.' % (name, id_script_type))
+        except Exception as e:
+            cls.log.error('Failure to search the Script.')
+            raise RoteiroError(e, 'Failure to search the Script.')

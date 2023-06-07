@@ -144,6 +144,6 @@ class RouteMapEntryGetErrorTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'RouteMapEntry id = 1000 do not exist',
+            'RouteMapEntry id = 1000 do not exist',
             response.data['detail']
         )

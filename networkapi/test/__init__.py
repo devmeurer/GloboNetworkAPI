@@ -47,7 +47,7 @@ __all__ = ('log', 'show_sql', 'xml2dict', 'dict2xml', 'BasicTestCase', 'me',
            'skipTest', 'bug', 'mock_script', 'assert_response_error',
            'assert_response_success', 'permute')
 
-log.info(u'Desligando logging de queries')
+log.info('Desligando logging de queries')
 show_sql(False)
 
 CONTENT_APPLICATION_XML = 'application/xml'

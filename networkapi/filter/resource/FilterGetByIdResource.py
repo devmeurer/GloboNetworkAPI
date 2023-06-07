@@ -50,12 +50,12 @@ class FilterGetByIdResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             if not is_valid_int_greater_zero_param(kwargs['id_filter']):
                 self.log.error(
-                    u'Parameter id_filter is invalid. Value: %s.', kwargs['id_filter'])
+                    'Parameter id_filter is invalid. Value: %s.', kwargs['id_filter'])
                 raise InvalidValueError(None, 'id_filter', kwargs['id_filter'])
             else:
                 # Check existence
@@ -71,7 +71,7 @@ class FilterGetByIdResource(RestResource):
 
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
-        except FilterNotFoundError, e:
+        except FilterNotFoundError as e:
             return self.response_error(339)
         except FilterError, e:
             return self.response_error(1)

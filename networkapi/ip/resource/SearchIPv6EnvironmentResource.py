@@ -50,7 +50,7 @@ class SearchIPv6EnvironmentResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -59,11 +59,11 @@ class SearchIPv6EnvironmentResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             ipv6_map = networkapi_map.get('ipv6_map')
             if ipv6_map is None:
-                return self.response_error(3, u'There is no value to the ipv6_map tag  of XML request.')
+                return self.response_error(3, 'There is no value to the ipv6_map tag  of XML request.')
 
             # Get XML data
             environment_id = ipv6_map.get('id_environment')
@@ -72,13 +72,13 @@ class SearchIPv6EnvironmentResource(RestResource):
             # Valid Environment ID
             if not is_valid_int_greater_zero_param(environment_id):
                 self.log.error(
-                    u'The id_environment parameter is not a valid value: %s.', environment_id)
+                    'The id_environment parameter is not a valid value: %s.', environment_id)
                 raise InvalidValueError(None, 'id_environment', environment_id)
 
             # Valid IPv6 ID
             if not is_valid_ipv6(ipv6):
                 self.log.error(
-                    u'The ipv6 parameter is not a valid value: %s.', ipv6)
+                    'The ipv6 parameter is not a valid value: %s.', ipv6)
                 raise InvalidValueError(None, 'ipv6', ipv6)
 
             blocks = str(IPv6Address(ipv6).exploded).split(':')

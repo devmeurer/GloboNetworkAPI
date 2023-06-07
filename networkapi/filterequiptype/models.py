@@ -41,14 +41,14 @@ class CantDissociateError(FilterError):
 
 class FilterEquipType(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id')
-    filter = models.ForeignKey(Filter, db_column='id_filter')
+    filter = models.ForeignKey(Filter, db_column='id_filter', on_delete=models.DO_NOTHING)
     equiptype = models.ForeignKey(
-        'equipamento.TipoEquipamento', db_column='id_equiptype')
+        'equipamento.TipoEquipamento', db_column='id_equiptype', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('FilterEquipType')
 
     class Meta(BaseModel.Meta):
-        db_table = u'filter_equiptype_xref'
+        db_table = 'filter_equiptype_xref'
         managed = True
         unique_together = ('filter', 'equiptype')
 
@@ -61,7 +61,7 @@ class FilterEquipType(BaseModel):
             FilterEquipType.objects.get(
                 filter=self.filter, equiptype=self.equiptype)
             raise FilterEquipTypeDuplicateError(
-                None, u'EquipType already registered for the Filter.')
+                None, 'EquipType already registered for the Filter.')
         except ObjectDoesNotExist:
             pass
 
@@ -95,9 +95,9 @@ class FilterEquipType(BaseModel):
             for net in this_filter_nets:
                 if net['count'] > 1:
                     self.log.error(
-                        u'Cannot dissociate filter and equip type because there are two networks with same ip range using filters')
+                        'Cannot dissociate filter and equip type because there are two networks with same ip range using filters')
                     raise CantDissociateError(
-                        {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, u'Cannot dissociate filter and equip type')
+                        {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, 'Cannot dissociate filter and equip type')
 
             # Get all networks from environments using other filters, grouped
             # by ip range
@@ -107,9 +107,9 @@ class FilterEquipType(BaseModel):
             for net in this_filter_nets:
                 if net in other_filter_nets:
                     self.log.error(
-                        u'Cannot dissociate filter and equip type because there are two networks with same ip range using filters')
+                        'Cannot dissociate filter and equip type because there are two networks with same ip range using filters')
                     raise CantDissociateError(
-                        {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, u'Cannot dissociate filter and equip type')
+                        {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, 'Cannot dissociate filter and equip type')
 
             # Get all networks from environments using this filter, grouped by
             # ip range
@@ -118,9 +118,9 @@ class FilterEquipType(BaseModel):
             for net in this_filter_nets:
                 if net['count'] > 1:
                     self.log.error(
-                        u'Cannot dissociate filter and equip type because there are two networks with same ip range using filters')
+                        'Cannot dissociate filter and equip type because there are two networks with same ip range using filters')
                     raise CantDissociateError(
-                        {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, u'Cannot dissociate filter and equip type')
+                        {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, 'Cannot dissociate filter and equip type')
 
             # Get all networks from environments using other filters, grouped
             # by ip range
@@ -130,9 +130,9 @@ class FilterEquipType(BaseModel):
             for net in this_filter_nets:
                 if net in other_filter_nets:
                     self.log.error(
-                        u'Cannot dissociate filter and equip type because there are two networks with same ip range using filters')
+                        'Cannot dissociate filter and equip type because there are two networks with same ip range using filters')
                     raise CantDissociateError(
-                        {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, u'Cannot dissociate filter and equip type')
+                        {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, 'Cannot dissociate filter and equip type')
             # End of filter test case 1 and 2
 
             # Filter test case 3
@@ -180,9 +180,9 @@ class FilterEquipType(BaseModel):
                         if len(IpEquipamento.objects.filter(ip__networkipv4__vlan__ambiente__in=envs_using_this_filter, equipamento__in=equips)) > 0 or \
                                 len(Ipv6Equipament.objects.filter(ip__networkipv6__vlan__ambiente__in=envs_using_this_filter, equipamento__in=equips)) > 0:
                             self.log.error(
-                                u'Cannot dissociate filter and equip type because there are two vlans with same equipment')
+                                'Cannot dissociate filter and equip type because there are two vlans with same equipment')
                             raise CantDissociateError(
-                                {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, u'Cannot dissociate filter and equip type')
+                                {'equiptype': self.equiptype.tipo_equipamento, 'filter_name': self.filter.name}, 'Cannot dissociate filter and equip type')
 
             # End of filter test case 3
 

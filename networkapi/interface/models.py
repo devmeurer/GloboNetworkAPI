@@ -41,7 +41,7 @@ class InterfaceError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -117,19 +117,19 @@ class TipoInterface(BaseModel):
     log = logging.getLogger('Tipo de Interface')
 
     class Meta(BaseModel.Meta):
-        db_table = u'tipo_interface'
+        db_table = 'tipo_interface'
         managed = True
 
     @classmethod
     def get_by_pk(cls, ids):
         try:
             return TipoInterface.objects.get(id=ids)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise InterfaceNotFoundError(
-                e, u'Can not find a TipoInterface with id = %s.' % ids)
-        except Exception, e:
-            cls.log.error(u'Falha ao pesquisar o tipo de interface.')
-            raise InterfaceError(e, u'Falha ao pesquisar o tipo de interface.')
+                e, 'Can not find a TipoInterface with id = %s.' % ids)
+        except Exception as e:
+            cls.log.error('Falha ao pesquisar o tipo de interface.')
+            raise InterfaceError(e, 'Falha ao pesquisar o tipo de interface.')
 
     @classmethod
     def get_by_name(cls, name):
@@ -138,12 +138,12 @@ class TipoInterface(BaseModel):
         """
         try:
             return TipoInterface.objects.get(tipo__iexact=name)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise InterfaceNotFoundError(
-                e, u'Can not find a TipoInterface with tipo = %s.' % name)
-        except Exception, e:
-            cls.log.error(u'Falha ao pesquisar o tipo de interface.')
-            raise InterfaceError(e, u'Falha ao pesquisar o tipo de interface.')
+                e, 'Can not find a TipoInterface with tipo = %s.' % name)
+        except Exception as e:
+            cls.log.error('Falha ao pesquisar o tipo de interface.')
+            raise InterfaceError(e, 'Falha ao pesquisar o tipo de interface.')
 
 
 class PortChannel(BaseModel):
@@ -155,7 +155,7 @@ class PortChannel(BaseModel):
     lacp = models.BooleanField(default=1)
 
     class Meta(BaseModel.Meta):
-        db_table = u'port_channel'
+        db_table = 'port_channel'
         managed = True
 
     def create(self, authenticated_user=None):
@@ -166,36 +166,36 @@ class PortChannel(BaseModel):
         try:
             if not is_valid_int_greater_zero_param(self.nome):
                 raise InvalidValueError(None, 'nome', self.nome)
-        except Exception, e:
+        except Exception as e:
             raise InvalidValueError(None, e.param, e.value)
 
         try:
             return self.save()
-        except Exception, e:
-            self.log.error(u'Failed to add port channel.')
-            raise InterfaceError(e, u'Failed to add port channel.')
+        except Exception as e:
+            self.log.error('Failed to add port channel.')
+            raise InterfaceError(e, 'Failed to add port channel.')
 
     @classmethod
     def get_by_pk(cls, id):
         try:
             return PortChannel.objects.filter(id=id).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise InterfaceNotFoundError(
-                e, u'Can not find a Channel with id = %s.' % id)
-        except Exception, e:
-            cls.log.error(u'Falha ao pesquisar o Channel.')
-            raise InterfaceError(e, u'Falha ao pesquisar o interface.')
+                e, 'Can not find a Channel with id = %s.' % id)
+        except Exception as e:
+            cls.log.error('Falha ao pesquisar o Channel.')
+            raise InterfaceError(e, 'Falha ao pesquisar o interface.')
 
     @classmethod
     def get_by_name(cls, name):
         try:
             return PortChannel.objects.filter(nome=name)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise InterfaceNotFoundError(
-                e, u'Can not find a Channel with name = %s.' % id)
-        except Exception, e:
-            cls.log.error(u'Failure to search the Group L3.')
-            raise InterfaceError(e, u'Failure to search the Group L3.')
+                e, 'Can not find a Channel with name = %s.' % id)
+        except Exception as e:
+            cls.log.error('Failure to search the Group L3.')
+            raise InterfaceError(e, 'Failure to search the Group L3.')
 
     def delete(self, user=None):
         """Override Django method to remove port channel.
@@ -212,32 +212,32 @@ class PortChannel(BaseModel):
         """
         try:
             return Interface.objects.all().filter(channel=self)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise InterfaceNotFoundError(
-                e, u'Can not find interfaces for channel: %s.' % self.id)
+                e, 'Can not find interfaces for channel: %s.' % self.id)
 
 
 class Interface(BaseModel):
-    equipamento = models.ForeignKey(Equipamento, db_column='id_equip')
+    equipamento = models.ForeignKey(Equipamento, db_column='id_equip', on_delete=models.DO_NOTHING)
     interface = models.CharField(unique=True, max_length=20)
     protegida = models.BooleanField()
     descricao = models.CharField(max_length=200, blank=True)
     id = models.AutoField(primary_key=True, db_column='id_interface')
     ligacao_front = models.ForeignKey(
-        'self', null=True, db_column='id_ligacao_front', blank=True, related_name='interfaces_front')
+        'self', null=True, db_column='id_ligacao_front', blank=True, related_name='interfaces_front', on_delete=models.DO_NOTHING)
     ligacao_back = models.ForeignKey(
-        'self', null=True, db_column='id_ligacao_back', blank=True, related_name='interfaces_back')
+        'self', null=True, db_column='id_ligacao_back', blank=True, related_name='interfaces_back', on_delete=models.DO_NOTHING)
     vlan_nativa = models.CharField(
         max_length=200, blank=True, null=True, db_column='vlan_nativa', default=1)
     tipo = models.ForeignKey(
-        TipoInterface, db_column='id_tipo_interface', blank=True, default=1)
+        TipoInterface, db_column='id_tipo_interface', blank=True, default=1, on_delete=models.DO_NOTHING)
     channel = models.ForeignKey(
-        PortChannel, db_column='id_channel', blank=True, null=True)
+        PortChannel, db_column='id_channel', blank=True, null=True, on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('Interface')
 
     class Meta(BaseModel.Meta):
-        db_table = u'interfaces'
+        db_table = 'interfaces'
         managed = True
         unique_together = ('interface', 'equipamento')
 
@@ -245,23 +245,23 @@ class Interface(BaseModel):
     def get_by_interface_equipment(cls, interface, equipment_id):
         try:
             return Interface.objects.get(interface__iexact=interface, equipamento__id=equipment_id)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise InterfaceNotFoundError(
-                e, u'Interface com nome %s e equipamento %s não cadastrada.' % (interface, equipment_id))
-        except Exception, e:
-            cls.log.error(u'Falha ao pesquisar a interface.')
-            raise InterfaceError(e, u'Falha ao pesquisar a interface.')
+                e, 'Interface com nome %s e equipamento %s não cadastrada.' % (interface, equipment_id))
+        except Exception as e:
+            cls.log.error('Falha ao pesquisar a interface.')
+            raise InterfaceError(e, 'Falha ao pesquisar a interface.')
 
     @classmethod
     def get_by_pk(cls, id):
         try:
             return Interface.objects.filter(id=id).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise InterfaceNotFoundError(
-                e, u'Can not find a Interface with id = %s.' % id)
-        except Exception, e:
-            cls.log.error(u'Falha ao pesquisar a interface.')
-            raise InterfaceError(e, u'Falha ao pesquisar a interface.')
+                e, 'Can not find a Interface with id = %s.' % id)
+        except Exception as e:
+            cls.log.error('Falha ao pesquisar a interface.')
+            raise InterfaceError(e, 'Falha ao pesquisar a interface.')
 
     def search_interfaces(self, from_interface):
         """Retorna a interface e as todas as interfaces ligadas no front ou no back da mesma.
@@ -296,11 +296,11 @@ class Interface(BaseModel):
 
                 if (interface is not None) and (interface in interfaces):
                     break
-        except Exception, e:
+        except Exception as e:
             self.log.error(
-                u'Falha ao pesquisar as interfaces de uma interface.')
+                'Falha ao pesquisar as interfaces de uma interface.')
             raise InterfaceError(
-                e, u'Falha ao pesquisar as interfaces de uma interface.')
+                e, 'Falha ao pesquisar as interfaces de uma interface.')
 
         return interfaces
 
@@ -321,11 +321,11 @@ class Interface(BaseModel):
 
             if self.ligacao_back is not None:
                 interfaces.update(self.ligacao_back.search_interfaces(self))
-        except Exception, e:
+        except Exception as e:
             self.log.error(
-                u'Falha ao pesquisar as interfaces da ligação front e back.')
+                'Falha ao pesquisar as interfaces da ligação front e back.')
             raise InterfaceError(
-                e, u'Falha ao pesquisar as interfaces da ligação front e back.')
+                e, 'Falha ao pesquisar as interfaces da ligação front e back.')
 
         return interfaces
 
@@ -365,22 +365,22 @@ class Interface(BaseModel):
                 if interface is not None:
                     if interface.id in interface_ids:
                         raise InterfaceNotFoundError(None,
-                                                     u'Interface do tipo switch não encontrada a partir do front da '
-                                                     u'interface %d.' % self.id)
+                                                     'Interface do tipo switch não encontrada a partir do front da '
+                                                     'interface %d.' % self.id)
         except InterfaceNotFoundError, e:
             raise e
-        except Exception, e:
-            self.log.error(u'Falha ao pesquisar a interface do switch.')
+        except Exception as e:
+            self.log.error('Falha ao pesquisar a interface do switch.')
             raise InterfaceError(
-                e, u'Falha ao pesquisar a interface do switch.')
+                e, 'Falha ao pesquisar a interface do switch.')
 
         if interface is None:
             raise InterfaceNotFoundError(
-                None, u'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
+                None, 'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
 
         if (protegida is not None) and (interface.protegida != protegida):
             raise InterfaceProtectedError(
-                None, u'Interface do switch com o campo protegida diferente de %s.' % protegida)
+                None, 'Interface do switch com o campo protegida diferente de %s.' % protegida)
 
         return interface
 
@@ -420,21 +420,21 @@ class Interface(BaseModel):
                     if interface.id in interface_ids:
                         raise InterfaceNotFoundError(
                             None,
-                            u'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
+                            'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
         except InterfaceNotFoundError, e:
             raise e
-        except Exception, e:
-            self.log.error(u'Falha ao pesquisar a interface do switch.')
+        except Exception as e:
+            self.log.error('Falha ao pesquisar a interface do switch.')
             raise InterfaceError(
-                e, u'Falha ao pesquisar a interface do switch.')
+                e, 'Falha ao pesquisar a interface do switch.')
 
         if (interface is None):
             raise InterfaceNotFoundError(
-                None, u'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
+                None, 'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
 
         if (protegida is not None) and (interface.protegida != protegida):
             raise InterfaceProtectedError(
-                None, u'Interface do switch com o campo protegida diferente de %s.' % protegida)
+                None, 'Interface do switch com o campo protegida diferente de %s.' % protegida)
 
         return interface
 
@@ -467,21 +467,21 @@ class Interface(BaseModel):
                     if interface.id in interface_ids:
                         raise InterfaceNotFoundError(
                             None,
-                            u'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
+                            'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
         except InterfaceNotFoundError, e:
             raise e
-        except Exception, e:
-            self.log.error(u'Falha ao pesquisar a interface do switch.')
+        except Exception as e:
+            self.log.error('Falha ao pesquisar a interface do switch.')
             raise InterfaceError(
-                e, u'Falha ao pesquisar a interface do switch.')
+                e, 'Falha ao pesquisar a interface do switch.')
 
         if (interface is None):
             raise InterfaceNotFoundError(
-                None, u'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
+                None, 'Interface do tipo switch não encontrada a partir do front da interface %d.' % self.id)
 
         if ((protegida is not None) and (interface.protegida != protegida)):
             raise InterfaceProtectedError(
-                None, u'Interface do switch com o campo protegida diferente de %s.' % protegida)
+                None, 'Interface do switch com o campo protegida diferente de %s.' % protegida)
 
         return interface
 
@@ -493,9 +493,9 @@ class Interface(BaseModel):
                 interfaces = interfaces.filter(equipamento__id=equipment_id)
 
             return interfaces
-        except Exception, e:
-            cls.log.error(u'Failed to search interfaces.')
-            raise InterfaceError(e, u'Failed to search interfaces.')
+        except Exception as e:
+            cls.log.error('Failed to search interfaces.')
+            raise InterfaceError(e, 'Failed to search interfaces.')
 
     def create(self, authenticated_user):
         """Add new interface
@@ -540,7 +540,7 @@ class Interface(BaseModel):
                 self.ligacao_front = Interface.get_by_pk(self.ligacao_front.id)
             except InterfaceNotFoundError, e:
                 raise FrontLinkNotFoundError(
-                    e, u'Frontend interface does not exist')
+                    e, 'Frontend interface does not exist')
 
         # Check back end interface existence
         if self.ligacao_back is not None:
@@ -548,7 +548,7 @@ class Interface(BaseModel):
                 self.ligacao_back = Interface.get_by_pk(self.ligacao_back.id)
             except InterfaceNotFoundError, e:
                 raise BackLinkNotFoundError(
-                    e, u'Backend interface does not exist')
+                    e, 'Backend interface does not exist')
 
         if self.vlan_nativa is None:
             self.vlan_nativa = 1
@@ -560,14 +560,14 @@ class Interface(BaseModel):
             # Check if interface name already exists for this equipment
             if Interface.objects.filter(equipamento=self.equipamento, interface__iexact=self.interface).count() > 0:
                 raise InterfaceForEquipmentDuplicatedError(
-                    None, u'An interface with the same name on the same equipment already exists')
+                    None, 'An interface with the same name on the same equipment already exists')
             return self.save()
         except InterfaceForEquipmentDuplicatedError, e:
             raise e
-        except Exception, e:
-            self.log.error(u'Failed to add interface for the equipment.')
+        except Exception as e:
+            self.log.error('Failed to add interface for the equipment.')
             raise InterfaceError(
-                e, u'Failed to add interface for the equipment.')
+                e, 'Failed to add interface for the equipment.')
 
     @classmethod
     def update(cls, authenticated_user, id_interface, **kwargs):
@@ -617,7 +617,7 @@ class Interface(BaseModel):
                 interface.ligacao_front = None
         except InterfaceNotFoundError, e:
             raise FrontLinkNotFoundError(
-                e, u'Frontend interface does not exist')
+                e, 'Frontend interface does not exist')
         except KeyError:
             pass
         # Valid ligacao_back_id
@@ -631,7 +631,7 @@ class Interface(BaseModel):
                 interface.ligacao_back = None
         except InterfaceNotFoundError, e:
             raise BackLinkNotFoundError(
-                e, u'Backend interface does not exist.')
+                e, 'Backend interface does not exist.')
         except KeyError:
             pass
 
@@ -641,7 +641,7 @@ class Interface(BaseModel):
                 nome = kwargs['interface']
                 if Interface.objects.filter(equipamento=interface.equipamento, interface__iexact=nome).exclude(id=interface.id).count() > 0:
                     raise InterfaceForEquipmentDuplicatedError(
-                        None, u'An interface with the same name on the same equipment already exists')
+                        None, 'An interface with the same name on the same equipment already exists')
             except KeyError:
                 pass
             interface.interface = nome
@@ -670,9 +670,9 @@ class Interface(BaseModel):
             raise e
         except InvalidValueError, e:
             raise e
-        except Exception, e:
-            cls.log.error(u'Falha ao alterar a interface')
-            raise InterfaceError(e, u'Falha ao alterar a interface')
+        except Exception as e:
+            cls.log.error('Falha ao alterar a interface')
+            raise InterfaceError(e, 'Falha ao alterar a interface')
 
     @classmethod
     def remove(cls, authenticated_user, id_interface):
@@ -693,15 +693,15 @@ class Interface(BaseModel):
             if Interface.objects.filter(ligacao_front=interface).count() > 0 or \
                Interface.objects.filter(ligacao_back=interface).count() > 0:
                 raise InterfaceUsedByOtherInterfaceError(
-                    None, u'Interface used by other interface.')
+                    None, 'Interface used by other interface.')
 
             return interface.delete()
 
         except InterfaceUsedByOtherInterfaceError, e:
             raise e
-        except Exception, e:
-            cls.log.error(u'Failed to remove interface')
-            raise InterfaceError(e, u'Failed to remove interface')
+        except Exception as e:
+            cls.log.error('Failed to remove interface')
+            raise InterfaceError(e, 'Failed to remove interface')
 
     def delete(self):
         """Override Django method to remove interface.
@@ -734,7 +734,7 @@ class Interface(BaseModel):
 
         if Interface.objects.filter(equipamento__id=interface.get('equipment'),
                                     interface__iexact=interface.get('interface')):
-            raise InterfaceForEquipmentDuplicatedError(None, u'Duplicate interface name for the device.')
+            raise InterfaceForEquipmentDuplicatedError(None, 'Duplicate interface name for the device.')
 
         self.interface = interface.get('interface')
         self.tipo = TipoInterface.get_by_pk(interface.get('type'))
@@ -746,13 +746,13 @@ class Interface(BaseModel):
             self.ligacao_front = Interface.get_by_pk(interface.get('front_interface')) \
                 if interface.get('front_interface') else None
         except InterfaceNotFoundError, e:
-            raise FrontLinkNotFoundError(e, u'Frontend interface does not exist')
+            raise FrontLinkNotFoundError(e, 'Frontend interface does not exist')
 
         try:
             self.ligacao_back = Interface.get_by_pk(interface.get('back_interface')) \
                 if interface.get('back_interface') else None
         except InterfaceNotFoundError, e:
-            raise BackLinkNotFoundError(e, u'Backend interface does not exist')
+            raise BackLinkNotFoundError(e, 'Backend interface does not exist')
 
         self.vlan_nativa = interface.get('native_vlan') if interface.get('native_vlan') else 1
 
@@ -788,7 +788,7 @@ class Interface(BaseModel):
         if not self.interface == interface.get('interface') \
                 and Interface.objects.filter(equipamento__id=interface.get('equipment_id'),
                                              interface__iexact=interface.get('interface')):
-            raise InterfaceForEquipmentDuplicatedError(None, u'Duplicate interface name for the device.')
+            raise InterfaceForEquipmentDuplicatedError(None, 'Duplicate interface name for the device.')
 
         self.interface = interface.get('interface')
 
@@ -929,12 +929,12 @@ class EnvironmentInterface(BaseModel):
     log = logging.getLogger('EnvironmentInterface')
 
     id = models.AutoField(primary_key=True, db_column='id_int_ambiente')
-    ambiente = models.ForeignKey(Ambiente, db_column='id_ambiente')
-    interface = models.ForeignKey(Interface, db_column='id_interface')
+    ambiente = models.ForeignKey(Ambiente, db_column='id_ambiente', on_delete=models.DO_NOTHING)
+    interface = models.ForeignKey(Interface, db_column='id_interface', on_delete=models.DO_NOTHING)
     vlans = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta(BaseModel.Meta):
-        db_table = u'interface_do_ambiente'
+        db_table = 'interface_do_ambiente'
         managed = True
 
     def create(self, authenticated_user=None):
@@ -942,22 +942,22 @@ class EnvironmentInterface(BaseModel):
 
         try:
             return self.save()
-        except Exception, e:
-            self.log.error(u'Failed to add interface_do_ambiente.')
+        except Exception as e:
+            self.log.error('Failed to add interface_do_ambiente.')
             raise InterfaceError(
-                e, u'Failed to add interface_do_ambiente.')
+                e, 'Failed to add interface_do_ambiente.')
 
     @classmethod
     def get_by_interface(cls, id):
         try:
             return EnvironmentInterface.objects.all().filter(interface_id=id)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise InterfaceNotFoundError(
-                e, u'Can not find a EnvironmentInterface with interface id = %s.' % id)
-        except Exception, e:
-            cls.log.error(u'Falha ao pesquisar interfaces neste ambiente.')
+                e, 'Can not find a EnvironmentInterface with interface id = %s.' % id)
+        except Exception as e:
+            cls.log.error('Falha ao pesquisar interfaces neste ambiente.')
             raise InterfaceError(
-                e, u'Falha ao pesquisar interfaces neste ambiente.')
+                e, 'Falha ao pesquisar interfaces neste ambiente.')
 
     def remove_v3(self):
         log.debug("remove v3")

@@ -54,7 +54,7 @@ class HealthcheckExpectGetResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_healthcheck):
                 self.log.error(
-                    u'The id_healthcheck parameter is not a valid value: %s.', id_healthcheck)
+                    'The id_healthcheck parameter is not a valid value: %s.', id_healthcheck)
                 raise InvalidValueError(None, 'id_healthcheck', id_healthcheck)
 
             heal = HealthcheckExpect.get_by_pk(id_healthcheck)

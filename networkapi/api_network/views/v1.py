@@ -350,7 +350,7 @@ def networkIPv4_deploy(request, network_id):
         # User permission
         if not has_perm(request.user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None,
                         equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
-            log.error(u'User does not have permission to perform the operation.')
+            log.error('User does not have permission to perform the operation.')
             raise PermissionDenied(
                 'No permission to configure equipment %s-%s' % (equip.id, equip.nome))
 
@@ -488,7 +488,7 @@ def networkIPv6_deploy(request, network_id):
     for equip in equipment_list:
         # User permission
         if not has_perm(request.user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
-            log.error(u'User does not have permission to perform the operation.')
+            log.error('User does not have permission to perform the operation.')
             raise PermissionDenied(
                 'No permission to configure equipment %s-%s' % (equip.id, equip.nome))
 

@@ -42,14 +42,16 @@ class DHCPRelayIPv4(BaseModel):
     ipv4 = models.ForeignKey(
         'ip.Ip',
         db_column='id_ip'
+        on_delete=models.DO_NOTHING
     )
     networkipv4 = models.ForeignKey(
         'ip.NetworkIPv4',
-        db_column='id_networkipv4'
+        db_column='id_networkipv4',
+        on_delete=models.DO_NOTHING
     )
 
     class Meta(BaseModel.Meta):
-        db_table = u'dhcprelay_ipv4'
+        db_table = 'dhcprelay_ipv4'
         managed = True
         unique_together = ('ipv4', 'networkipv4')
 
@@ -80,15 +82,15 @@ class DHCPRelayIPv4(BaseModel):
 
         try:
             return DHCPRelayIPv4.objects.get(id=id)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise exceptions.DHCPRelayNotFoundError('IPv4', id)
-        except OperationalError, e:
+        except OperationalError as e:
             cls.log.error(
-                u'Lock wait timeout exceeded searching DHCPRelayIPv4.')
+                'Lock wait timeout exceeded searching DHCPRelayIPv4.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            cls.log.error(u'Failure to search the DHCPRelayIPv4.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            cls.log.error('Failure to search the DHCPRelayIPv4.')
             raise api_exceptions.NetworkAPIException()
 
 
@@ -102,15 +104,17 @@ class DHCPRelayIPv6(BaseModel):
     )
     ipv6 = models.ForeignKey(
         'ip.Ipv6',
-        db_column='id_ipv6'
+        db_column='id_ipv6',
+        on_delete=models.DO_NOTHING
     )
     networkipv6 = models.ForeignKey(
         'ip.NetworkIPv6',
-        db_column='id_networkipv6'
+        db_column='id_networkipv6',
+        on_delete=models.DO_NOTHING
     )
 
     class Meta(BaseModel.Meta):
-        db_table = u'dhcprelay_ipv6'
+        db_table = 'dhcprelay_ipv6'
         managed = True
         unique_together = ('ipv6', 'networkipv6')
 
@@ -139,13 +143,13 @@ class DHCPRelayIPv6(BaseModel):
         """
         try:
             return DHCPRelayIPv6.objects.get(id=id)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise exceptions.DHCPRelayNotFoundError('IPv6', id)
-        except OperationalError, e:
+        except OperationalError as e:
             cls.log.error(
-                u'Lock wait timeout exceeded searching DHCPRelayIPv6.')
+                'Lock wait timeout exceeded searching DHCPRelayIPv6.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            cls.log.error(u'Failure to search the DHCPRelayIPv6.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            cls.log.error('Failure to search the DHCPRelayIPv6.')
             raise api_exceptions.NetworkAPIException()

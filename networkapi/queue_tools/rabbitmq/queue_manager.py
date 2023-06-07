@@ -69,14 +69,14 @@ class QueueManager(object):
 
             if not isinstance(dict_obj, types.DictType):
                 raise ValueError(
-                    u'QueueManagerError - The type must be a instance of Dict')
+                    'QueueManagerError - The type must be a instance of Dict')
 
             self._msgs.append(dict_obj)
             self.log.debug('dict_obj:%s', dict_obj)
 
-        except Exception, e:
+        except Exception as e:
             self.log.error(
-                u'QueueManagerError - Error on appending objects to queue.')
+                'QueueManagerError - Error on appending objects to queue.')
             self.log.error(e)
             raise Exception(
                 'QueueManagerError - Error on appending objects to queue.')
@@ -112,10 +112,10 @@ class QueueManager(object):
 
             conn.close()
 
-        except Exception, e:
+        except Exception as e:
 
             self.log.error(
-                u'QueueManagerError - Error on sending objects from queue.')
+                'QueueManagerError - Error on sending objects from queue.')
             self.log.debug(e)
             raise Exception(
                 'QueueManagerError - Error on sending objects to queue.')

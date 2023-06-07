@@ -31,7 +31,7 @@ class InvalidKeyException(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
 
     def __init__(self, key=None):
-        self.detail = u'Invalid key %s in template.' % (key)
+        self.detail = 'Invalid key %s in template.' % (key)
 
 
 class InterfaceTemplateException(APIException):

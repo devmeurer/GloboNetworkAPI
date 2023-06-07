@@ -274,7 +274,7 @@ class NetworkIPv4GetErrorTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no NetworkIPv4 with pk = 1000.',
+            'There is no NetworkIPv4 with pk = 1000.',
             response.data['detail']
         )
 
@@ -290,7 +290,7 @@ class NetworkIPv4GetErrorTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no NetworkIPv4 with pk = 1000.',
+            'There is no NetworkIPv4 with pk = 1000.',
             response.data['detail']
         )
 
@@ -306,7 +306,7 @@ class NetworkIPv4GetErrorTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no NetworkIPv4 with pk = 1000.',
+            'There is no NetworkIPv4 with pk = 1000.',
             response.data['detail']
         )
 

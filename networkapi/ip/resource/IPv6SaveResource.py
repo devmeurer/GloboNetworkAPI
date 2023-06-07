@@ -69,12 +69,12 @@ class IPv6SaveResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             ip_map = networkapi_map.get('ip_map')
             if ip_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -87,25 +87,25 @@ class IPv6SaveResource(RestResource):
             # Valid equip_id
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'Parameter equip_id is invalid. Value: %s.', equip_id)
+                    'Parameter equip_id is invalid. Value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             # Valid network_ipv4_id
             if not is_valid_int_greater_zero_param(network_ipv6_id):
                 self.log.error(
-                    u'Parameter network_ipv6_id is invalid. Value: %s.', network_ipv6_id)
+                    'Parameter network_ipv6_id is invalid. Value: %s.', network_ipv6_id)
                 raise InvalidValueError(
                     None, 'network_ipv6_id', network_ipv6_id)
 
             # Description can NOT be greater than 100
             if not is_valid_string_maxsize(ip6, 39):
-                self.log.error(u'Parameter ip6 is invalid. Value: %s.', ip6)
+                self.log.error('Parameter ip6 is invalid. Value: %s.', ip6)
                 raise InvalidValueError(None, 'ip6', ip6)
 
             if description is not None:
                 if not is_valid_string_maxsize(description, 100) or not is_valid_string_minsize(description, 3):
                     self.log.error(
-                        u'Parameter description is invalid. Value: %s.', description)
+                        'Parameter description is invalid. Value: %s.', description)
                     raise InvalidValueError(None, 'description', description)
 
             # User permission
@@ -116,7 +116,7 @@ class IPv6SaveResource(RestResource):
                             equip_id,
                             AdminPermission.EQUIP_WRITE_OPERATION):
                 raise UserNotAuthorizedError(
-                    None, u'User does not have permission to perform the operation.')
+                    None, 'User does not have permission to perform the operation.')
 
             # Business Rules
 
@@ -262,7 +262,7 @@ class IPv6SaveResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except (IpError, NetworkIPv6Error, EquipamentoError, GrupoError), e:
             self.log.error(e)

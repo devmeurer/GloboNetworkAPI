@@ -167,7 +167,7 @@ class Generic(BasePlugin):
         except IOError, e:
             log.error('Error opening template file for read: %s' % filename_in)
             raise Exception(e)
-        except Exception, e:
+        except Exception as e:
             log.error('Syntax error when parsing template: %s ' % e)
             raise Exception(e)
             # TemplateSyntaxError

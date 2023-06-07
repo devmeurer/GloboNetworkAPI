@@ -30,7 +30,7 @@ class Configuration(BaseModel):
     log = logging.getLogger('Configuration')
 
     class Meta(BaseModel.Meta):
-        db_table = u'config'
+        db_table = 'config'
         managed = True
 
     @classmethod

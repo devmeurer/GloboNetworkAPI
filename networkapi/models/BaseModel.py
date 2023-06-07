@@ -37,11 +37,11 @@ class BaseModel(models.Model):
 
     def __unicode__(self):
         if hasattr(self, 'nome'):
-            return u'{0}'.format(self.nome)
+            return '{0}'.format(self.nome)
         elif hasattr(self, 'id'):
-            return u'{0}'.format(self.id)
+            return '{0}'.format(self.id)
         else:
-            return u'{0}'.format(self.__str__())
+            return '{0}'.format(self.__str__())
 
     def set_authenticated_user(self, user):
         self.authenticated_user = user

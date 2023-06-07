@@ -46,7 +46,7 @@ class AdministrativePermissionGetByIdResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.USER_ADMINISTRATION, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_perm = kwargs.get('id_perm')
@@ -54,7 +54,7 @@ class AdministrativePermissionGetByIdResource(RestResource):
             # Valid Administrative Permission ID
             if not is_valid_int_greater_zero_param(id_perm):
                 self.log.error(
-                    u'The id_perm parameter is not a valid value: %s.', id_perm)
+                    'The id_perm parameter is not a valid value: %s.', id_perm)
                 raise InvalidValueError(None, 'id_perm', id_perm)
 
             # Find Administrative Permission by ID to check if it exist

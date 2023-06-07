@@ -213,7 +213,7 @@ class EquipmentFindResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -225,12 +225,12 @@ class EquipmentFindResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             equipment_map = networkapi_map.get('equipamento')
             if equipment_map is None:
-                msg = u'There is no value to the equipment tag of XML request.'
+                msg = 'There is no value to the equipment tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             logging.debug("1")
@@ -367,7 +367,7 @@ class EquipmentFindResource(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except (EquipamentoError, GrupoError):
             return self.response_error(1)

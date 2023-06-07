@@ -52,7 +52,7 @@ class UserAddResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.USER_ADMINISTRATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -61,11 +61,11 @@ class UserAddResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             user_map = networkapi_map.get('user')
             if user_map is None:
-                return self.response_error(3, u'There is no value to the user tag  of XML request.')
+                return self.response_error(3, 'There is no value to the user tag  of XML request.')
 
             # Get XML data
             username = user_map.get('user')
@@ -77,35 +77,35 @@ class UserAddResource(RestResource):
             # Valid username
             if not is_valid_string_minsize(username, 3) or not is_valid_string_maxsize(username, 45):
                 self.log.error(
-                    u'Parameter user is invalid. Value: %s', username)
+                    'Parameter user is invalid. Value: %s', username)
                 raise InvalidValueError(None, 'user', username)
 
             # Valid pwd
             if not is_valid_string_minsize(password, 3) or not is_valid_string_maxsize(password, 45):
-                self.log.error(u'Parameter password is invalid. Value: ****')
+                self.log.error('Parameter password is invalid. Value: ****')
                 raise InvalidValueError(None, 'password', '****')
 
             # Valid name
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 200):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Valid email
             if not is_valid_string_minsize(email, 3) or not is_valid_string_maxsize(email, 200) or not is_valid_email(email):
-                self.log.error(u'Parameter email is invalid. Value: %s', email)
+                self.log.error('Parameter email is invalid. Value: %s', email)
                 raise InvalidValueError(None, 'email', email)
 
             # Valid LDAP username
             if user_ldap is not None:
                 if not is_valid_string_minsize(user_ldap, 3) or not is_valid_string_maxsize(user_ldap, 45):
                     self.log.error(
-                        u'Parameter user_ldap is invalid. Value: %s', user_ldap)
+                        'Parameter user_ldap is invalid. Value: %s', user_ldap)
                     raise InvalidValueError(None, 'user_ldap', user_ldap)
 
             try:
                 Usuario.get_by_user(username)
                 raise UsuarioNameDuplicatedError(
-                    None, u'Já existe um usuário com o valor user %s.' % username)
+                    None, 'Já existe um usuário com o valor user %s.' % username)
             except UsuarioNotFoundError:
                 pass
 
@@ -122,9 +122,9 @@ class UserAddResource(RestResource):
             try:
                 # save User
                 usr.save()
-            except Exception, e:
-                self.log.error(u'Failed to save the user.')
-                raise UsuarioError(e, u'Failed to save the user.')
+            except Exception as e:
+                self.log.error('Failed to save the user.')
+                raise UsuarioError(e, 'Failed to save the user.')
 
             perm_map = dict()
             perm_map['usuario'] = model_to_dict(

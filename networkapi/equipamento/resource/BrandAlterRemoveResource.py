@@ -52,7 +52,7 @@ class BrandAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.BRAND_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_brand = kwargs.get('id_brand')
@@ -64,11 +64,11 @@ class BrandAlterRemoveResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             brand_map = networkapi_map.get('brand')
             if brand_map is None:
-                return self.response_error(3, u'There is no value to the brand tag  of XML request.')
+                return self.response_error(3, 'There is no value to the brand tag  of XML request.')
 
             # Get XML data
             name = brand_map.get('name')
@@ -76,12 +76,12 @@ class BrandAlterRemoveResource(RestResource):
             # Valid ID Brand
             if not is_valid_int_greater_zero_param(id_brand):
                 self.log.error(
-                    u'The id_brand parameter is not a valid value: %s.', id_brand)
+                    'The id_brand parameter is not a valid value: %s.', id_brand)
                 raise InvalidValueError(None, 'id_brand', id_brand)
 
             # Valid name
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 100):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Find Brand by ID to check if it exist
@@ -93,7 +93,7 @@ class BrandAlterRemoveResource(RestResource):
                     if brand.nome.lower() != name.lower():
                         Marca.get_by_name(name)
                         raise MarcaNameDuplicatedError(
-                            None, u'Marca com o nome %s já cadastrada.' % name)
+                            None, 'Marca com o nome %s já cadastrada.' % name)
                 except MarcaNotFoundError:
                     pass
 
@@ -103,9 +103,9 @@ class BrandAlterRemoveResource(RestResource):
                 try:
                     # update Brand
                     brand.save()
-                except Exception, e:
-                    self.log.error(u'Failed to update the Brand.')
-                    raise EquipamentoError(e, u'Failed to update the Brand.')
+                except Exception as e:
+                    self.log.error('Failed to update the Brand.')
+                    raise EquipamentoError(e, 'Failed to update the Brand.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -136,7 +136,7 @@ class BrandAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.BRAND_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_brand = kwargs.get('id_brand')
@@ -144,7 +144,7 @@ class BrandAlterRemoveResource(RestResource):
             # Valid ID Brand
             if not is_valid_int_greater_zero_param(id_brand):
                 self.log.error(
-                    u'The id_brand parameter is not a valid value: %s.', id_brand)
+                    'The id_brand parameter is not a valid value: %s.', id_brand)
                 raise InvalidValueError(None, 'id_brand', id_brand)
 
             # Find Brand by ID to check if it exist
@@ -156,16 +156,16 @@ class BrandAlterRemoveResource(RestResource):
 
                     if brand.modelo_set.count() > 0:
                         raise MarcaUsedByModeloError(
-                            None, u'A marca %d tem modelo associado.' % brand.id)
+                            None, 'A marca %d tem modelo associado.' % brand.id)
 
                     # remove Brand
                     brand.delete()
 
                 except MarcaUsedByModeloError, e:
                     raise e
-                except Exception, e:
-                    self.log.error(u'Failed to remove the Brand.')
-                    raise EquipamentoError(e, u'Failed to remove the Brand.')
+                except Exception as e:
+                    self.log.error('Failed to remove the Brand.')
+                    raise EquipamentoError(e, 'Failed to remove the Brand.')
 
                 return self.response(dumps_networkapi({}))
 

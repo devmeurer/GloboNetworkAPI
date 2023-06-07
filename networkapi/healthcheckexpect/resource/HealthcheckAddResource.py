@@ -52,12 +52,12 @@ class HealthcheckAddResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             healthcheck_map = networkapi_map.get('healthcheck')
             if healthcheck_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -69,13 +69,13 @@ class HealthcheckAddResource(RestResource):
             # Valid equip_id
             if not is_valid_int_greater_zero_param(environment_id):
                 self.log.error(
-                    u'Parameter environment_id is invalid. Value: %s.', environment_id)
+                    'Parameter environment_id is invalid. Value: %s.', environment_id)
                 raise InvalidValueError(None, 'environment_id', environment_id)
 
             if expect_string is not None:
                 if not is_valid_string_maxsize(expect_string, 50) or not is_valid_string_minsize(expect_string, 2):
                     self.log.error(
-                        u'Parameter expect_string is invalid. Value: %s.', expect_string)
+                        'Parameter expect_string is invalid. Value: %s.', expect_string)
                     raise InvalidValueError(
                         None, 'expect_string', expect_string)
             else:
@@ -84,7 +84,7 @@ class HealthcheckAddResource(RestResource):
             if match_list is not None:
                 if not is_valid_string_maxsize(match_list, 50) or not is_valid_string_minsize(match_list, 2):
                     self.log.error(
-                        u'Parameter match_list is invalid. Value: %s.', match_list)
+                        'Parameter match_list is invalid. Value: %s.', match_list)
                     raise InvalidValueError(None, 'match_list', match_list)
             else:
                 raise InvalidValueError(None, 'expect_string', expect_string)
@@ -118,7 +118,7 @@ class HealthcheckAddResource(RestResource):
         except HealthcheckEqualError, e:
             return self.response_error(313, e.message)
 
-        except HealthcheckExpectError, e:
+        except HealthcheckExpectError as e:
             return self.response_error(1)
 
         except XMLError, e:

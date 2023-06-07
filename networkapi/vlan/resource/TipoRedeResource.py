@@ -86,12 +86,12 @@ class TipoRedeResource(RestResource):
             # (networkapi)
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             # Verifica a existência do node "tipo_rede"
             tipo_rede_map = networkapi_map.get('tipo_rede')
             if tipo_rede_map is None:
-                return self.response_error(3, u'Não existe valor para a tag tipo_rede do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag tipo_rede do XML de requisição.')
 
             # Verifica a existência do valor "fqdn"
             nome = tipo_rede_map.get('nome')
@@ -113,7 +113,7 @@ class TipoRedeResource(RestResource):
         except TipoRedeNameDuplicatedError:
             return self.response_error(253, nome)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except (GrupoError, VlanError):
             return self.response_error(1)
@@ -143,12 +143,12 @@ class TipoRedeResource(RestResource):
             # (networkapi)
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             # Verifica a existência do node "tipo_rede"
             tipo_rede_map = networkapi_map.get('tipo_rede')
             if tipo_rede_map is None:
-                return self.response_error(3, u'Não existe valor para a tag tipo_rede do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag tipo_rede do XML de requisição.')
 
             # Verifica a existência do valor "fqdn"
             nome = tipo_rede_map.get('nome')
@@ -164,7 +164,7 @@ class TipoRedeResource(RestResource):
             # Retorna response vazio em caso de sucesso
             return self.response(dumps_networkapi({}))
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except TipoRedeNotFoundError:
             return self.response_error(111)

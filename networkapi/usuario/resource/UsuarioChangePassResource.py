@@ -53,16 +53,16 @@ class UsuarioChangePassResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.AUTHENTICATE, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             user_map = networkapi_map.get('user')
             if user_map is None:
-                return self.response_error(3, u'Não existe valor para a tag usuario do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag usuario do XML de requisição.')
 
             # Get XML data
             id_user = user_map.get('user_id')
@@ -71,12 +71,12 @@ class UsuarioChangePassResource(RestResource):
             # Valid ID User
             if not is_valid_int_greater_zero_param(id_user):
                 self.log.error(
-                    u'The id_user parameter is not a valid value: %s.', id_user)
+                    'The id_user parameter is not a valid value: %s.', id_user)
                 raise InvalidValueError(None, 'id_user', id_user)
 
             # Valid pwd
             if not is_valid_string_minsize(password, 3) or not is_valid_string_maxsize(password, 45):
-                self.log.error(u'Parameter password is invalid. Value: ****')
+                self.log.error('Parameter password is invalid. Value: ****')
                 raise InvalidValueError(None, 'password', '****')
 
             # Find User by ID to check if it exist
@@ -90,9 +90,9 @@ class UsuarioChangePassResource(RestResource):
                 try:
                     # update User
                     usr.save()
-                except Exception, e:
-                    self.log.error(u'Failed to update the user.')
-                    raise UsuarioError(e, u'Failed to update the user.')
+                except Exception as e:
+                    self.log.error('Failed to update the user.')
+                    raise UsuarioError(e, 'Failed to update the user.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -106,7 +106,7 @@ class UsuarioChangePassResource(RestResource):
             return self.response_error(177, id_user)
 
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
         except (UsuarioError, GrupoError):
             return self.response_error(1)

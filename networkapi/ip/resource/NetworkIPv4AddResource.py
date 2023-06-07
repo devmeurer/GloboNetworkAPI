@@ -54,7 +54,7 @@ class NetworkIPv4AddResource(RestResource):
 
         if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
             self.log.error(
-                u'User does not have permission to perform the operation.')
+                'User does not have permission to perform the operation.')
             return self.not_authorized()
 
         xml_map, _ = loads(request.raw_post_data)
@@ -96,7 +96,7 @@ class NetworkIPv4AddResource(RestResource):
         # User permission
         if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
             self.log.error(
-                u'User does not have permission to perform the operation.')
+                'User does not have permission to perform the operation.')
             return self.not_authorized()
 
         # Business Validations
@@ -107,12 +107,12 @@ class NetworkIPv4AddResource(RestResource):
         # XML data format
         networkapi_map = xml_map.get('networkapi')
         if networkapi_map is None:
-            msg = u'There is no value to the networkapi tag of XML request.'
+            msg = 'There is no value to the networkapi tag of XML request.'
             self.log.error(msg)
             return self.response_error(3, msg)
         vlan_map = networkapi_map.get('vlan')
         if vlan_map is None:
-            msg = u'There is no value to the vlan tag of XML request.'
+            msg = 'There is no value to the vlan tag of XML request.'
             self.log.error(msg)
             return self.response_error(3, msg)
 
@@ -125,7 +125,7 @@ class NetworkIPv4AddResource(RestResource):
         # Valid num_hosts
         if not is_valid_int_greater_zero_param(num_hosts) or int(num_hosts) > MAX_IPV4_HOSTS:
             self.log.error(
-                u'Parameter num_hosts is invalid. Value: %s.', num_hosts)
+                'Parameter num_hosts is invalid. Value: %s.', num_hosts)
             return self.response_error(269, 'num_hosts', num_hosts)
 
         num_hosts = int(num_hosts)
@@ -134,7 +134,7 @@ class NetworkIPv4AddResource(RestResource):
 
         num_hosts += conf.IPv4_MIN + conf.IPv4_MAX
         prefix = get_prefix_IPV4(num_hosts)
-        self.log.info(u'Prefix for %s hosts: %s' % (num_hosts, prefix))
+        self.log.info('Prefix for %s hosts: %s' % (num_hosts, prefix))
 
         return self.network_ipv4_add(user, vlan_id, network_type, environment_vip, prefix)
 
@@ -235,13 +235,13 @@ class NetworkIPv4AddResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except NetworkTypeNotFoundError, e:
-            self.log.error(u'The network_type parameter does not exist.')
+            self.log.error('The network_type parameter does not exist.')
             return self.response_error(111)
         except VlanNotFoundError, e:
-            self.log.error(u'Vlan not found')
+            self.log.error('Vlan not found')
             return self.response_error(116)
         except XMLError, e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)
         except GrupoError, e:
             return self.response_error(1)

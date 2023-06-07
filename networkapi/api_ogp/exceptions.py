@@ -14,7 +14,7 @@ class ObjectGroupPermissionNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'Object Group Permission %s do not exist.' % (msg)
+        self.detail = 'Object Group Permission %s do not exist.' % (msg)
 
 
 class ObjectGroupPermissionGeneralError(APIException):
@@ -28,7 +28,7 @@ class ObjectGroupPermissionGeneralNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'Object Group Permission General %s do not exist.' % (
+        self.detail = 'Object Group Permission General %s do not exist.' % (
             msg)
 
 
@@ -43,4 +43,4 @@ class ObjectTypeNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'Object Type %s do not exist.' % (msg)
+        self.detail = 'Object Type %s do not exist.' % (msg)

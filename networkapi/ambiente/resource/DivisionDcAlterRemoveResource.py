@@ -53,7 +53,7 @@ class DivisionDcAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_divisiondc = kwargs.get('id_divisiondc')
@@ -64,11 +64,11 @@ class DivisionDcAlterRemoveResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             division_dc_map = networkapi_map.get('division_dc')
             if division_dc_map is None:
-                return self.response_error(3, u'There is no value to the division_dc tag  of XML request.')
+                return self.response_error(3, 'There is no value to the division_dc tag  of XML request.')
 
             # Get XML data
             name = division_dc_map.get('name')
@@ -76,12 +76,12 @@ class DivisionDcAlterRemoveResource(RestResource):
             # Valid ID Division Dc
             if not is_valid_int_greater_zero_param(id_divisiondc):
                 self.log.error(
-                    u'The id_divisiondc parameter is not a valid value: %s.', id_divisiondc)
+                    'The id_divisiondc parameter is not a valid value: %s.', id_divisiondc)
                 raise InvalidValueError(None, 'id_divisiondc', id_divisiondc)
 
             # Valid name
             if not is_valid_string_minsize(name, 2) or not is_valid_string_maxsize(name, 80):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Find Division Dc by ID to check if it exist
@@ -93,7 +93,7 @@ class DivisionDcAlterRemoveResource(RestResource):
                     if division_dc.nome.lower() != name.lower():
                         DivisaoDc.get_by_name(name)
                         raise DivisaoDcNameDuplicatedError(
-                            None, u'Já existe um Divisão Dc com o valor name %s.' % name)
+                            None, 'Já existe um Divisão Dc com o valor name %s.' % name)
                 except DivisaoDcNotFoundError:
                     pass
 
@@ -103,10 +103,10 @@ class DivisionDcAlterRemoveResource(RestResource):
                 try:
                     # update Division Dc
                     division_dc.save()
-                except Exception, e:
-                    self.log.error(u'Failed to update the Division Dc.')
+                except Exception as e:
+                    self.log.error('Failed to update the Division Dc.')
                     raise AmbienteError(
-                        e, u'Failed to update the Division Dc.')
+                        e, 'Failed to update the Division Dc.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -137,7 +137,7 @@ class DivisionDcAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_divisiondc = kwargs.get('id_divisiondc')
@@ -145,7 +145,7 @@ class DivisionDcAlterRemoveResource(RestResource):
             # Valid ID Division Dc
             if not is_valid_int_greater_zero_param(id_divisiondc):
                 self.log.error(
-                    u'The id_divisiondc parameter is not a valid value: %s.', id_divisiondc)
+                    'The id_divisiondc parameter is not a valid value: %s.', id_divisiondc)
                 raise InvalidValueError(None, 'id_divisiondc', id_divisiondc)
 
             # Find Division Dc by ID to check if it exist
@@ -157,17 +157,17 @@ class DivisionDcAlterRemoveResource(RestResource):
 
                     if division_dc.ambiente_set.count() > 0:
                         raise DivisaoDcUsedByEnvironmentError(
-                            None, u'A Divisão DC %s tem ambiente associado.' % division_dc.id)
+                            None, 'A Divisão DC %s tem ambiente associado.' % division_dc.id)
 
                     # remove Division Dc
                     division_dc.delete()
 
                 except DivisaoDcUsedByEnvironmentError, e:
                     raise e
-                except Exception, e:
-                    self.log.error(u'Failed to remove the Division Dc.')
+                except Exception as e:
+                    self.log.error('Failed to remove the Division Dc.')
                     raise AmbienteError(
-                        e, u'Failed to remove the Division Dc.')
+                        e, 'Failed to remove the Division Dc.')
 
                 return self.response(dumps_networkapi({}))
 

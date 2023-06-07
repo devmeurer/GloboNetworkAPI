@@ -57,7 +57,7 @@ def remove_link(interfaces):
             interface_list.append(interface_obj)
         except ObjectDoesNotExistException, e:
             raise ObjectDoesNotExistException(e.detail)
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
     try:
@@ -71,7 +71,7 @@ def remove_link(interfaces):
         raise ValidationAPIException(e)
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
 
@@ -86,7 +86,7 @@ def link_interface(interfaces):
             interface_list.append(interface_dict)
         except ObjectDoesNotExistException, e:
             raise ObjectDoesNotExistException(e.detail)
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
     try:
@@ -100,7 +100,7 @@ def link_interface(interfaces):
         raise ValidationAPIException(e)
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
 
@@ -113,7 +113,7 @@ def get_interfaces_environments_by_ids(ids):
     except FieldError as e:
         raise ValidationAPIException(str(e))
     except ObjectDoesNotExistException, e:
-        raise ObjectDoesNotExistException(u'There is no interface with id = %s. %s' % (id, e))
+        raise ObjectDoesNotExistException('There is no interface with id = %s. %s' % (id, e))
     except Exception as e:
         raise NetworkAPIException(str(e))
     else:
@@ -150,7 +150,7 @@ def delete_interface_environments(int_env_id):
         raise NetworkAPIException(e.detail)
     except models.InterfaceUsedByOtherInterfaceError, e:
         raise NetworkAPIException(e)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
 
@@ -167,7 +167,7 @@ def create_interface_environments(interface_environment):
         raise ValidationAPIException(e)
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return interface_envs_obj
@@ -198,7 +198,7 @@ def get_interface_type_by_ids(types_ids):
     except FieldError as e:
         raise ValidationAPIException(str(e))
     except ObjectDoesNotExistException, e:
-        raise ObjectDoesNotExistException(u'There is no interface with id = %s. %s' % (id, e))
+        raise ObjectDoesNotExistException('There is no interface with id = %s. %s' % (id, e))
     except Exception as e:
         raise NetworkAPIException(str(e))
     else:
@@ -216,7 +216,7 @@ def create_interface(interface):
         raise ValidationAPIException(e)
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return interface_obj
@@ -235,7 +235,7 @@ def update_interface(interface):
         raise ValidationAPIException(e)
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return interface_obj
@@ -255,7 +255,7 @@ def delete_interface(interface):
         raise NetworkAPIException(e.detail)
     except models.InterfaceUsedByOtherInterfaceError, e:
         raise NetworkAPIException(e)
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
 
@@ -281,8 +281,8 @@ def get_interface_by_ids(interface_ids):
             interfaces_obj.append(interface)
     except FieldError as e:
         raise ValidationAPIException(str(e))
-    except ObjectDoesNotExist, e:
-        raise Exception(u'There is no interface with id = %s. %s' % (id, e))
+    except ObjectDoesNotExist as e:
+        raise Exception('There is no interface with id = %s. %s' % (id, e))
     except Exception as e:
         raise NetworkAPIException(str(e))
     else:
@@ -520,7 +520,7 @@ def _load_template_file(equipment_id, template_type):
         log.error('Error opening template file for read: %s. Equip: %s' %
                   (filename_in, equipment_id))
         raise e
-    except Exception, e:
+    except Exception as e:
         log.error('Syntax error when parsing template: %s ' % e)
         raise e
         # TemplateSyntaxError
@@ -710,7 +710,7 @@ def verificar_vlan_range(amb, vlans):
             if amb.min_num_vlan_1 and not (amb.min_num_vlan_1 <= i <= amb.max_num_vlan_1) and not (
                     amb.min_num_vlan_2 <= i <= amb.max_num_vlan_2):
                 raise exceptions.InterfaceException(
-                    u'Numero de vlan fora do range '
+                    'Numero de vlan fora do range '
                     'definido para o ambiente')
 
 

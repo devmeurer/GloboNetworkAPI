@@ -73,7 +73,7 @@ class RequisicaoVipsError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -293,7 +293,7 @@ class OptionVip(BaseModel):
     log = logging.getLogger('OptionVIP')
 
     class Meta(BaseModel.Meta):
-        db_table = u'opcoesvip'
+        db_table = 'opcoesvip'
         managed = True
 
     def valid_option_vip(self, optionvip_map):
@@ -311,13 +311,13 @@ class OptionVip(BaseModel):
         # tipo_opcao can NOT be greater than 50
         if not is_valid_string_maxsize(tipo_opcao, 50, True) or not is_valid_option(tipo_opcao):
             self.log.error(
-                u'Parameter tipo_opcao is invalid. Value: %s.', tipo_opcao)
+                'Parameter tipo_opcao is invalid. Value: %s.', tipo_opcao)
             raise InvalidValueError(None, 'tipo_opcao', tipo_opcao)
 
         # nome_opcao_txt can NOT be greater than 50
         if not is_valid_string_maxsize(nome_opcao_txt, 50, True) or not is_valid_option(nome_opcao_txt):
             self.log.error(
-                u'Parameter nome_opcao_txt is invalid. Value: %s.', nome_opcao_txt)
+                'Parameter nome_opcao_txt is invalid. Value: %s.', nome_opcao_txt)
             raise InvalidValueError(None, 'nome_opcao_txt', nome_opcao_txt)
 
         # set variables
@@ -336,16 +336,16 @@ class OptionVip(BaseModel):
         """
         try:
             return OptionVip.objects.filter(id=id).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise OptionVipNotFoundError(
-                e, u'Dont there is a option vip by pk = %s.' % id)
-        except OperationalError, e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+                e, 'Dont there is a option vip by pk = %s.' % id)
+        except OperationalError as e:
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            cls.log.error(u'Failure to search the option vip.')
-            raise OptionVipError(e, u'Failure to search the option vip.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            cls.log.error('Failure to search the option vip.')
+            raise OptionVipError(e, 'Failure to search the option vip.')
 
     @classmethod
     def get_all(cls):
@@ -357,9 +357,9 @@ class OptionVip(BaseModel):
         """
         try:
             return OptionVip.objects.all()
-        except Exception, e:
-            cls.log.error(u'Failure to list all Option Vip.')
-            raise OptionVipError(e, u'Failure to list all Option Vip.')
+        except Exception as e:
+            cls.log.error('Failure to list all Option Vip.')
+            raise OptionVipError(e, 'Failure to list all Option Vip.')
 
     @classmethod
     def get_all_timeout(cls, id_environment_vip):
@@ -378,9 +378,9 @@ class OptionVip(BaseModel):
 
             return ovips
 
-        except Exception, e:
-            cls.log.error(u'Failure to list all Option Vip.')
-            raise OptionVipError(e, u'Failure to list all Option Vip.')
+        except Exception as e:
+            cls.log.error('Failure to list all Option Vip.')
+            raise OptionVipError(e, 'Failure to list all Option Vip.')
 
     @classmethod
     def get_all_balanceamento(cls, id_environment_vip):
@@ -399,9 +399,9 @@ class OptionVip(BaseModel):
 
             return ovips
 
-        except Exception, e:
-            cls.log.error(u'Failure to list all Option Vip.')
-            raise OptionVipError(e, u'Failure to list all Option Vip.')
+        except Exception as e:
+            cls.log.error('Failure to list all Option Vip.')
+            raise OptionVipError(e, 'Failure to list all Option Vip.')
 
     @classmethod
     def get_all_healthcheck(cls, id_environment_vip):
@@ -420,10 +420,10 @@ class OptionVip(BaseModel):
 
             return ovips
 
-        except Exception, e:
-            cls.log.error(u'Failure to list all Option Vip Healthcheck.')
+        except Exception as e:
+            cls.log.error('Failure to list all Option Vip Healthcheck.')
             raise OptionVipError(
-                e, u'Failure to list all Option Vip Healthcheck.')
+                e, 'Failure to list all Option Vip Healthcheck.')
 
     @classmethod
     def get_all_trafficreturn(cls, id_environment_vip):
@@ -448,10 +448,10 @@ class OptionVip(BaseModel):
 
             return ovips
 
-        except Exception, e:
-            cls.log.error(u'Failure to list all Option Vip Traffic Return.')
+        except Exception as e:
+            cls.log.error('Failure to list all Option Vip Traffic Return.')
             raise OptionVipError(
-                e, u'Failure to list all Option Vip Traffic Return.')
+                e, 'Failure to list all Option Vip Traffic Return.')
 
     @classmethod
     def get_all_persistencia(cls, id_environment_vip):
@@ -470,9 +470,9 @@ class OptionVip(BaseModel):
 
             return ovips
 
-        except Exception, e:
-            cls.log.error(u'Failure to list all Option Vip.')
-            raise OptionVipError(e, u'Failure to list all Option Vip.')
+        except Exception as e:
+            cls.log.error('Failure to list all Option Vip.')
+            raise OptionVipError(e, 'Failure to list all Option Vip.')
 
     @classmethod
     def get_all_grupo_cache(cls, id_environment_vip):
@@ -491,9 +491,9 @@ class OptionVip(BaseModel):
 
             return ovips
 
-        except Exception, e:
-            cls.log.error(u'Failure to list all Option Vip.')
-            raise OptionVipError(e, u'Failure to list all Option Vip.')
+        except Exception as e:
+            cls.log.error('Failure to list all Option Vip.')
+            raise OptionVipError(e, 'Failure to list all Option Vip.')
 
     def delete(self, authenticated_user):
         """Override Django's method to remove option vip
@@ -527,20 +527,22 @@ class RequisicaoVips(BaseModel):
         'ip.Ip',
         db_column='ips_id_ip',
         blank=True,
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
 
     ipv6 = models.ForeignKey(
         'ip.Ipv6',
         db_column='ipsv6_id_ipv6',
         blank=True,
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
 
     trafficreturn = models.ForeignKey(
         'requisicaovips.OptionVip',
         db_column='id_traffic_return',
-        default=12, blank=True, null=True
+        default=12, blank=True, null=True, on_delete=models.DO_NOTHING
     )
 
     l7_filter = models.TextField(
@@ -575,7 +577,8 @@ class RequisicaoVips(BaseModel):
         'healthcheckexpect.HealthcheckExpect',
         null=True,
         db_column='id_healthcheck_expect',
-        blank=True
+        blank=True,
+        on_delete=models.DO_NOTHING
     )
 
     rule = models.ForeignKey(
@@ -584,7 +587,8 @@ class RequisicaoVips(BaseModel):
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='rule'
+        related_name='rule',
+        
     )
 
     rule_applied = models.ForeignKey(
@@ -608,7 +612,7 @@ class RequisicaoVips(BaseModel):
     log = logging.getLogger('RequisicaoVips')
 
     class Meta(BaseModel.Meta):
-        db_table = u'requisicao_vips'
+        db_table = 'requisicao_vips'
         managed = True
 
     @cached_property
@@ -628,16 +632,16 @@ class RequisicaoVips(BaseModel):
         """
         try:
             return RequisicaoVips.objects.get(id=id)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise RequisicaoVipsNotFoundError(
-                e, u'Dont there is a request of vips by pk = %s.' % id)
-        except OperationalError, e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+                e, 'Dont there is a request of vips by pk = %s.' % id)
+        except OperationalError as e:
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            cls.log.error(u'Failure to search the request vip.')
-            raise RequisicaoVipsError(e, u'Failure to search the request vip.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            cls.log.error('Failure to search the request vip.')
+            raise RequisicaoVipsError(e, 'Failure to search the request vip.')
 
     @classmethod
     def remove(cls, authenticated_user, vip_id):
@@ -655,23 +659,23 @@ class RequisicaoVips(BaseModel):
             try:
                 dsrl3 = DsrL3_to_Vip.get_by_vip_id(vip_id)
                 dsrl3.delete(authenticated_user)
-            except ObjectDoesNotExist, e:
+            except ObjectDoesNotExist as e:
                 pass
             except RequisicaoVipsMissingDSRL3idError, e:
                 cls.log.error(
-                    u'Requisao Vip nao possui id DSRL3 correspondente cadastrado no banco')
+                    'Requisao Vip nao possui id DSRL3 correspondente cadastrado no banco')
                 raise RequisicaoVipsMissingDSRL3idError(
                     e, 'Requisao Vip com id %s possui DSRl3 id não foi encontrado' % vip_id)
 
             vip.delete()
 
         except RequisicaoVipsNotFoundError, e:
-            cls.log.error(u'Requisao Vip nao encontrada')
+            cls.log.error('Requisao Vip nao encontrada')
             raise RequisicaoVipsNotFoundError(
                 e, 'Requisao Vip com id %s nao encontrada' % vip_id)
-        except Exception, e:
-            cls.log.error(u'Falha ao remover requisicao VIP.')
-            raise RequisicaoVipsError(e, u'Falha ao remover requisicao VIP.')
+        except Exception as e:
+            cls.log.error('Falha ao remover requisicao VIP.')
+            raise RequisicaoVipsError(e, 'Falha ao remover requisicao VIP.')
 
     @classmethod
     def get_all(cls):
@@ -683,9 +687,9 @@ class RequisicaoVips(BaseModel):
         """
         try:
             return RequisicaoVips.objects.all()
-        except Exception, e:
-            cls.log.error(u'Failure to list all Request Vip.')
-            raise RequisicaoVipsError(e, u'Failure to list all Request Vip.')
+        except Exception as e:
+            cls.log.error('Failure to list all Request Vip.')
+            raise RequisicaoVipsError(e, 'Failure to list all Request Vip.')
 
     @classmethod
     def get_by_healthcheck_expect(cls, healthcheck_exp):
@@ -697,11 +701,11 @@ class RequisicaoVips(BaseModel):
         """
         try:
             return RequisicaoVips.objects.filter(healthcheck_expect__id=healthcheck_exp)
-        except Exception, e:
+        except Exception as e:
             cls.log.error(
-                u'Failure to list Request Vip with healthcheck expect.')
+                'Failure to list Request Vip with healthcheck expect.')
             raise RequisicaoVipsError(
-                e, u'Failure to list Request Vip with healthcheck expect.')
+                e, 'Failure to list Request Vip with healthcheck expect.')
 
     @classmethod
     def get_by_ipv4_id(cls, id_ipv4):
@@ -713,10 +717,10 @@ class RequisicaoVips(BaseModel):
         """
         try:
             return RequisicaoVips.objects.filter(ip__id=id_ipv4)
-        except Exception, e:
-            cls.log.error(u'Failure to list Request Vip by ipv4.')
+        except Exception as e:
+            cls.log.error('Failure to list Request Vip by ipv4.')
             raise RequisicaoVipsError(
-                e, u'Failure to list Request Vip by ipv4.')
+                e, 'Failure to list Request Vip by ipv4.')
 
     @classmethod
     def get_by_ipv6_id(cls, id_ipv6):
@@ -728,10 +732,10 @@ class RequisicaoVips(BaseModel):
         """
         try:
             return RequisicaoVips.objects.filter(ipv6__id=id_ipv6)
-        except Exception, e:
-            cls.log.error(u'Failure to list Request Vip by ipv4.')
+        except Exception as e:
+            cls.log.error('Failure to list Request Vip by ipv4.')
             raise RequisicaoVipsError(
-                e, u'Failure to list Request Vip by ipv4.')
+                e, 'Failure to list Request Vip by ipv4.')
 
     @classmethod
     def is_valid_values_reals_priority(cls, reals_priority_map):
@@ -847,17 +851,17 @@ class RequisicaoVips(BaseModel):
 
         finalidade = data.get('finalidade')
         if not is_valid_string_minsize(finalidade, 3) or not is_valid_string_maxsize(finalidade, 50):
-            log.error(u'Finality value is invalid: %s.', finalidade)
+            log.error('Finality value is invalid: %s.', finalidade)
             raise InvalidValueError(None, 'finalidade', finalidade)
 
         cliente = data.get('cliente')
         if not is_valid_string_minsize(cliente, 3) or not is_valid_string_maxsize(cliente, 50):
-            log.error(u'Client value is invalid: %s.', cliente)
+            log.error('Client value is invalid: %s.', cliente)
             raise InvalidValueError(None, 'cliente', cliente)
 
         ambiente = data.get('ambiente')
         if not is_valid_string_minsize(ambiente, 3) or not is_valid_string_maxsize(ambiente, 50):
-            log.error(u'Environment value is invalid: %s.', ambiente)
+            log.error('Environment value is invalid: %s.', ambiente)
             raise InvalidValueError(None, 'ambiente', ambiente)
 
         try:
@@ -867,7 +871,7 @@ class RequisicaoVips(BaseModel):
             self.add_variable('ambiente', ambiente)
         except EnvironmentVipNotFoundError:
             raise EnvironmentVipNotFoundError(
-                None, u'Não existe ambiente vip para valores: finalidade %s, cliente %s e ambiente_p44 %s.' % (
+                None, 'Não existe ambiente vip para valores: finalidade %s, cliente %s e ambiente_p44 %s.' % (
                     finalidade, cliente, ambiente))
 
         timeout = data.get('timeout')
@@ -890,30 +894,30 @@ class RequisicaoVips(BaseModel):
 
         if timeout not in timeouts:
             log.error(
-                u'The timeout not in OptionVip, invalid value: %s.', timeout)
+                'The timeout not in OptionVip, invalid value: %s.', timeout)
             raise InvalidTimeoutValueError(
                 None, 'timeout com valor inválido: %s.' % timeout)
         self.add_variable('timeout', timeout)
 
         if grupo_cache not in grupos_cache:
             log.error(
-                u'The grupo_cache is not in OptionVip, invalid value: %s.', grupo_cache)
+                'The grupo_cache is not in OptionVip, invalid value: %s.', grupo_cache)
             raise InvalidCacheValueError(
-                None, u'grupo_cache com valor inválido: %s.' % grupo_cache)
+                None, 'grupo_cache com valor inválido: %s.' % grupo_cache)
         self.add_variable('cache', grupo_cache)
 
         if persistencia not in persistencias:
             log.error(
-                u'The persistencia is not in OptionVip, invalid value: %s.', persistencia)
+                'The persistencia is not in OptionVip, invalid value: %s.', persistencia)
             raise InvalidPersistenciaValueError(
-                None, u'persistencia com valor inválido %s.' % persistencia)
+                None, 'persistencia com valor inválido %s.' % persistencia)
         self.add_variable('persistencia', persistencia)
 
         if trafficint not in traffics:
             log.error(
-                u'The traffic return is not in OptionVip, invalid value: %s.', traffic)
+                'The traffic return is not in OptionVip, invalid value: %s.', traffic)
             raise InvalidTrafficReturnValueError(
-                None, u'traffic return com valor inválido %s.' % traffic)
+                None, 'traffic return com valor inválido %s.' % traffic)
         self.add_variable('trafficreturn', traffic)
 
         priority_pools = []
@@ -1016,21 +1020,21 @@ class RequisicaoVips(BaseModel):
         healthcheck_type = variables_map.get('healthcheck_type')
         if self.healthcheck_expect is not None and healthcheck_type != 'HTTP':
             raise InvalidHealthcheckTypeValueError(
-                None, u'Valor do healthcheck_type inconsistente com o valor do healthcheck_expect.')
+                None, 'Valor do healthcheck_type inconsistente com o valor do healthcheck_expect.')
 
         finalidade = variables_map.get('finalidade')
         if not is_valid_string_minsize(finalidade, 3) or not is_valid_string_maxsize(finalidade, 50):
-            log.error(u'Finality value is invalid: %s.', finalidade)
+            log.error('Finality value is invalid: %s.', finalidade)
             raise InvalidValueError(None, 'finalidade', finalidade)
 
         cliente = variables_map.get('cliente')
         if not is_valid_string_minsize(cliente, 3) or not is_valid_string_maxsize(cliente, 50):
-            log.error(u'Client value is invalid: %s.', cliente)
+            log.error('Client value is invalid: %s.', cliente)
             raise InvalidValueError(None, 'cliente', cliente)
 
         ambiente = variables_map.get('ambiente')
         if not is_valid_string_minsize(ambiente, 3) or not is_valid_string_maxsize(ambiente, 50):
-            log.error(u'Environment value is invalid: %s.', ambiente)
+            log.error('Environment value is invalid: %s.', ambiente)
             raise InvalidValueError(None, 'ambiente', ambiente)
 
         try:
@@ -1040,7 +1044,7 @@ class RequisicaoVips(BaseModel):
             self.add_variable('ambiente', ambiente)
         except EnvironmentVipNotFoundError:
             raise EnvironmentVipNotFoundError(
-                None, u'Não existe ambiente vip para valores: finalidade %s, cliente %s e ambiente_p44 %s.' % (
+                None, 'Não existe ambiente vip para valores: finalidade %s, cliente %s e ambiente_p44 %s.' % (
                     finalidade, cliente, ambiente))
 
         balanceamento = variables_map.get('metodo_bal')
@@ -1059,28 +1063,28 @@ class RequisicaoVips(BaseModel):
 
         if timeout not in timeouts:
             log.error(
-                u'The timeout not in OptionVip, invalid value: %s.', timeout)
+                'The timeout not in OptionVip, invalid value: %s.', timeout)
             raise InvalidTimeoutValueError(
                 None, 'timeout com valor inválido: %s.' % timeout)
         self.add_variable('timeout', timeout)
 
         if balanceamento not in balanceamentos:
             log.error(
-                u'The method_bal not in OptionVip, invalid value: %s.', balanceamento)
+                'The method_bal not in OptionVip, invalid value: %s.', balanceamento)
             raise InvalidMetodoBalValueError(
                 None, 'metodo_bal com valor inválido: %s.' % balanceamento)
         self.add_variable('metodo_bal', balanceamento)
 
         if grupo_cache not in grupos_cache:
             log.error(
-                u'The grupo_cache not in OptionVip, invalid value: %s.', grupo_cache)
+                'The grupo_cache not in OptionVip, invalid value: %s.', grupo_cache)
             raise InvalidCacheValueError(
                 None, 'grupo_cache com valor inválido: %s.' % grupo_cache)
         self.add_variable('cache', grupo_cache)
 
         if persistencia not in persistencias:
             log.error(
-                u'The persistencia not in OptionVip, invalid value: %s.', persistencia)
+                'The persistencia not in OptionVip, invalid value: %s.', persistencia)
             raise InvalidPersistenciaValueError(
                 None, 'persistencia com valor inválido %s.' % persistencia)
         self.add_variable('persistencia', persistencia)
@@ -1093,7 +1097,7 @@ class RequisicaoVips(BaseModel):
         # healthcheck_type
         if not healthcheck_is_valid:
             raise InvalidHealthcheckTypeValueError(
-                None, u'Healthcheck_type com valor inválido: %s.' % healthcheck_type)
+                None, 'Healthcheck_type com valor inválido: %s.' % healthcheck_type)
         self.add_variable('healthcheck_type', healthcheck_type)
 
         # healthcheck
@@ -1101,7 +1105,7 @@ class RequisicaoVips(BaseModel):
         if healthcheck is not None:
             if healthcheck_type != 'HTTP':
                 raise InvalidHealthcheckValueError(
-                    None, u'Valor do healthcheck inconsistente com o valor do healthcheck_type.')
+                    None, 'Valor do healthcheck inconsistente com o valor do healthcheck_type.')
             self.add_variable('healthcheck', healthcheck)
 
         # Host
@@ -1116,7 +1120,7 @@ class RequisicaoVips(BaseModel):
             self.add_variable('maxcon', maxcon)
         except (TypeError, ValueError):
             raise InvalidMaxConValueError(
-                None, u'Maxcon com valor inválido: %s.' % maxcon)
+                None, 'Maxcon com valor inválido: %s.' % maxcon)
 
         # dsr
         dsr = variables_map.get('dsr')
@@ -1138,7 +1142,7 @@ class RequisicaoVips(BaseModel):
         if finalidade == 'Producao' and cliente == 'Usuario WEB' and ambiente == 'Streaming FE' and dsr == 'dsr' and bal_ativo is not None:
             if bal_ativo not in ('B11A', 'B12'):
                 raise InvalidBalAtivoValueError(
-                    None, u'Bal_ativo com valor inválido: %s.' % bal_ativo)
+                    None, 'Bal_ativo com valor inválido: %s.' % bal_ativo)
         if bal_ativo is not None:
             self.add_variable('bal_ativo', bal_ativo)
 
@@ -1279,7 +1283,7 @@ class RequisicaoVips(BaseModel):
                     if vip.vip_criado:
                         raise RequisicaoVipsAlreadyCreatedError(
                             None,
-                            u'O IP da requisição de VIP %d não pode ser alterado porque o VIP já está criado.' % vip.id)
+                            'O IP da requisição de VIP %d não pode ser alterado porque o VIP já está criado.' % vip.id)
 
                     vip.ip = Ip().get_by_pk(ip_id)
             except KeyError:
@@ -1295,15 +1299,15 @@ class RequisicaoVips(BaseModel):
         ambiente = variables_map.get('ambiente')
 
         if not is_valid_string_minsize(finalidade, 3) or not is_valid_string_maxsize(finalidade, 50):
-            cls.log.error(u'Finality value is invalid: %s.', finalidade)
+            cls.log.error('Finality value is invalid: %s.', finalidade)
             raise InvalidValueError(None, 'finalidade', finalidade)
 
         if not is_valid_string_minsize(cliente, 3) or not is_valid_string_maxsize(cliente, 50):
-            cls.log.error(u'Client value is invalid: %s.', cliente)
+            cls.log.error('Client value is invalid: %s.', cliente)
             raise InvalidValueError(None, 'cliente', cliente)
 
         if not is_valid_string_minsize(ambiente, 3) or not is_valid_string_maxsize(ambiente, 50):
-            cls.log.error(u'Environment value is invalid: %s.', ambiente)
+            cls.log.error('Environment value is invalid: %s.', ambiente)
             raise InvalidValueError(None, 'ambiente', ambiente)
 
         # get environmentVip dor validation dynamic heathcheck
@@ -1375,10 +1379,10 @@ class RequisicaoVips(BaseModel):
 
         try:
             vip.save(authenticated_user)
-        except Exception, e:
-            cls.log.error(u'Falha ao atualizar a requisição de vip.')
+        except Exception as e:
+            cls.log.error('Falha ao atualizar a requisição de vip.')
             raise RequisicaoVipsError(
-                e, u'Falha ao atualizar a requisição de vip.')
+                e, 'Falha ao atualizar a requisição de vip.')
 
     def valida(self, authenticated_user, validado):
         """Valida uma Requisicao VIP.
@@ -1392,9 +1396,9 @@ class RequisicaoVips(BaseModel):
 
             self.save()
         except RequisicaoVipsError, e:
-            self.log.error(u'Falha ao validar a requisição de vip.')
+            self.log.error('Falha ao validar a requisição de vip.')
             raise RequisicaoVipsError(
-                e, u'Falha ao validar a requisição de vip.')
+                e, 'Falha ao validar a requisição de vip.')
 
     def create(self, authenticated_user, variables_map):
         """ Insere uma nova requisição de VIP.
@@ -1478,10 +1482,10 @@ class RequisicaoVips(BaseModel):
 
         try:
             self.save()
-        except Exception, e:
-            self.log.error(u'Falha ao inserir a requisição de vip.')
+        except Exception as e:
+            self.log.error('Falha ao inserir a requisição de vip.')
             raise RequisicaoVipsError(
-                e, u'Falha ao inserir a requisição de vip.')
+                e, 'Falha ao inserir a requisição de vip.')
 
     def valid_values_ports(self, vip_map):
         """Validation when the values ​​of portas_servicos
@@ -1511,7 +1515,7 @@ class RequisicaoVips(BaseModel):
                         port = port_arr[0] + ':' + port_arr[0]
                     if not is_valid_regex(port, '[0-9]+:[0-9]+'):
                         self.log.error(
-                            u'The port parameter is not a valid value: %s.', port)
+                            'The port parameter is not a valid value: %s.', port)
                         raise InvalidValueError(None, 'port', port)
 
                     new_port_map.append(port)
@@ -1519,11 +1523,11 @@ class RequisicaoVips(BaseModel):
                 vip_map['portas_servicos'] = {'porta': new_port_map}
             else:
                 self.log.error(
-                    u'The ports parameter is not a valid value: %s.', port_map)
+                    'The ports parameter is not a valid value: %s.', port_map)
                 return vip_map, (138, port_map)
         else:
             self.log.error(
-                u'The ports parameter is not a valid value: %s.', portas_servicos_map)
+                'The ports parameter is not a valid value: %s.', portas_servicos_map)
             raise InvalidValueError(None, 'ports', portas_servicos_map)
 
         return vip_map, None
@@ -1551,14 +1555,14 @@ class RequisicaoVips(BaseModel):
                 # list
                 if len(vip_map.get('reals').get('real')) != len(vip_map.get('reals_prioritys').get('reals_priority')):
                     self.log.error(
-                        u'List the Reals_priority  is higher or lower than list the real_server.')
+                        'List the Reals_priority  is higher or lower than list the real_server.')
                     return vip_map, 272
 
                 # Valid values ​​of reals_priority
                 for reals_priority in reals_priority_map:
                     if not is_valid_int_greater_equal_zero_param(reals_priority):
                         self.log.error(
-                            u'The reals_priority parameter is not a valid value: %s.', reals_priority)
+                            'The reals_priority parameter is not a valid value: %s.', reals_priority)
                         raise InvalidValueError(
                             None, 'reals_priority', reals_priority)
 
@@ -1568,7 +1572,7 @@ class RequisicaoVips(BaseModel):
 
         else:
             self.log.error(
-                u'The reals_priority parameter is not a valid value: %s.', reals_prioritys_map)
+                'The reals_priority parameter is not a valid value: %s.', reals_prioritys_map)
             raise InvalidValueError(
                 None, 'reals_priority', reals_prioritys_map)
 
@@ -1601,14 +1605,14 @@ class RequisicaoVips(BaseModel):
                     # _weight list
                     if len(vip_map.get('reals').get('real')) != len(vip_map.get('reals_weights').get('reals_weight')):
                         self.log.error(
-                            u'List of reals_weight is higher or lower than list the real_server.')
+                            'List of reals_weight is higher or lower than list the real_server.')
                         return vip_map, 274
 
                     # Valid values ​​of reals_weight
                     for reals_weight in reals_weight_map:
                         if not is_valid_int_greater_equal_zero_param(reals_weight):
                             self.log.error(
-                                u'The reals_weight parameter is not a valid value: %s.', reals_weight)
+                                'The reals_weight parameter is not a valid value: %s.', reals_weight)
                             raise InvalidValueError(
                                 None, 'reals_weight', reals_weight)
 
@@ -1617,14 +1621,14 @@ class RequisicaoVips(BaseModel):
                     # _weight list
                     if len(vip_map.get('reals').get('real')) > 0:
                         self.log.error(
-                            u'List of reals_weight is empty but real_server is not.')
+                            'List of reals_weight is empty but real_server is not.')
                         return vip_map, 274
             else:
                 # Validates the size reals list is equal to the size
                 # _weight list
                 if len(vip_map.get('reals').get('real')) > 0:
                     self.log.error(
-                        u'List of reals_weight is empty but real_server is not.')
+                        'List of reals_weight is empty but real_server is not.')
                     return vip_map, 274
 
         return vip_map, None
@@ -1658,13 +1662,13 @@ class RequisicaoVips(BaseModel):
             healthcheck_type, evironment_vip.id)
 
         if not healthcheck_is_valid:
-            self.log.error(u'The healthcheck_type parameter not exist.')
+            self.log.error('The healthcheck_type parameter not exist.')
             return vip_map, vip, 275
 
         if healthcheck_type != 'HTTP':
             if not (id_healthcheck_expect is None and healthcheck is None):
                 self.log.error(
-                    u'The healthcheck_type parameter is %s, then healthcheck and id_healthcheck_expect must be None.',
+                    'The healthcheck_type parameter is %s, then healthcheck and id_healthcheck_expect must be None.',
                     healthcheck_type)
                 return vip_map, vip, 276
             else:
@@ -1677,7 +1681,7 @@ class RequisicaoVips(BaseModel):
         elif healthcheck_type == 'HTTP':
             if id_healthcheck_expect is None or healthcheck is None:
                 self.log.error(
-                    u'The healthcheck_type parameter is HTTP, then healthcheck and id_healthcheck_expect must NOT be None.')
+                    'The healthcheck_type parameter is HTTP, then healthcheck and id_healthcheck_expect must NOT be None.')
                 return vip_map, vip, 277
             else:
                 try:
@@ -1685,7 +1689,7 @@ class RequisicaoVips(BaseModel):
                     # Valid healthcheck_expect ID
                     if not is_valid_int_greater_zero_param(id_healthcheck_expect):
                         self.log.error(
-                            u'The id_healthcheck_expect parameter is not a valid value: %s.', id_healthcheck_expect)
+                            'The id_healthcheck_expect parameter is not a valid value: %s.', id_healthcheck_expect)
                         raise InvalidValueError(
                             None, 'id_healthcheck_expect', id_healthcheck_expect)
 
@@ -1699,7 +1703,7 @@ class RequisicaoVips(BaseModel):
 
                     # Check if healthcheck is a string
                     if not isinstance(healthcheck, basestring):
-                        self.log.error(u'The healthcheck must be a string.')
+                        self.log.error('The healthcheck must be a string.')
                         raise InvalidValueError(
                             None, 'healthcheck', healthcheck)
 
@@ -1983,7 +1987,7 @@ class RequisicaoVips(BaseModel):
 
             else:
                 raise RequisicaoVipsError(
-                    None, u'Unexpected error while searching for existing pool.')
+                    None, 'Unexpected error while searching for existing pool.')
 
             server_pool.default_port = default_port
             server_pool.default_limit = vip_map.get('maxcon')
@@ -2038,13 +2042,13 @@ class RequisicaoVips(BaseModel):
             # Valid port real
             if not is_valid_int_greater_zero_param(port_real):
                 self.log.error(
-                    u'The reals.port_real parameter is not a valid value: %s.', port_real)
+                    'The reals.port_real parameter is not a valid value: %s.', port_real)
                 raise InvalidValueError(None, 'reals.port_real', port_real)
 
             # Valid ip_id
             if not is_valid_int_greater_zero_param(ip_id):
                 self.log.error(
-                    u'The reals.ip_id parameter is not a valid value: %s.', ip_id)
+                    'The reals.ip_id parameter is not a valid value: %s.', ip_id)
                 raise InvalidValueError(None, 'reals.ip_id', ip_id)
 
             for v_port in vip_port_list:
@@ -2080,7 +2084,7 @@ class RequisicaoVips(BaseModel):
                 server_pool_member = server_pool_members.uniqueResult()
             else:
                 raise RequisicaoVipsError(
-                    None, u'Unexpected error while searching for existing pool.')
+                    None, 'Unexpected error while searching for existing pool.')
 
             server_pool_member.port_real = port_real
             server_pool_member.priority = priority
@@ -2168,13 +2172,13 @@ class RequisicaoVips(BaseModel):
 
 class OptionVipEnvironmentVip(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id')
-    option = models.ForeignKey(OptionVip, db_column='id_opcoesvip')
-    environment = models.ForeignKey(EnvironmentVip, db_column='id_ambiente')
+    option = models.ForeignKey(OptionVip, db_column='id_opcoesvip', on_delete=models.DO_NOTHING)
+    environment = models.ForeignKey(EnvironmentVip, db_column='id_ambiente', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('OptionVipEnvironmentVip')
 
     class Meta(BaseModel.Meta):
-        db_table = u'opcoesvip_ambiente_xref'
+        db_table = 'opcoesvip_ambiente_xref'
         managed = True
         unique_together = ('option', 'environment')
 
@@ -2190,18 +2194,18 @@ class OptionVipEnvironmentVip(BaseModel):
         try:
             return OptionVipEnvironmentVip.objects.filter(option__id=option_id,
                                                           environment__id=environment_id).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise OptionVipEnvironmentVipNotFoundError(
-                e, u'Dont there is a OptionVipEnvironmentVip by option_id = %s and environment_id = %s' % (
+                e, 'Dont there is a OptionVipEnvironmentVip by option_id = %s and environment_id = %s' % (
                     option_id, environment_id))
-        except OperationalError, e:
-            self.log.error(u'Lock wait timeout exceeded.')
+        except OperationalError as e:
+            self.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            self.log.error(u'Failure to search the OptionVipEnvironmentVip.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            self.log.error('Failure to search the OptionVipEnvironmentVip.')
             raise OptionVipEnvironmentVipError(
-                e, u'Failure to search the OptionVipEnvironmentVip.')
+                e, 'Failure to search the OptionVipEnvironmentVip.')
 
     def validate(self):
         """Validates whether OptionVip is already associated with EnvironmentVip
@@ -2212,7 +2216,7 @@ class OptionVipEnvironmentVip(BaseModel):
             OptionVipEnvironmentVip.objects.get(
                 option=self.option, environment=self.environment)
             raise OptionVipEnvironmentVipDuplicatedError(
-                None, u'Option vip already registered for the environment vip.')
+                None, 'Option vip already registered for the environment vip.')
         except ObjectDoesNotExist:
             pass
 
@@ -2232,13 +2236,16 @@ class ServerPool(BaseModel):
         'healthcheckexpect.Healthcheck',
         db_column='healthcheck_id_healthcheck',
         default=1,
-        null=True  # This attribute is here to not raise a exception
+        null=True,  # This attribute is here to not raise a exception
+        on_delete=models.DO_NOTHING
+
     )
 
     servicedownaction = models.ForeignKey(
         'api_pools.OptionPool',
         db_column='service-down-action_id',
-        default=5
+        default=5,
+        on_delete=models.DO_NOTHING
     )
 
     default_port = models.IntegerField(
@@ -2258,6 +2265,7 @@ class ServerPool(BaseModel):
     environment = models.ForeignKey(
         Ambiente,
         db_column='ambiente_id_ambiente',
+        on_delete=models.DO_NOTHING
     )
 
     lb_method = models.CharField(
@@ -2268,7 +2276,7 @@ class ServerPool(BaseModel):
     log = logging.getLogger('ServerPool')
 
     class Meta(BaseModel.Meta):
-        db_table = u'server_pool'
+        db_table = 'server_pool'
         managed = True
 
     def __str__(self):
@@ -2331,16 +2339,16 @@ class ServerPool(BaseModel):
 
         try:
             return ServerPool.objects.filter(id=id).uniqueResult()
-        except ObjectDoesNotExist, e:
-            cls.log.exception(u'There is no ServerPool with pk = %s.' % id)
+        except ObjectDoesNotExist as e:
+            cls.log.exception('There is no ServerPool with pk = %s.' % id)
             raise exceptions.PoolDoesNotExistException(id)
-        except OperationalError, e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+        except OperationalError as e:
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            cls.log.error(u'Failure to search the ServerPool.')
-            raise exceptions.PoolError(e, u'Failure to search the ServerPool.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            cls.log.error('Failure to search the ServerPool.')
+            raise exceptions.PoolError(e, 'Failure to search the ServerPool.')
 
     def create_v3(self, pool, user):
 
@@ -2586,7 +2594,7 @@ class ServerPoolMember(BaseModel):
 
     server_pool = models.ForeignKey(
         ServerPool,
-        db_column='id_server_pool'
+        db_column='id_server_pool', on_delete=models.DO_NOTHING
     )
 
     identifier = models.CharField(
@@ -2596,13 +2604,15 @@ class ServerPoolMember(BaseModel):
     ip = models.ForeignKey(
         'ip.Ip',
         db_column='ips_id_ip',
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
 
     ipv6 = models.ForeignKey(
         'ip.Ipv6',
         db_column='ipsv6_id_ipv6',
-        null=True
+        null=True, 
+        on_delete=models.DO_NOTHING
     )
 
     priority = models.IntegerField()
@@ -2620,7 +2630,8 @@ class ServerPoolMember(BaseModel):
     healthcheck = models.ForeignKey(
         'healthcheckexpect.Healthcheck',
         db_column='healthcheck_id_healthcheck',
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
 
     member_status = models.IntegerField(
@@ -2635,7 +2646,7 @@ class ServerPoolMember(BaseModel):
     log = logging.getLogger('ServerPoolMember')
 
     class Meta(BaseModel.Meta):
-        db_table = u'server_pool_member'
+        db_table = 'server_pool_member'
         managed = True
 
     def __str__(self):
@@ -2704,18 +2715,18 @@ class ServerPoolMember(BaseModel):
 
         try:
             return ServerPoolMember.objects.filter(id=id).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             cls.log.exception(
-                u'There is no ServerPoolMember with pk = %s.' % id)
+                'There is no ServerPoolMember with pk = %s.' % id)
             raise exceptions.PoolMemberDoesNotExistException(id)
-        except OperationalError, e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+        except OperationalError as e:
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            cls.log.error(u'Failure to search the ServerPoolMember.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            cls.log.error('Failure to search the ServerPoolMember.')
             raise exceptions.PoolError(
-                e, u'Failure to search the ServerPoolMember.')
+                e, 'Failure to search the ServerPoolMember.')
 
     def prepare_and_save(self, server_pool, ip, ip_type, priority,
                          weight, port_real, user, commit=False):
@@ -2885,7 +2896,7 @@ class VipPortToPool(BaseModel):
     requisicao_vip = models.ForeignKey(
         RequisicaoVips, db_column='id_requisicao_vips')
 
-    server_pool = models.ForeignKey(ServerPool, db_column='id_server_pool')
+    server_pool = models.ForeignKey(ServerPool, db_column='id_server_pool', on_delete=models.DO_NOTHING)
 
     port_vip = models.IntegerField(db_column='vip_port')
 
@@ -2896,7 +2907,7 @@ class VipPortToPool(BaseModel):
     )
 
     class Meta(BaseModel.Meta):
-        db_table = u'vip_port_to_pool'
+        db_table = 'vip_port_to_pool'
         managed = True
 
     def prepare_and_save(self, port_vip, server_pool, vip, user):
@@ -2917,24 +2928,24 @@ class VipPortToPool(BaseModel):
         """
         try:
             return VipPortToPool.objects.filter(requisicao_vip__id=id_vip)
-        except Exception, e:
-            cls.log.error(u'Failure to list Request VipPortToPool by id_vip.')
+        except Exception as e:
+            cls.log.error('Failure to list Request VipPortToPool by id_vip.')
             raise RequisicaoVipsError(
-                e, u'Failure to list Request VipPortToPool by id_vip.')
+                e, 'Failure to list Request VipPortToPool by id_vip.')
 
 
 class DsrL3_to_Vip(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_dsrl3_to_vip')
 
     requisicao_vip = models.ForeignKey(
-        RequisicaoVips, db_column='id_requisicao_vips')
+        RequisicaoVips, db_column='id_requisicao_vips', on_delete=models.DO_NOTHING)
 
     id_dsrl3 = models.IntegerField(db_column='id_dsrl3')
 
     log = logging.getLogger('DsrL3_to_Vip')
 
     class Meta(BaseModel.Meta):
-        db_table = u'dsrl3_to_vip'
+        db_table = 'dsrl3_to_vip'
         managed = True
 
     def prepare_and_save(self, id_dsrl3, vip, user):
@@ -2968,13 +2979,13 @@ class DsrL3_to_Vip(BaseModel):
         try:
             return DsrL3_to_Vip.objects.filter(
                 requisicao_vip__id=id_vip).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise ObjectDoesNotExist(
-                e, u'There is not DSRL3 entry for vip = %s.' % id_vip)
-        except Exception, e:
-            cls.log.error(u'Failure to list id of DSR L3 by id_vip.')
+                e, 'There is not DSRL3 entry for vip = %s.' % id_vip)
+        except Exception as e:
+            cls.log.error('Failure to list id of DSR L3 by id_vip.')
             raise RequisicaoVipsError(
-                e, u'Failure to list Request DsrL3_to_Vip by id_vip.')
+                e, 'Failure to list Request DsrL3_to_Vip by id_vip.')
 
     @classmethod
     def get_all(cls):
@@ -2986,6 +2997,6 @@ class DsrL3_to_Vip(BaseModel):
         """
         try:
             return DsrL3_to_Vip.objects.all()
-        except Exception, e:
-            cls.log.error(u'Failure to list all DsrL3_to_Vip .')
-            raise OptionVipError(e, u'Failure to list all DsrL3_to_Vip.')
+        except Exception as e:
+            cls.log.error('Failure to list all DsrL3_to_Vip .')
+            raise OptionVipError(e, 'Failure to list all DsrL3_to_Vip.')

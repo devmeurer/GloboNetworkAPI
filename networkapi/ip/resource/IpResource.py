@@ -81,7 +81,7 @@ def insert_ip(ip_map, user):
     equip_id = ip_map.get('id_equipamento')
     if not is_valid_int_greater_zero_param(equip_id):
         log.error(
-            u'The equip_id parameter is not a valid value: %s.', equip_id)
+            'The equip_id parameter is not a valid value: %s.', equip_id)
         raise InvalidValueError(None, 'equip_id', equip_id)
     else:
         equip_id = int(equip_id)
@@ -93,11 +93,11 @@ def insert_ip(ip_map, user):
                     equip_id,
                     AdminPermission.EQUIP_WRITE_OPERATION):
         raise UserNotAuthorizedError(
-            None, u'Usuário não tem permissão para executar a operação.')
+            None, 'Usuário não tem permissão para executar a operação.')
 
     vlan_id = ip_map.get('id_vlan')
     if not is_valid_int_greater_zero_param(vlan_id):
-        log.error(u'The vlan_id parameter is not a valid value: %s.', vlan_id)
+        log.error('The vlan_id parameter is not a valid value: %s.', vlan_id)
         raise InvalidValueError(None, 'vlan_id', vlan_id)
     else:
         vlan_id = int(vlan_id)
@@ -105,7 +105,7 @@ def insert_ip(ip_map, user):
     desc_ip = ip_map.get('descricao')
     if desc_ip is not None:
         if not is_valid_string_maxsize(desc_ip, 100) or not is_valid_string_minsize(desc_ip, 3):
-            log.error(u'Parameter desc_ip is invalid. Value: %s.', desc_ip)
+            log.error('Parameter desc_ip is invalid. Value: %s.', desc_ip)
             raise InvalidValueError(None, 'desc_ip', desc_ip)
 
     ip = Ip()
@@ -148,7 +148,7 @@ def insert_ip_equipment(ip_id, equip_id, user):
                     equip_id,
                     AdminPermission.EQUIP_WRITE_OPERATION):
         raise UserNotAuthorizedError(
-            None, u'Usuário não tem permissão para executar a operação.')
+            None, 'Usuário não tem permissão para executar a operação.')
 
     ip_equipment = IpEquipamento()
     ip_equipment.create(user, ip_id, equip_id)
@@ -178,7 +178,7 @@ def remove_ip_equipment(ip_id, equipment_id, user):
                     equipment_id,
                     AdminPermission.EQUIP_WRITE_OPERATION):
         raise UserNotAuthorizedError(
-            None, u'Usuário não tem permissão para executar a operação.')
+            None, 'Usuário não tem permissão para executar a operação.')
 
     IpEquipamento().remove(user, ip_id, equipment_id)
     return
@@ -199,12 +199,12 @@ class IpResource(RestResource):
 
             if not is_valid_int_greater_zero_param(ip_id):
                 self.log.error(
-                    u'The ip_id parameter is not a valid value: %s.', ip_id)
+                    'The ip_id parameter is not a valid value: %s.', ip_id)
                 raise InvalidValueError(None, 'ip_id', ip_id)
 
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'The equip_id parameter is not a valid value: %s.', equip_id)
+                    'The equip_id parameter is not a valid value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             Ip.get_by_pk(ip_id)
@@ -241,16 +241,16 @@ class IpResource(RestResource):
         try:
             xml_map, attrs_map = loads(request.raw_post_data)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
 
         networkapi_map = xml_map.get('networkapi')
         if networkapi_map is None:
-            return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
         ip_map = networkapi_map.get('ip')
         if ip_map is None:
-            return self.response_error(3, u'Não existe valor para a tag ip do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag ip do XML de requisição.')
 
         try:
             response = insert_ip(ip_map, user)
@@ -272,7 +272,7 @@ class IpResource(RestResource):
             return self.not_authorized()
         except (IpError, VlanError, EquipamentoError, GrupoError), e:
             return self.response_error(1, e)
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1, e)
 
     def handle_delete(self, request, user, *args, **kwargs):
@@ -287,12 +287,12 @@ class IpResource(RestResource):
 
             if not is_valid_int_greater_zero_param(ip_id):
                 self.log.error(
-                    u'The ip_id parameter is not a valid value: %s.', ip_id)
+                    'The ip_id parameter is not a valid value: %s.', ip_id)
                 raise InvalidValueError(None, 'ip_id', ip_id)
 
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'The equip_id parameter is not a valid value: %s.', equip_id)
+                    'The equip_id parameter is not a valid value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             Ip.get_by_pk(ip_id)
@@ -342,7 +342,7 @@ class IpResource(RestResource):
             return self.response_error(118, ip_id, equip_id)
         except IpNotFoundError:
             return self.response_error(119)
-        except IpCantBeRemovedFromVip, e:
+        except IpCantBeRemovedFromVip as e:
             return self.response_error(319, 'ip', 'ipv4', ip_id)
         except IpEquipCantDissociateFromVip, e:
             return self.response_error(352, e.cause['ip'], e.cause['equip_name'], e.cause['vip_id'])
@@ -351,7 +351,7 @@ class IpResource(RestResource):
         except (IpError, GrupoError, EquipamentoError, IntegrityError), e:
             if isinstance(e.cause, IntegrityError):
                 # IP associated VIP
-                self.log.error(u'Failed to update the request vip.')
+                self.log.error('Failed to update the request vip.')
                 return self.response_error(354, ip_id)
             else:
                 return self.response_error(1)
@@ -370,7 +370,7 @@ class IpResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             environment_id = kwargs.get('id_amb')
@@ -378,14 +378,14 @@ class IpResource(RestResource):
             # Valid Environment ID
             if not is_valid_int_greater_zero_param(environment_id):
                 self.log.error(
-                    u'The id_environment parameter is not a valid value: %s.', environment_id)
+                    'The id_environment parameter is not a valid value: %s.', environment_id)
                 raise InvalidValueError(None, 'id_environment', environment_id)
 
             ip = kwargs.get('ip')
 
             # Valid IP
             if not is_valid_ipv4(ip):
-                self.log.error(u'Parameter ip is invalid. Value: %s.', ip)
+                self.log.error('Parameter ip is invalid. Value: %s.', ip)
                 raise InvalidValueError(None, 'ip', ip)
 
             # Find Environment by ID to check if it exist

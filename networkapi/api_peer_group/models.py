@@ -37,14 +37,16 @@ class PeerGroup(BaseModel):
         'api_route_map.RouteMap',
         db_column='id_route_map_in',
         related_name='peergroup_route_map_in',
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
 
     route_map_out = models.ForeignKey(
         'api_route_map.RouteMap',
         db_column='id_route_map_out',
         related_name='peergroup_route_map_out',
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
 
     def _get_environments(self):
@@ -73,7 +75,7 @@ class PeerGroup(BaseModel):
     log = logging.getLogger('PeerGroup')
 
     class Meta(BaseModel.Meta):
-        db_table = u'peer_group'
+        db_table = 'peer_group'
         managed = True
 
     @classmethod
@@ -89,15 +91,15 @@ class PeerGroup(BaseModel):
         try:
             return PeerGroup.objects.get(id=id)
         except ObjectDoesNotExist:
-            cls.log.error(u'PeerGroup not found. pk {}'.format(id))
+            cls.log.error('PeerGroup not found. pk {}'.format(id))
             raise exceptions.PeerGroupNotFoundError(id)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded')
+            cls.log.error('Lock wait timeout exceeded')
             raise OperationalError()
         except Exception:
-            cls.log.error(u'Failure to search the PeerGroup')
+            cls.log.error('Failure to search the PeerGroup')
             raise exceptions.PeerGroupError(
-                u'Failure to search the PeerGroup')
+                'Failure to search the PeerGroup')
 
     def create_v4(self, peer_group, user):
         """Create PeerGroup."""
@@ -230,18 +232,20 @@ class EnvironmentPeerGroup(BaseModel):
 
     environment = models.ForeignKey(
         'ambiente.Ambiente',
-        db_column='id_environment'
+        db_column='id_environment',
+        on_delete=models.DO_NOTHING
     )
 
     peer_group = models.ForeignKey(
         'api_peer_group.PeerGroup',
-        db_column='id_peer_group'
+        db_column='id_peer_group',
+        on_delete=models.DO_NOTHING
     )
 
     log = logging.getLogger('EnvironmentPeerGroup')
 
     class Meta(BaseModel.Meta):
-        db_table = u'environment_peer_group'
+        db_table = 'environment_peer_group'
         managed = True
 
     @classmethod
@@ -257,15 +261,15 @@ class EnvironmentPeerGroup(BaseModel):
         try:
             return EnvironmentPeerGroup.objects.get(id=id)
         except ObjectDoesNotExist:
-            cls.log.error(u'EnvironmentPeerGroup not found. pk {}'.format(id))
+            cls.log.error('EnvironmentPeerGroup not found. pk {}'.format(id))
             raise exceptions.EnvironmentPeerGroupNotFoundError(id)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded')
+            cls.log.error('Lock wait timeout exceeded')
             raise OperationalError()
         except Exception:
-            cls.log.error(u'Failure to search the EnvironmentPeerGroup')
+            cls.log.error('Failure to search the EnvironmentPeerGroup')
             raise exceptions.EnvironmentPeerGroupError(
-                u'Failure to search the EnvironmentPeerGroup')
+                'Failure to search the EnvironmentPeerGroup')
 
     def create_v4(self, environment_peergroup):
         """Create EnvironmentPeerGroup."""

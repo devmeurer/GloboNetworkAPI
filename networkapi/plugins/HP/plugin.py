@@ -66,7 +66,7 @@ class HPE(BasePlugin):
         try:
             self.channel.send('%s\n' % python_command)
             self.waitString(wait_str_ok_regex=">", wait_str_failed_regex="SystemError")
-        except Exception, e:
+        except Exception as e:
             raise Exception("Error sending command %s to equipment %s: %s" % (python_command, filepath, e))
 
         clean_command = 'delete %s' % (filename[-1])
@@ -76,7 +76,7 @@ class HPE(BasePlugin):
             self.waitString(wait_str_ok_regex="[Y/N]")
             self.channel.send('%s\n' % confirm_command)
             self.waitString(wait_str_ok_regex="Done")
-        except Exception, e:
+        except Exception as e:
             raise Exception("Error sending command %s to equipment %s: %s" % (python_command, filepath, e))
 
         # not capable of configuring after max retries

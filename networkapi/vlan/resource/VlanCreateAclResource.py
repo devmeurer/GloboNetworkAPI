@@ -61,7 +61,7 @@ class VlanCreateAclResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Load XML data
@@ -143,30 +143,30 @@ class VlanCreateAclResource(RestResource):
     def validate_duplicate_acl(self, acl_name, environment, network_type, user):
         if checkAclCvs(acl_name, environment, network_type, user):
             self.log.error(
-                u'There is already an Vlan with the Acl - Ipv4 = %s.' % acl_name)
+                'There is already an Vlan with the Acl - Ipv4 = %s.' % acl_name)
             raise VlanACLDuplicatedError('Duplicate ACL')
 
     def validate_networkapi_map(self, networkapi_map):
         if networkapi_map is None:
             self.log.error(
-                u'There is no value to the networkapi tag of XML request.')
+                'There is no value to the networkapi tag of XML request.')
             raise XMLError(None, None)
 
     def validate_vlan_map(self, vlan_map):
         if vlan_map is None:
             self.log.error(
-                u'There is no value to the vlan tag of XML request.')
+                'There is no value to the vlan tag of XML request.')
             raise XMLError(None, None)
 
     def validate_id_vlan(self, id_vlan):
         if not is_valid_int_greater_zero_param(id_vlan):
             self.log.error(
-                u'The id_valan parameter is not a valid value: %s.', id_vlan)
+                'The id_valan parameter is not a valid value: %s.', id_vlan)
             raise InvalidValueError('Invalid Id For Vlan', 'id_vlan', id_vlan)
 
     def validate_ip_version(self, network_type):
         if not is_valid_version_ip(network_type, IP_VERSION):
             self.log.error(
-                u'The type network parameter is invalid value: %s.', network_type)
+                'The type network parameter is invalid value: %s.', network_type)
             raise InvalidValueError(
                 'Invalid Network Type', 'network_type', network_type)

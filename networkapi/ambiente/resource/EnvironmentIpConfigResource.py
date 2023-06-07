@@ -61,10 +61,10 @@ class EnvironmentIpConfigResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
             environment_map = networkapi_map.get('ambiente')
             if environment_map is None:
-                return self.response_error(3, u'Não existe valor para a tag ambiente do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag ambiente do XML de requisição.')
 
             # Get XML data
             id_environment = environment_map.get('id_environment')
@@ -110,7 +110,7 @@ class EnvironmentIpConfigResource(RestResource):
             return self.response_error(112)
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
 
         except (AmbienteError, GrupoError, Exception), e:

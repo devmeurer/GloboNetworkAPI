@@ -44,7 +44,7 @@ class ModelGetByBrandResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.BRAND_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_brand = kwargs.get('id_brand')
@@ -52,7 +52,7 @@ class ModelGetByBrandResource(RestResource):
             # Valid ID Brand
             if not is_valid_int_greater_zero_param(id_brand):
                 self.log.error(
-                    u'The id_brand parameter is not a valid value: %s.', id_brand)
+                    'The id_brand parameter is not a valid value: %s.', id_brand)
                 raise InvalidValueError(None, 'id_groupl3', id_brand)
 
             # Find Brand by ID to check if it exist

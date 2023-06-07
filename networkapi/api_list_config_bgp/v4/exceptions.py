@@ -7,7 +7,7 @@ class ListConfigBGPNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'ListConfigBGP id = {} do not exist'.format(msg)
+        self.detail = 'ListConfigBGP id = {} do not exist'.format(msg)
 
 
 class ListConfigBGPError(APIException):
@@ -19,15 +19,15 @@ class ListConfigBGPError(APIException):
 
 class ListConfigBGPDoesNotExistException(APIException):
     status_code = status.HTTP_404_NOT_FOUND
-    default_detail = u'ListConfigBGP does not exists'
+    default_detail = 'ListConfigBGP does not exists'
 
 
 class ListConfigBGPAssociatedToRouteMapEntryException(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
 
     def __init__(self, list_config_bgp):
-        self.detail = u'ListConfigBGP id = {} is associated ' \
-                      u'in RouteMapEntries = {}'.\
+        self.detail = 'ListConfigBGP id = {} is associated ' \
+                      'in RouteMapEntries = {}'.\
             format(list_config_bgp.id, list_config_bgp.route_map_entries_id)
 
 
@@ -35,8 +35,8 @@ class ListConfigBGPIsDeployedException(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
 
     def __init__(self, list_config_bgp, neighbors_v4, neighbors_v6):
-        self.detail = u'ListConfigBGP id = {} is deployed at ' \
-                      u'NeighborsV4 = {} and NeighborsV6 = {}'. \
+        self.detail = 'ListConfigBGP id = {} is deployed at ' \
+                      'NeighborsV4 = {} and NeighborsV6 = {}'. \
             format(list_config_bgp.id,
                    map(int, neighbors_v4.values_list('id', flat=True)),
                    map(int, neighbors_v6.values_list('id', flat=True)))
@@ -46,7 +46,7 @@ class ListConfigBGPAlreadyCreated(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
 
     def __init__(self, list_config_bgp):
-        self.detail = u'ListConfigBGP {} is already deployed at equipment'. \
+        self.detail = 'ListConfigBGP {} is already deployed at equipment'. \
             format(list_config_bgp.id)
 
 
@@ -54,5 +54,5 @@ class ListConfigBGPNotCreated(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
 
     def __init__(self, list_config_bgp):
-        self.detail = u'ListConfigBGP {} is not deployed at equipment'. \
+        self.detail = 'ListConfigBGP {} is not deployed at equipment'. \
             format(list_config_bgp.id)

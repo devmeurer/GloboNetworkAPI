@@ -29,7 +29,8 @@ class Rule(BaseModel):
     environment = models.ForeignKey(
         'ambiente.Ambiente',
         db_column='id_ambiente',
-        null=False
+        null=False,
+        on_delete=models.DO_NOTHING
     )
     name = models.CharField(
         max_length=80,
@@ -41,14 +42,15 @@ class Rule(BaseModel):
         'requisicaovips.RequisicaoVips',
         db_column='id_vip',
         null=True,
-        related_name='vip'
+        related_name='vip',
+        on_delete=models.DO_NOTHING
     )
 
     log = logging.getLogger('Rule')
 
     class Meta (BaseModel.Meta):
         managed = True
-        db_table = u'rule'
+        db_table = 'rule'
 
 
 class BlockRules(BaseModel):
@@ -63,7 +65,8 @@ class BlockRules(BaseModel):
     environment = models.ForeignKey(
         'ambiente.Ambiente',
         db_column='id_ambiente',
-        null=False
+        null=False,
+        on_delete=models.DO_NOTHING
     )
     order = models.IntegerField(
         null=False,
@@ -73,7 +76,7 @@ class BlockRules(BaseModel):
     log = logging.getLogger('BlockRules')
 
     class Meta (BaseModel.Meta):
-        db_table = u'block_rules'
+        db_table = 'block_rules'
         managed = True
 
 
@@ -97,11 +100,11 @@ class RuleContent(BaseModel):
         Rule,
         null=False,
         db_column='id_rule',
-        on_delete=models.CASCADE
+        on_delete=models.DO_NOTHING
     )
 
     log = logging.getLogger('RuleContent')
 
     class Meta (BaseModel.Meta):
         managed = True
-        db_table = u'rule_content'
+        db_table = 'rule_content'

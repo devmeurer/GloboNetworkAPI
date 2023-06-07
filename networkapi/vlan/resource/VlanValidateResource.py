@@ -57,19 +57,19 @@ class VlanValidateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ACL_VLAN_VALIDATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Vlan ID
             if not is_valid_int_greater_zero_param(id_vlan):
                 self.log.error(
-                    u'The id_vlan parameter is not a valid value: %s.', id_vlan)
+                    'The id_vlan parameter is not a valid value: %s.', id_vlan)
                 raise InvalidValueError(None, 'vlan_id', id_vlan)
 
             # Valid Network
             if not is_valid_version_ip(network, IP_VERSION):
                 self.log.error(
-                    u'The network parameter is not a valid value: %s.', network)
+                    'The network parameter is not a valid value: %s.', network)
                 raise InvalidValueError(None, 'network', network)
 
             # Find Vlan by ID to check if it exist
@@ -130,7 +130,7 @@ class VlanValidateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             if is_number:
@@ -138,7 +138,7 @@ class VlanValidateResource(RestResource):
 
                 if not is_valid_int_greater_zero_param(id_environment):
                     self.log.error(
-                        u'Parameter id_environment is invalid. Value: %s.', id_environment)
+                        'Parameter id_environment is invalid. Value: %s.', id_environment)
                     raise InvalidValueError(
                         None, 'id_environment', id_environment)
 
@@ -174,7 +174,7 @@ class VlanValidateResource(RestResource):
 
                 if not is_valid_int_greater_zero_param(id_vlan):
                     self.log.error(
-                        u'Parameter id_vlan is invalid. Value: %s.', id_vlan)
+                        'Parameter id_vlan is invalid. Value: %s.', id_vlan)
                     raise InvalidValueError(None, 'id_vlan', id_vlan)
 
                 # Get all vlans environments from equipments of the current
@@ -248,7 +248,7 @@ class VlanValidateResource(RestResource):
             return self.response_error(269, e.param, e.value)
         except AmbienteNotFoundError:
             return self.response_error(112)
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)
 
 

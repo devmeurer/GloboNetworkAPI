@@ -30,7 +30,7 @@ class Junos:
             self.remote_conn.open()
         except ConnectError as e:
             print("Cannot connect: {0}".format(e))
-        except Exception, e:
+        except Exception as e:
             print("An error occurred to connect: {0}".format(e))
 
     def exec_command(self, command):
@@ -51,7 +51,7 @@ class Junos:
             self.remote_conn.close()
         except ConnectClosedError, e:
             print("Cannot close connection: {0}".format(e))
-        except Exception, e:
+        except Exception as e:
             print("An error occurred to close connect: {0}".format(e))
 
     def _load_configuration(self, data, format_type):
@@ -61,7 +61,7 @@ class Junos:
         except ConfigLoadError as err:
             print("Cannot load configuration: {0}".format(err))
             self.close()
-        except Exception, e:
+        except Exception as e:
             print("An error occurred to load configuration: {0}".format(e))
 
     def _lock_configuration(self):
@@ -72,7 +72,7 @@ class Junos:
         except LockError as err:
             print("Unable to lock configuration: {0}".format(err))
             self.close()
-        except Exception, e:
+        except Exception as e:
             print("An error occurred to lock configuration: {0}".format(e))
 
     def _unlock_configuration(self):
@@ -81,7 +81,7 @@ class Junos:
         except UnlockError as e:
             print("Unable to unlock configuration: {0}".format(e))
             self.close()
-        except Exception, e:
+        except Exception as e:
             print("An error occurred to unlock configuration: {0}".format(e))
 
     def _commit(self):
@@ -92,7 +92,7 @@ class Junos:
                 self.configuration.rollback()
                 print("An error occurred on commit configuration")
                 raise Exception
-        except Exception, e:
+        except Exception as e:
             print("An error occurred to commit configuration: {0}".format(e))
 
 

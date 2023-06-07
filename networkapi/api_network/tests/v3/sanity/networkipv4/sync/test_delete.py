@@ -70,7 +70,7 @@ class NetworkIPv4DeleteSuccessTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no NetworkIPv4 with pk = 5.',
+            'There is no NetworkIPv4 with pk = 5.',
             response.data['detail']
         )
 
@@ -92,7 +92,7 @@ class NetworkIPv4DeleteSuccessTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no NetworkIPv4 with pk = 4.',
+            'There is no NetworkIPv4 with pk = 4.',
             response.data['detail']
         )
 
@@ -114,7 +114,7 @@ class NetworkIPv4DeleteSuccessTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no NetworkIPv4 with pk = 6.',
+            'There is no NetworkIPv4 with pk = 6.',
             response.data['detail']
         )
 
@@ -177,7 +177,7 @@ class NetworkIPv4DeleteErrorTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no NetworkIPv4 with pk = 1000.',
+            'There is no NetworkIPv4 with pk = 1000.',
             response.data['detail']
         )
 
@@ -407,7 +407,7 @@ class NetworkIPv4ForceDeleteSuccessTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no NetworkIPv4 with pk = 1.',
+            'There is no NetworkIPv4 with pk = 1.',
             response.data['detail']
         )
 
@@ -427,6 +427,6 @@ class NetworkIPv4ForceDeleteSuccessTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no NetworkIPv4 with pk = 4.',
+            'There is no NetworkIPv4 with pk = 4.',
             response.data['detail']
         )

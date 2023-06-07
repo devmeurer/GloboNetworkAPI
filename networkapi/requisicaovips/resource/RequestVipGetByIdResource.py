@@ -52,7 +52,7 @@ class RequestVipGetByIdResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -61,7 +61,7 @@ class RequestVipGetByIdResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_vip):
                 self.log.error(
-                    u'Parameter id_vip is invalid. Value: %s.', id_vip)
+                    'Parameter id_vip is invalid. Value: %s.', id_vip)
                 raise InvalidValueError(None, 'id_vip', id_vip)
 
             vip = RequisicaoVips.get_by_pk(id_vip)
@@ -90,7 +90,7 @@ class RequestVipGetByIdResource(RestResource):
             try:
                 dsrl3_to_vip_obj = DsrL3_to_Vip.get_by_vip_id(vip.id)
                 vip_map['dsrl3'] = dsrl3_to_vip_obj.id_dsrl3
-            except ObjectDoesNotExist, e:
+            except ObjectDoesNotExist as e:
                 pass
 
             # Maxcon, lbmethod e hc
@@ -186,7 +186,7 @@ class RequestVipGetByIdResource(RestResource):
             return self.response_error(152)
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except BaseException, e:
             self.log.error(e)

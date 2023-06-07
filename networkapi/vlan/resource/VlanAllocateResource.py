@@ -62,7 +62,7 @@ class VlanAllocateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -73,12 +73,12 @@ class VlanAllocateResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             vlan_map = networkapi_map.get('vlan')
             if vlan_map is None:
-                msg = u'There is no value to the vlan tag of XML request.'
+                msg = 'There is no value to the vlan tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -90,24 +90,24 @@ class VlanAllocateResource(RestResource):
 
             # Name must NOT be none and 50 is the maxsize
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 50):
-                self.log.error(u'Parameter name is invalid. Value: %s.', name)
+                self.log.error('Parameter name is invalid. Value: %s.', name)
                 raise InvalidValueError(None, 'name', name)
 
             if not is_valid_vlan_name(name):
                 self.log.error(
-                    u'Parameter %s is invalid because is using special characters and/or breaklines.', name)
+                    'Parameter %s is invalid because is using special characters and/or breaklines.', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Description can NOT be greater than 200
             if not is_valid_string_minsize(description, 3, False) or not is_valid_string_maxsize(description, 200, False):
                 self.log.error(
-                    u'Parameter description is invalid. Value: %s.', description)
+                    'Parameter description is invalid. Value: %s.', description)
                 raise InvalidValueError(None, 'description', description)
 
             # vrf can NOT be greater than 100
             if not is_valid_string_maxsize(vrf, 100, False):
                 self.log.error(
-                    u'Parameter vrf is invalid. Value: %s.', vrf)
+                    'Parameter vrf is invalid. Value: %s.', vrf)
                 raise InvalidValueError(None, 'vrf', vrf)
 
             # Environment
@@ -116,7 +116,7 @@ class VlanAllocateResource(RestResource):
                 # Valid environment ID
                 if not is_valid_int_greater_zero_param(environment):
                     self.log.error(
-                        u'Parameter environment_id is invalid. Value: %s.', environment)
+                        'Parameter environment_id is invalid. Value: %s.', environment)
                     raise InvalidValueError(
                         None, 'environment_id', environment)
 
@@ -124,7 +124,7 @@ class VlanAllocateResource(RestResource):
                 env = Ambiente.get_by_pk(environment)
 
             except AmbienteNotFoundError, e:
-                self.log.error(u'The environment parameter does not exist.')
+                self.log.error('The environment parameter does not exist.')
                 return self.response_error(112)
 
             # Business Rules
@@ -184,7 +184,7 @@ class VlanAllocateResource(RestResource):
                                 min_num_02,
                                 max_num_02
                                 )
-            except Exception, e:
+            except Exception as e:
                 # release all the locks if failed
                 for lock in locks_list:
                     lock.__exit__('', '', '')
@@ -202,7 +202,7 @@ class VlanAllocateResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except GrupoError:
             return self.response_error(1)

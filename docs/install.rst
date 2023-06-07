@@ -15,7 +15,7 @@ After that, go to the directory you want to install and do::
   vagrant plugin install vagrant-omnibus
   vagrant up
 
-After this you'll have the GloboNetworkAPI running on http://10.0.0.2:8000/
+After this yo'll have the GloboNetworkAPI running on http://10.0.0.2:8000/
 
 Installing from scratch
 ***********************

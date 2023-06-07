@@ -73,20 +73,20 @@ class NetworkAddResource(RestResource):
 
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             xml_map, attrs_map = loads(request.raw_post_data)
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
             network_map = networkapi_map.get('network')
             if network_map is None:
-                msg = u'There is no value to the vlan tag of XML request.'
+                msg = 'There is no value to the vlan tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -153,7 +153,7 @@ class NetworkAddResource(RestResource):
                         self.log.debug('Network %s cannot be allocated. It conflicts with %s already '
                                        'in use in this environment.' % (net, network))
                         raise NetworkIPv4AddressNotAvailableError(
-                            None, u'Network cannot be allocated. %s already in use in this environment.' % network_aux)
+                            None, 'Network cannot be allocated. %s already in use in this environment.' % network_aux)
 
                 if env_vip is not None:
 
@@ -172,8 +172,8 @@ class NetworkAddResource(RestResource):
                             self.log.debug('Network %s cannot be allocated. It conflicts with %s already in use '
                                            'in this environment VIP.' % (net, network))
                             raise NetworkIPv4AddressNotAvailableError(None,
-                                                                      u'Network cannot be allocated. %s already in use '
-                                                                      u'in this environment VIP.' % network_aux)
+                                                                      'Network cannot be allocated. %s already in use '
+                                                                      'in this environment VIP.' % network_aux)
 
                     # Check if the new network is in the range of the Environment Network
                     try:
@@ -249,10 +249,10 @@ class NetworkAddResource(RestResource):
                                 # Filter testing
                                 if other_env_equips[0].ambiente.filter is None or vlan.ambiente.filter is None:
                                     raise NetworkIPRangeEnvError(None,
-                                                                 u'Um dos equipamentos associados com o ambiente '
-                                                                 u'desta rede também está associado com outro ambiente '
-                                                                 u'que tem uma rede com essa mesma faixa, adicione '
-                                                                 u'filtros nos ambientes se necessário.')
+                                                                 'Um dos equipamentos associados com o ambiente '
+                                                                 'desta rede também está associado com outro ambiente '
+                                                                 'que tem uma rede com essa mesma faixa, adicione '
+                                                                 'filtros nos ambientes se necessário.')
                                 else:
                                     # Test both environment's filters
                                     tp_equip_list_one = list()
@@ -266,11 +266,11 @@ class NetworkAddResource(RestResource):
 
                                     if env_equip.equipamento.tipo_equipamento not in tp_equip_list_one or \
                                             env_equip.equipamento.tipo_equipamento not in tp_equip_list_two:
-                                        raise NetworkIPRangeEnvError(None, u'Um dos equipamentos associados com o '
-                                                                           u'ambiente desta rede também está associado '
-                                                                           u'com outro ambiente que tem uma rede com '
-                                                                           u'essa mesma faixa, adicione filtros nos '
-                                                                           u'ambientes se necessário.')
+                                        raise NetworkIPRangeEnvError(None, 'Um dos equipamentos associados com o '
+                                                                           'ambiente desta rede também está associado '
+                                                                           'com outro ambiente que tem uma rede com '
+                                                                           'essa mesma faixa, adicione filtros nos '
+                                                                           'ambientes se necessário.')
 
                 # # Filter case 1 - end ##
 
@@ -298,8 +298,8 @@ class NetworkAddResource(RestResource):
                     if net in network_aux or network_aux in net:
                         self.log.debug('Network %s cannot be allocated. It conflicts with %s already in use '
                                        'in this environment.' % (net, network))
-                        raise NetworkIPv4AddressNotAvailableError(None, u'Network cannot be allocated. %s already in '
-                                                                        u'use in this environment.' % network_aux)
+                        raise NetworkIPv4AddressNotAvailableError(None, 'Network cannot be allocated. %s already in '
+                                                                        'use in this environment.' % network_aux)
 
                 if env_vip is not None:
 
@@ -319,9 +319,9 @@ class NetworkAddResource(RestResource):
                         if net in network_aux or network_aux in net:
                             self.log.debug('Network %s cannot be allocated. It conflicts with %s already in '
                                            'use in this environment VIP.' % (net, network))
-                            raise NetworkIPv4AddressNotAvailableError(None, u'Network cannot be allocated. %s '
-                                                                            u'already in use in this environment '
-                                                                            u'VIP.' % network_aux)
+                            raise NetworkIPv4AddressNotAvailableError(None, 'Network cannot be allocated. %s '
+                                                                            'already in use in this environment '
+                                                                            'VIP.' % network_aux)
 
                 # # Filter case 1 - Adding new network with same ip range to another network on other environment ##
                 # Get environments with networks with the same ip range
@@ -353,11 +353,11 @@ class NetworkAddResource(RestResource):
 
                                 # Filter testing
                                 if other_env_equips[0].ambiente.filter is None or vlan.ambiente.filter is None:
-                                    raise NetworkIPRangeEnvError(None, u'Um dos equipamentos associados com o '
-                                                                       u'ambiente desta rede também está associado '
-                                                                       u'com outro ambiente que tem uma rede com '
-                                                                       u'essa mesma faixa, adicione filtros nos '
-                                                                       u'ambientes se necessário.')
+                                    raise NetworkIPRangeEnvError(None, 'Um dos equipamentos associados com o '
+                                                                       'ambiente desta rede também está associado '
+                                                                       'com outro ambiente que tem uma rede com '
+                                                                       'essa mesma faixa, adicione filtros nos '
+                                                                       'ambientes se necessário.')
                                 else:
                                     # Test both environment's filters
                                     tp_equip_list_one = list()
@@ -371,11 +371,11 @@ class NetworkAddResource(RestResource):
 
                                     if env_equip.equipamento.tipo_equipamento not in tp_equip_list_one or \
                                             env_equip.equipamento.tipo_equipamento not in tp_equip_list_two:
-                                        raise NetworkIPRangeEnvError(None, u'Um dos equipamentos associados com o '
-                                                                           u'ambiente desta rede também está '
-                                                                           u'associado com outro ambiente que tem '
-                                                                           u'uma rede com essa mesma faixa, adicione '
-                                                                           u'filtros nos ambientes se necessário.')
+                                        raise NetworkIPRangeEnvError(None, 'Um dos equipamentos associados com o '
+                                                                           'ambiente desta rede também está '
+                                                                           'associado com outro ambiente que tem '
+                                                                           'uma rede com essa mesma faixa, adicione '
+                                                                           'filtros nos ambientes se necessário.')
 
                 # # Filter case 1 - end ##
 
@@ -566,7 +566,7 @@ class NetworkAddResource(RestResource):
                                         Ipv6Equipament().create(user, ipv6_model2.id, equip.equipamento.id)
 
             except Exception as e:
-                raise IpError(e, u'Error persisting Network.')
+                raise IpError(e, 'Error persisting Network.')
 
             network_map = dict()
             network_map['id'] = network_ip.id
@@ -583,13 +583,13 @@ class NetworkAddResource(RestResource):
         except NetworkIPRangeEnvError:
             return self.response_error(346)
         except InvalidValueError as e:
-            self.log.error(u'Parameter %s is invalid. Value: %s.' % (e.param, e.value))
+            self.log.error('Parameter %s is invalid. Value: %s.' % (e.param, e.value))
             return self.response_error(269, e.param, e.value)
         except NetworkTypeNotFoundError:
-            self.log.error(u'The network_type parameter does not exist.')
+            self.log.error('The network_type parameter does not exist.')
             return self.response_error(111)
         except VlanNotFoundError:
-            self.log.error(u'Vlan not found')
+            self.log.error('Vlan not found')
             return self.response_error(116)
         except EnvironmentVipNotFoundError:
             return self.response_error(283)
@@ -604,7 +604,7 @@ class NetworkAddResource(RestResource):
         except (IpError, NetworkIPv6Error, NetworkIPv4Error, GrupoError, VlanError):
             return self.response_error(1)
         except XMLError as e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)
 
 

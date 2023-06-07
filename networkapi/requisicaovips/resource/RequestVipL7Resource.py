@@ -52,10 +52,10 @@ class RequestVipL7Resource(RestResource):
         # XML data format
         networkapi_map = xml_map.get('networkapi')
         if networkapi_map is None:
-            return self.response_error(3, u'There is no value to the networkapi tag of XML request.')
+            return self.response_error(3, 'There is no value to the networkapi tag of XML request.')
         vip_map = networkapi_map.get('vip')
         if vip_map is None:
-            return self.response_error(3, u'There is no value to the vip tag of XML request.')
+            return self.response_error(3, 'There is no value to the vip tag of XML request.')
 
         vip = RequisicaoVips.get_by_pk(id_vip)
 
@@ -97,7 +97,7 @@ class RequestVipL7Resource(RestResource):
             # Valid Ip ID
             if not is_valid_int_greater_zero_param(kwargs.get('id_vip')):
                 self.log.error(
-                    u'The id_vip parameter is not a valid value: %s.', kwargs.get('id_vip'))
+                    'The id_vip parameter is not a valid value: %s.', kwargs.get('id_vip'))
                 raise InvalidValueError(None, 'id_vip', kwargs.get('id_vip'))
 
             request_vip = RequisicaoVips.get_by_pk(kwargs.get('id_vip'))

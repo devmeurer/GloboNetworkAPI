@@ -48,7 +48,7 @@ class EnvironmentAllGetByEnvironmentVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             environment_vip_id = kwargs.get('environment_vip_id')
@@ -56,7 +56,7 @@ class EnvironmentAllGetByEnvironmentVipResource(RestResource):
             # Valid Environment VIP ID
             if not is_valid_int_greater_zero_param(environment_vip_id):
                 self.log.error(
-                    u'The id_environment_vip parameter is not a valid value: %s.', environment_vip_id)
+                    'The id_environment_vip parameter is not a valid value: %s.', environment_vip_id)
                 raise InvalidValueError(
                     None, 'environment_vip_id', environment_vip_id)
 

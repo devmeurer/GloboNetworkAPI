@@ -24,7 +24,7 @@ class CVSError(Exception):
         self.error = error
 
     def __str__(self):
-        msg = u'%s' % (self.error)
+        msg = '%s' % (self.error)
         return msg.encode('utf-8', 'replace')
 
 
@@ -51,7 +51,7 @@ class Cvs():
 
             erro = os.system('cvs remove %s' % archive)
 
-        except Exception, e:
+        except Exception as e:
             logger.error(e)
 
         finally:
@@ -73,7 +73,7 @@ class Cvs():
 
             erro = os.system('cvs add %s' % archive)
 
-        except Exception, e:
+        except Exception as e:
             logger.error(e)
 
         finally:
@@ -96,7 +96,7 @@ class Cvs():
 
             erro = os.system("cvs commit -m '%s' %s" % (comment, archive))
 
-        except Exception, e:
+        except Exception as e:
             logger.error(e)
 
         finally:
@@ -115,7 +115,7 @@ class Cvs():
         try:
             (status, output) = commands.getstatusoutput('cvs update')
 
-        except Exception, e:
+        except Exception as e:
             logger.error(e)
 
         finally:

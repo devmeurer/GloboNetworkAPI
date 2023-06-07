@@ -47,7 +47,7 @@ class OptionVipGetTrafficReturnByNameResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             xml_map, attrs_map = loads(request.raw_post_data)
@@ -55,11 +55,11 @@ class OptionVipGetTrafficReturnByNameResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             trafficreturn_map = networkapi_map.get('trafficreturn_opt')
             if trafficreturn_map is None:
-                return self.response_error(3, u'There is no value to the trafficreturn_opt tag  of XML request.')
+                return self.response_error(3, 'There is no value to the trafficreturn_opt tag  of XML request.')
 
             # Get XML data
             name_trafficreturn = trafficreturn_map.get('trafficreturn')
@@ -67,7 +67,7 @@ class OptionVipGetTrafficReturnByNameResource(RestResource):
             # Valid Parameters is none
             if name_trafficreturn is None:
                 self.log.error(
-                    u'Missing traffic return option name')
+                    'Missing traffic return option name')
                 return self.response_error(287)
 
             # New Queryset by Environment Vip
@@ -104,7 +104,7 @@ class OptionVipGetTrafficReturnByNameResource(RestResource):
             return self.not_authorized()
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(1, x)
 
         except InvalidValueError, e:
@@ -113,5 +113,5 @@ class OptionVipGetTrafficReturnByNameResource(RestResource):
         except OptionVipError:
             return self.response_error(1)
 
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)

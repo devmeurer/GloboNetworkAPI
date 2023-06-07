@@ -49,12 +49,12 @@ class HealthcheckAddExpectStringResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             healthcheck_map = networkapi_map.get('healthcheck')
             if healthcheck_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -63,7 +63,7 @@ class HealthcheckAddExpectStringResource(RestResource):
             expect_string = healthcheck_map.get('expect_string')
             if not is_valid_string_maxsize(expect_string, 50):
                 self.log.error(
-                    u'Parameter expect_string is invalid. Value: %s.', expect_string)
+                    'Parameter expect_string is invalid. Value: %s.', expect_string)
                 raise InvalidValueError(None, 'expect_string', expect_string)
 
             # User permission
@@ -90,7 +90,7 @@ class HealthcheckAddExpectStringResource(RestResource):
         except HealthcheckEqualError, e:
             return self.response_error(313, e.message)
 
-        except HealthcheckExpectError, e:
+        except HealthcheckExpectError as e:
             return self.response_error(1)
 
         except XMLError, e:

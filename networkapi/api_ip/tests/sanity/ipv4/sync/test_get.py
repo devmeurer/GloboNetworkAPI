@@ -58,7 +58,7 @@ class IPv4GetTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no IP with pk = 1000.',
+            'There is no IP with pk = 1000.',
             response.data['detail']
         )
 
@@ -88,7 +88,7 @@ class IPv4GetTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'There is no IP with pk = 1000.',
+            'There is no IP with pk = 1000.',
             response.data['detail']
         )
 
@@ -103,7 +103,7 @@ class IPv4GetTestCase(NetworkApiTestCase):
 
         self.compare_status(404, response.status_code)
         self.compare_values(
-            u'There is no IP with pk = 1001.',
+            'There is no IP with pk = 1001.',
             response.data['detail']
         )
 

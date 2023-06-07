@@ -142,8 +142,8 @@ class EnvironmentGetOneSuccessTestCase(NetworkApiTestCase):
                           sort_keys=True)
 
         expected_data = [
-            {'id': 1L, 'name': u'BE - SANITY-TEST-1 - RACK-1', 'children': []},
-            {'id': 2L, 'name': u'BE - SANITY-TEST-1 - RACK-2', 'children': []}
+            {'id': 1L, 'name': 'BE - SANITY-TEST-1 - RACK-1', 'children': []},
+            {'id': 2L, 'name': 'BE - SANITY-TEST-1 - RACK-2', 'children': []}
         ]
 
         expected_data = json.dumps(expected_data, sort_keys=True)

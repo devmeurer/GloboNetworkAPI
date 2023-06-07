@@ -13,7 +13,7 @@ class DHCPRelayNotFoundError(APIException):
     default_detail = 'No DHCPRelayIPv4 found.'
 
     def __init__(self, version='', id=None):
-        self.detail = u'There is no DHCPRelay%s with id = %s.' % (version, id)
+        self.detail = 'There is no DHCPRelay%s with id = %s.' % (version, id)
 
 
 class DHCPRelayAlreadyExistsError(APIException):
@@ -21,7 +21,7 @@ class DHCPRelayAlreadyExistsError(APIException):
     default_detail = 'DHCPRelayIP with giver parameters already found.'
 
     def __init__(self, ip_id, network_id):
-        self.detail = u'DHCPRelayIP with giver parameters already found ' \
+        self.detail = 'DHCPRelayIP with giver parameters already found ' \
             '(%s, %s).' % (ip_id, network_id)
 
 

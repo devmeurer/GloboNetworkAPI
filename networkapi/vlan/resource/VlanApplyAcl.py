@@ -67,7 +67,7 @@ class VlanApplyAcl(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ACL_APPLY, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -79,12 +79,12 @@ class VlanApplyAcl(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             vlan_map = networkapi_map.get('vlan')
             if vlan_map is None:
-                msg = u'There is no value to the vlan tag of XML request.'
+                msg = 'There is no value to the vlan tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -113,7 +113,7 @@ class VlanApplyAcl(RestResource):
                 # User permission
                 if not has_perm(user, AdminPermission.ACL_APPLY, AdminPermission.WRITE_OPERATION, None, equip.get('equipamento').get('id'), AdminPermission.EQUIP_UPDATE_CONFIG_OPERATION):
                     self.log.error(
-                        u'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
+                        'Groups of equipment registered with the IP of the  VIP request  is not allowed of acess.')
                     raise EquipmentGroupsNotAuthorizedError(None)
 
                 equip = equip.get('equipamento').get('nome')
@@ -149,7 +149,7 @@ class VlanApplyAcl(RestResource):
 
         except EquipmentGroupsNotAuthorizedError:
             return self.response_error(271)
-        except Exception, e:
+        except Exception as e:
             logger.error('Erro quando o usuário %s tentou aplicar ACL %s no equipamentos: %s' % (
                 user.nome, acl, equipments))
             logger.error(e)

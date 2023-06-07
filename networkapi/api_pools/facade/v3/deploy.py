@@ -450,7 +450,7 @@ def _validate_pool_to_apply(pool, update=False, user=None):
     equips = Equipamento.objects.filter(
         maintenance=0,
         equipamentoambiente__ambiente__id=server_pool.environment.id,
-        tipo_equipamento__tipo_equipamento=u'Balanceador').distinct()
+        tipo_equipamento__tipo_equipamento='Balanceador').distinct()
 
     if facade_eqpt.all_equipments_are_in_maintenance(equips):
         raise exceptions_eqpt.AllEquipmentsAreInMaintenanceException()

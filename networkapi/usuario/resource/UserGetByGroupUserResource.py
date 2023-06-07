@@ -47,13 +47,13 @@ class UserGetByGroupUserResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.USER_ADMINISTRATION, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid Group User ID
             if not is_valid_int_greater_zero_param(id_ugroup):
                 self.log.error(
-                    u'The id_ugroup parameter is not a valid value: %s.', id_ugroup)
+                    'The id_ugroup parameter is not a valid value: %s.', id_ugroup)
                 raise InvalidValueError(None, 'id_ugroup', id_ugroup)
 
             # Find Group User by ID to check if it exist

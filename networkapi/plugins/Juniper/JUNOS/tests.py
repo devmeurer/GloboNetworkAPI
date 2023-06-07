@@ -214,7 +214,7 @@ class JunosPluginTest(NetworkApiTestCase):
 
         mock_start_shell.return_value.run.return_value = [
             False,
-            u'cli -c "show cli authorization"\r\r\nCurrent user: \'root        \' class \'super-user\'\r']
+            'cli -c "show cli authorization"\r\r\nCurrent user: \'root        \' class \'super-user\'\r']
 
         plugin = JUNOS(equipment_access=self.mock_equipment_access)
 

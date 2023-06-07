@@ -585,7 +585,7 @@ class RackAplicarConfigResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.SCRIPT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             rack_id = kwargs.get('id_rack')
@@ -660,7 +660,7 @@ class RackAplicarConfigResource(RestResource):
             # BE - PRODUCAO
             try:
                 environment_list = ambiente_prod(user, rack, environment_list)
-            except ObjectDoesNotExist, e:
+            except ObjectDoesNotExist as e:
                 raise var_exceptions.VariableDoesNotExistException(e)
             except:
                 raise RackAplError(
@@ -677,7 +677,7 @@ class RackAplicarConfigResource(RestResource):
             try:
                 environment_list = ambiente_prod_fe(
                     user, rack, environment_list)
-            except ObjectDoesNotExist, e:
+            except ObjectDoesNotExist as e:
                 raise var_exceptions.VariableDoesNotExistException(e)
             except:
                 raise RackAplError(

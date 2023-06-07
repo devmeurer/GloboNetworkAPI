@@ -59,12 +59,12 @@ class EquipmentEnvironmentDeallocateResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_equipment):
                 self.log.error(
-                    u'Parameter id_equipment is invalid. Value: %s.', id_equipment)
+                    'Parameter id_equipment is invalid. Value: %s.', id_equipment)
                 raise InvalidValueError(None, 'id_equipment', id_equipment)
 
             if not is_valid_int_greater_zero_param(id_environment):
                 self.log.error(
-                    u'Parameter id_environment is invalid. Value: %s.', id_environment)
+                    'Parameter id_environment is invalid. Value: %s.', id_environment)
                 raise InvalidValueError(None, 'id_environment', id_environment)
 
             # Find Equipment by ID to check if it exist
@@ -73,7 +73,7 @@ class EquipmentEnvironmentDeallocateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, id_equipment, AdminPermission.EQUIP_WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Find Environment by ID to check if it exist
@@ -94,7 +94,7 @@ class EquipmentEnvironmentDeallocateResource(RestResource):
                         try:
                             ip = ipequip.ip
                             ipequip.remove(user, ip.id, ipequip.equipamento.id)
-                        except IpCantBeRemovedFromVip, e:
+                        except IpCantBeRemovedFromVip as e:
                             is_error = True
                             ipv4_error += " %s.%s.%s.%s - Vip %s ," % (
                                 ip.oct1, ip.oct2, ip.oct3, ip.oct4, e.cause)
@@ -105,7 +105,7 @@ class EquipmentEnvironmentDeallocateResource(RestResource):
                         try:
                             ip = ipequip.ip
                             ipequip.remove(user, ip.id, ipequip.equipamento.id)
-                        except IpCantBeRemovedFromVip, e:
+                        except IpCantBeRemovedFromVip as e:
                             is_error = True
                             ipv6_error += " %s:%s:%s:%s:%s:%s:%s:%s - Vip %s ," % (
                                 ip.block1, ip.block2, ip.block3, ip.block4, ip.block5, ip.block6, ip.block7, ip.block8, e.cause)
@@ -125,7 +125,7 @@ class EquipmentEnvironmentDeallocateResource(RestResource):
         except AmbienteNotFoundError, e:
             return self.response_error(112)
 
-        except EquipamentoAmbienteNotFoundError, e:
+        except EquipamentoAmbienteNotFoundError as e:
             return self.response_error(320)
 
         except IpNotFoundError, e:

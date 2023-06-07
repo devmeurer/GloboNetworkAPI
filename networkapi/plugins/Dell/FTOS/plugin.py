@@ -55,7 +55,7 @@ class FTOS(BasePlugin):
 
         try:
             stdin, stdout, stderr = self.channel.exec_command('%s' % (command))
-        except Exception, e:
+        except Exception as e:
             log.error('Error in connection. Cannot send command %s: %s' %
                       (command, e))
             raise api_exceptions.NetworkAPIException

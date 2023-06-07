@@ -57,13 +57,13 @@ class RequisicaoVipDeleteResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Valid vip ID
             if not is_valid_int_greater_zero_param(vip_id):
                 self.log.error(
-                    u'Parameter id_vip is invalid. Value: %s.', vip_id)
+                    'Parameter id_vip is invalid. Value: %s.', vip_id)
                 raise InvalidValueError(None, 'id_vip', vip_id)
 
             vip = RequisicaoVips.get_by_pk(vip_id)
@@ -91,17 +91,17 @@ class RequisicaoVipDeleteResource(RestResource):
                             ipv6.delete()
                 except IpCantRemoveFromServerPool, e:
                     raise e
-                except IpCantBeRemovedFromVip, e:
+                except IpCantBeRemovedFromVip as e:
                     raise e
-                except Exception, e:
+                except Exception as e:
                     raise RequisicaoVipsError(
-                        e, u'Failed to remove Vip Request.')
+                        e, 'Failed to remove Vip Request.')
 
             return self.response(dumps_networkapi({}))
 
         except IpCantRemoveFromServerPool, e:
             return self.response_error(389, e.cause.get('vip_id'), e.cause.get('ip'), e.cause.get('server_pool_identifiers'))
-        except IpCantBeRemovedFromVip, e:
+        except IpCantBeRemovedFromVip as e:
             return self.response_error(390, e.cause.get('vip_id'), e.cause.get('vip_id_identifiers'), e.cause.get('ip'))
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)

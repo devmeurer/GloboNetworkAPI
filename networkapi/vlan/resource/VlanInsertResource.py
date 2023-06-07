@@ -70,7 +70,7 @@ class VlanInsertResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -81,12 +81,12 @@ class VlanInsertResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             vlan_map = networkapi_map.get('vlan')
             if vlan_map is None:
-                msg = u'There is no value to the vlan tag of XML request.'
+                msg = 'There is no value to the vlan tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -104,39 +104,39 @@ class VlanInsertResource(RestResource):
             # Valid environment_id ID
             if not is_valid_int_greater_zero_param(environment_id):
                 self.log.error(
-                    u'Parameter environment_id is invalid. Value: %s.', environment_id)
+                    'Parameter environment_id is invalid. Value: %s.', environment_id)
                 raise InvalidValueError(None, 'environment_id', environment_id)
 
             # Valid number of Vlan
             if not is_valid_int_greater_zero_param(number):
                 self.log.error(
-                    u'Parameter number is invalid. Value: %s', number)
+                    'Parameter number is invalid. Value: %s', number)
                 raise InvalidValueError(None, 'number', number)
 
             # Valid name of Vlan
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 50):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             if not is_valid_vlan_name(name):
                 self.log.error(
-                    u'Parameter %s is invalid because is using special characters and/or breaklines.', name)
+                    'Parameter %s is invalid because is using special characters and/or breaklines.', name)
                 raise InvalidValueError(None, 'name', name)
 
             if not network_ipv4 or not str(network_ipv4).isdigit():
                 self.log.error(
-                    u'Parameter network_ipv4 is invalid. Value: %s.', network_ipv4)
+                    'Parameter network_ipv4 is invalid. Value: %s.', network_ipv4)
                 raise InvalidValueError(None, 'network_ipv4', network_ipv4)
 
             if not network_ipv6 or not str(network_ipv6).isdigit():
                 self.log.error(
-                    u'Parameter network_ipv6 is invalid. Value: %s.', network_ipv6)
+                    'Parameter network_ipv6 is invalid. Value: %s.', network_ipv6)
                 raise InvalidValueError(None, 'network_ipv6', network_ipv6)
 
             # vrf can NOT be greater than 100
             if not is_valid_string_maxsize(vrf, 100, False):
                 self.log.error(
-                    u'Parameter vrf is invalid. Value: %s.', vrf)
+                    'Parameter vrf is invalid. Value: %s.', vrf)
                 raise InvalidValueError(None, 'vrf', vrf)
 
             network_ipv4 = int(network_ipv4)
@@ -144,12 +144,12 @@ class VlanInsertResource(RestResource):
 
             if network_ipv4 not in range(0, 2):
                 self.log.error(
-                    u'Parameter network_ipv4 is invalid. Value: %s.', network_ipv4)
+                    'Parameter network_ipv4 is invalid. Value: %s.', network_ipv4)
                 raise InvalidValueError(None, 'network_ipv4', network_ipv4)
 
             if network_ipv6 not in range(0, 2):
                 self.log.error(
-                    u'Parameter network_ipv6 is invalid. Value: %s.', network_ipv6)
+                    'Parameter network_ipv6 is invalid. Value: %s.', network_ipv6)
                 raise InvalidValueError(None, 'network_ipv6', network_ipv6)
 
             p = re.compile('^[A-Z0-9-_]+$')
@@ -165,7 +165,7 @@ class VlanInsertResource(RestResource):
             # Valid description of Vlan
             if not is_valid_string_minsize(description, 3, False) or not is_valid_string_maxsize(description, 200, False):
                 self.log.error(
-                    u'Parameter description is invalid. Value: %s', description)
+                    'Parameter description is invalid. Value: %s', description)
                 raise InvalidValueError(None, 'description', description)
 
             vlan = Vlan()
@@ -174,7 +174,7 @@ class VlanInsertResource(RestResource):
             if acl_file is not None:
                 if not is_valid_string_minsize(acl_file, 3) or not is_valid_string_maxsize(acl_file, 200):
                     self.log.error(
-                        u'Parameter acl_file is invalid. Value: %s', acl_file)
+                        'Parameter acl_file is invalid. Value: %s', acl_file)
                     raise InvalidValueError(None, 'acl_file', acl_file)
                 p = re.compile('^[A-Z0-9-_]+$')
                 m = p.match(acl_file)
@@ -189,7 +189,7 @@ class VlanInsertResource(RestResource):
             if acl_file_v6 is not None:
                 if not is_valid_string_minsize(acl_file_v6, 3) or not is_valid_string_maxsize(acl_file_v6, 200):
                     self.log.error(
-                        u'Parameter acl_file_v6 is invalid. Value: %s', acl_file_v6)
+                        'Parameter acl_file_v6 is invalid. Value: %s', acl_file_v6)
                     raise InvalidValueError(None, 'acl_file_v6', acl_file_v6)
                 p = re.compile('^[A-Z0-9-_]+$')
                 m = p.match(acl_file_v6)
@@ -348,7 +348,7 @@ class VlanInsertResource(RestResource):
         except VlanNumberEnvironmentNotAvailableError, e:
             return self.response_error(315, e.message)
         except XMLError, e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)
         except (VlanError, AmbienteError), e:
             return self.response_error(1)
@@ -362,5 +362,5 @@ class VlanInsertResource(RestResource):
 
         except IpNotAvailableError, e:
             return self.response_error(150, e)
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             return self.response_error(111, e)

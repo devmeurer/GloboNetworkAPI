@@ -53,12 +53,12 @@ class FilterDissociateOneResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             if not is_valid_int_greater_zero_param(kwargs['id_filter']):
                 self.log.error(
-                    u'Parameter id_filter is invalid. Value: %s.', kwargs['id_filter'])
+                    'Parameter id_filter is invalid. Value: %s.', kwargs['id_filter'])
                 raise InvalidValueError(None, 'id_filter', kwargs['id_filter'])
             else:
                 # Check existence
@@ -66,7 +66,7 @@ class FilterDissociateOneResource(RestResource):
 
             if not is_valid_int_greater_zero_param(kwargs['id_equip_type']):
                 self.log.error(
-                    u'Parameter id_equip_type is invalid. Value: %s.', kwargs['id_equip_type'])
+                    'Parameter id_equip_type is invalid. Value: %s.', kwargs['id_equip_type'])
                 raise InvalidValueError(
                     None, 'id_equip_type', kwargs['id_equip_type'])
             else:
@@ -81,7 +81,7 @@ class FilterDissociateOneResource(RestResource):
                 ## Only delete if there's no conflicts ##
                 association.delete()
 
-            except ObjectDoesNotExist, e:
+            except ObjectDoesNotExist as e:
                 # Association doesn't exist, ok
                 self.log.error(e)
                 pass
@@ -94,7 +94,7 @@ class FilterDissociateOneResource(RestResource):
             return self.response_error(269, e.param, e.value)
         except TipoEquipamentoNotFoundError, e:
             return self.response_error(100)
-        except FilterNotFoundError, e:
+        except FilterNotFoundError as e:
             return self.response_error(339)
         except FilterError, e:
             return self.response_error(1)

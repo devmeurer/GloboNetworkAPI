@@ -42,7 +42,7 @@ class EquipmentGetAllResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             equip_list = Equipamento.objects.all()
@@ -60,5 +60,5 @@ class EquipmentGetAllResource(RestResource):
         except (EquipamentoError, GrupoError):
             return self.response_error(1)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)

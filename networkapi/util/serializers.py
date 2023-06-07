@@ -226,7 +226,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
                 eager_loading = mapping.get(key, {}).get('eager_loading')
                 if eager_loading:
                     queryset = eager_loading(queryset)
-        except Exception, e:
+        except Exception as e:
             log.info(e)
             pass
         return queryset

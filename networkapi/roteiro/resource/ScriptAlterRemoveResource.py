@@ -58,7 +58,7 @@ class ScriptAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.SCRIPT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_script = kwargs.get('id_script')
@@ -69,11 +69,11 @@ class ScriptAlterRemoveResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             script_map = networkapi_map.get('script')
             if script_map is None:
-                return self.response_error(3, u'There is no value to the script tag  of XML request.')
+                return self.response_error(3, 'There is no value to the script tag  of XML request.')
 
             # Get XML data
             script = script_map.get('script')
@@ -84,25 +84,25 @@ class ScriptAlterRemoveResource(RestResource):
             # Valid ID Script
             if not is_valid_int_greater_zero_param(id_script):
                 self.log.error(
-                    u'The id_script parameter is not a valid value: %s.', id_script)
+                    'The id_script parameter is not a valid value: %s.', id_script)
                 raise InvalidValueError(None, 'id_script', id_script)
 
             # Valid Script
             if not is_valid_string_minsize(script, 3) or not is_valid_string_maxsize(script, 40):
                 self.log.error(
-                    u'Parameter script is invalid. Value: %s', script)
+                    'Parameter script is invalid. Value: %s', script)
                 raise InvalidValueError(None, 'script', script)
 
             # Valid ID Script Type
             if not is_valid_int_greater_zero_param(id_script_type):
                 self.log.error(
-                    u'The id_script_type parameter is not a valid value: %s.', id_script_type)
+                    'The id_script_type parameter is not a valid value: %s.', id_script_type)
                 raise InvalidValueError(None, 'id_script_type', id_script_type)
 
             # Valid description
             if not is_valid_string_minsize(description, 3) or not is_valid_string_maxsize(description, 100):
                 self.log.error(
-                    u'Parameter description is invalid. Value: %s', description)
+                    'Parameter description is invalid. Value: %s', description)
                 raise InvalidValueError(None, 'description', description)
 
             # Find Script by ID to check if it exist
@@ -156,7 +156,7 @@ class ScriptAlterRemoveResource(RestResource):
                     if not scr.roteiro.lower() == script.lower() and not scr.tipo_roteiro.id == id_script_type:
                         Roteiro.get_by_name_script(script, id_script_type)
                         raise RoteiroNameDuplicatedError(
-                            None, u'Já existe um roteiro com o nome %s com tipo de roteiro %s.' % (script, script_type.tipo))
+                            None, 'Já existe um roteiro com o nome %s com tipo de roteiro %s.' % (script, script_type.tipo))
                 except RoteiroNotFoundError:
                     pass
 
@@ -168,9 +168,9 @@ class ScriptAlterRemoveResource(RestResource):
                 try:
                     # update Script
                     scr.save()
-                except Exception, e:
-                    self.log.error(u'Failed to update the Script.')
-                    raise RoteiroError(e, u'Failed to update the Script.')
+                except Exception as e:
+                    self.log.error('Failed to update the Script.')
+                    raise RoteiroError(e, 'Failed to update the Script.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -204,7 +204,7 @@ class ScriptAlterRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.SCRIPT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_script = kwargs.get('id_script')
@@ -212,7 +212,7 @@ class ScriptAlterRemoveResource(RestResource):
             # Valid ID Script
             if not is_valid_int_greater_zero_param(id_script):
                 self.log.error(
-                    u'The id_script parameter is not a valid value: %s.', id_script)
+                    'The id_script parameter is not a valid value: %s.', id_script)
                 raise InvalidValueError(None, 'id_script', id_script)
 
             # Find Script by ID to check if it exist
@@ -224,16 +224,16 @@ class ScriptAlterRemoveResource(RestResource):
 
                     if script.equipamentoroteiro_set.count() != 0:
                         raise RoteiroHasEquipamentoError(
-                            None, u'Existe equipamento associado ao roteiro %s' % script.id)
+                            None, 'Existe equipamento associado ao roteiro %s' % script.id)
 
                     # remove Script
                     script.delete()
 
                 except RoteiroHasEquipamentoError, e:
                     raise e
-                except Exception, e:
-                    self.log.error(u'Failed to remove the Script.')
-                    raise RoteiroError(e, u'Failed to remove the Script.')
+                except Exception as e:
+                    self.log.error('Failed to remove the Script.')
+                    raise RoteiroError(e, 'Failed to remove the Script.')
 
                 return self.response(dumps_networkapi({}))
 

@@ -53,7 +53,7 @@ class IPv4ListResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -72,7 +72,7 @@ class IPv4ListResource(RestResource):
 
             try:
                 len(ips)
-            except Exception, e:
+            except Exception as e:
                 raise InvalidValueError(None, 'id_rede', id_network)
 
             if ips is None or len(ips) <= 0:
@@ -119,7 +119,7 @@ class IPv4ListResource(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except (NetworkIPv4NotFoundError, EquipamentoNotFoundError, IpEquipmentNotFoundError):
             return self.response_error(281)
@@ -128,5 +128,5 @@ class IPv4ListResource(RestResource):
         except (IpError, EquipamentoError):
             return self.response_error(1)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)

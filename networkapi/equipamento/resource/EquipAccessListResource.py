@@ -48,7 +48,7 @@ class EquipAccessListResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -59,12 +59,12 @@ class EquipAccessListResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             equip_access_map = networkapi_map.get('equipamento_acesso')
             if equip_access_map is None:
-                msg = u'There is no value to the vlan tag of XML request.'
+                msg = 'There is no value to the vlan tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -73,7 +73,7 @@ class EquipAccessListResource(RestResource):
 
             # Name must NOT be none and 50 is the maxsize
             if not is_valid_string_maxsize(name, 50):
-                self.log.error(u'Parameter name is invalid. Value: %s.', name)
+                self.log.error('Parameter name is invalid. Value: %s.', name)
                 raise InvalidValueError(None, 'name', name)
 
             # Equipment
@@ -110,5 +110,5 @@ class EquipAccessListResource(RestResource):
         except (EquipamentoError, GrupoError):
             return self.response_error(1)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)

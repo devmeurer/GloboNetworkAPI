@@ -230,7 +230,7 @@ def update_rack(rack_id, rack):
             exceptions.InvalidInputException) as e:
         log.exception(e)
         raise Exception(e)
-    except Exception, e:
+    except Exception as e:
         log.exception(e)
         raise Exception(e)
 
@@ -1134,8 +1134,8 @@ def get_by_pk(idt):
         return Rack.objects.filter(id=idt).uniqueResult()
     except ObjectDoesNotExist:
         raise exceptions.RackNumberNotFoundError("Rack id %s nao foi encontrado" % idt)
-    except Exception, e:
-        log.error(u'Failure to search the Rack.')
+    except Exception as e:
+        log.error('Failure to search the Rack.')
         raise exceptions.RackError("Failure to search the Rack. %s" % e)
 
 

@@ -62,7 +62,7 @@ class VlanCreateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -73,12 +73,12 @@ class VlanCreateResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             vlan_map = networkapi_map.get('vlan')
             if vlan_map is None:
-                msg = u'There is no value to the vlan tag of XML request.'
+                msg = 'There is no value to the vlan tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -88,7 +88,7 @@ class VlanCreateResource(RestResource):
             # Valid network_ip ID
             if not is_valid_int_greater_zero_param(network_ip_id):
                 self.log.error(
-                    u'Parameter id_network_ip is invalid. Value: %s.', network_ip_id)
+                    'Parameter id_network_ip is invalid. Value: %s.', network_ip_id)
                 raise InvalidValueError(None, 'id_network_ip', network_ip_id)
 
             # Network must exists in database
@@ -110,13 +110,13 @@ class VlanCreateResource(RestResource):
                 # User permission
                 if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
                     self.log.error(
-                        u'User does not have permission to perform the operation.')
+                        'User does not have permission to perform the operation.')
                     return self.not_authorized()
             for equip in equips_from_ipv6:
                 # User permission
                 if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
                     self.log.error(
-                        u'User does not have permission to perform the operation.')
+                        'User does not have permission to perform the operation.')
                     return self.not_authorized()
 
             # Business Rules
@@ -188,7 +188,7 @@ class VlanCreateResource(RestResource):
         except VlanNotFoundError, e:
             return self.response_error(116)
         except XMLError, e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)
         except ScriptError, s:
             return self.response_error(2, s)

@@ -54,13 +54,13 @@ class EquipmentScriptRemoveResource(RestResource):
             # Valid ID Equipment
             if not is_valid_int_greater_zero_param(id_equipment):
                 self.log.error(
-                    u'The id_equipment parameter is not a valid value: %s.', id_equipment)
+                    'The id_equipment parameter is not a valid value: %s.', id_equipment)
                 raise InvalidValueError(None, 'id_equipment', id_equipment)
 
             # Valid ID Script
             if not is_valid_int_greater_zero_param(id_script):
                 self.log.error(
-                    u'The id_script parameter is not a valid value: %s.', id_script)
+                    'The id_script parameter is not a valid value: %s.', id_script)
                 raise InvalidValueError(None, 'id_script', id_script)
 
             # Find Equipment by ID to check if it exist
@@ -72,7 +72,7 @@ class EquipmentScriptRemoveResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, id_equipment, AdminPermission.EQUIP_WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             with distributedlock(LOCK_EQUIPMENT_SCRIPT % id_script):

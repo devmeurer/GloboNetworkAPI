@@ -68,15 +68,15 @@ class InvalidFilenameException(APIException):
     default_detail = 'Invalid filename.'
 
     def __init__(self, filename=None):
-        self.detail = u'Invalid filename: %s' % (filename)
+        self.detail = 'Invalid filename: %s' % (filename)
 
 
 class LoadEquipmentModuleException(APIException):
     status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-    default_detail = u'Could not load equipment module: '
+    default_detail = 'Could not load equipment module: '
 
     def __init__(self, module_name=None):
-        self.detail = u'Could not load equipment module: %s' % (module_name)
+        self.detail = 'Could not load equipment module: %s' % (module_name)
 
 
 class UnableToVerifyResponse(APIException):
@@ -95,56 +95,56 @@ class UnsupportedVersion(APIException):
     """ Return message error: Version unsupported by plugin """
 
     status_code = status.HTTP_400_BAD_REQUEST
-    default_detail = u'Version unsupported by plugin'
+    default_detail = 'Version unsupported by plugin'
 
     def __init__(self, msg=None):
-        self.detail = u'Version unsupported by plugin: <<%s>>' % (msg)
+        self.detail = 'Version unsupported by plugin: <<%s>>' % (msg)
 
 
 class PluginUninstanced(APIException):
     """Return message error: Plugin uninstanced"""
 
     status_code = status.HTTP_400_BAD_REQUEST
-    default_detail = u'Plugin uninstanced'
+    default_detail = 'Plugin uninstanced'
 
     def __init__(self, msg=None):
-        self.detail = u'Plugin uninstanced: <<%s>>' % (msg)
+        self.detail = 'Plugin uninstanced: <<%s>>' % (msg)
 
 
 class PluginNotConnected(APIException):
     """Return message error: Plugin uninstanced"""
 
     status_code = status.HTTP_400_BAD_REQUEST
-    default_detail = u'Plugin not connected'
+    default_detail = 'Plugin not connected'
 
     def __init__(self):
-        self.detail = u'Plugin not connected'
+        self.detail = 'Plugin not connected'
 
 
 class NamePropertyInvalid(APIException):
     """Return message error: Property Name is invalid"""
 
     status_code = status.HTTP_400_BAD_REQUEST
-    default_detail = u'Property Name is invalid'
+    default_detail = 'Property Name is invalid'
 
     def __init__(self, msg=None):
-        self.detail = u'Property Name is invalid: <<%s>>' % (msg)
+        self.detail = 'Property Name is invalid: <<%s>>' % (msg)
 
 
 class ValueInvalid(APIException):
     """Return message error: value is invalid"""
 
     status_code = status.HTTP_400_BAD_REQUEST
-    default_detail = u'Value is invalid'
+    default_detail = 'Value is invalid'
 
     def __init__(self, msg=None):
-        self.detail = u'Value is invalid: <<%s>>' % (msg)
+        self.detail = 'Value is invalid: <<%s>>' % (msg)
 
 
 class ControllerInventoryIsEmpty(APIException):
     """Returno message error: No Nodes on Controller Inventory"""
     status_code = status.HTTP_400_BAD_REQUEST
-    default_detail = u'SDN Controller\'s inventory is empty'
+    default_detail = 'SDN Controller\'s inventory is empty'
 
     def __init__(self, msg=None):
-        self.detail = u'SDN Controller\'s inventory is empty: <<%s>>' % (msg)
+        self.detail = 'SDN Controller\'s inventory is empty: <<%s>>' % (msg)

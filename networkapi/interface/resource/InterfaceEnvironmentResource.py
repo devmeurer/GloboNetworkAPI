@@ -48,7 +48,7 @@ class InterfaceEnvironmentResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -57,11 +57,11 @@ class InterfaceEnvironmentResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             interface_map = networkapi_map.get('interface')
             if interface_map is None:
-                return self.response_error(3, u'There is no value to the interface tag  of XML request.')
+                return self.response_error(3, 'There is no value to the interface tag  of XML request.')
 
             # Get XML data
             env = interface_map.get('ambiente')
@@ -84,7 +84,7 @@ class InterfaceEnvironmentResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except InterfaceError:
             return self.response_error(1)
@@ -100,7 +100,7 @@ class InterfaceEnvironmentResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -109,11 +109,11 @@ class InterfaceEnvironmentResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             interface_map = networkapi_map.get('interface')
             if interface_map is None:
-                return self.response_error(3, u'There is no value to the interface tag  of XML request.')
+                return self.response_error(3, 'There is no value to the interface tag  of XML request.')
 
             # Get XML data
             interface = interface_map.get('interface')
@@ -129,7 +129,7 @@ class InterfaceEnvironmentResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except InterfaceError:
             return self.response_error(1)
@@ -146,7 +146,7 @@ class InterfaceEnvironmentResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Get XML data
@@ -166,7 +166,7 @@ class InterfaceEnvironmentResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except InterfaceError:
             return self.response_error(1)

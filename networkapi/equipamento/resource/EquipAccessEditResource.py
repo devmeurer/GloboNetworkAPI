@@ -65,12 +65,12 @@ class EquipAccessEditResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             equipmentaccess_map = networkapi_map.get('equipamento_acesso')
             if equipmentaccess_map is None:
-                msg = u'There is no value to the equipamento_acesso tag of XML request.'
+                msg = 'There is no value to the equipamento_acesso tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -86,30 +86,30 @@ class EquipAccessEditResource(RestResource):
             # Password must NOT be none and 20 is the maxsize and 3 is the
             # minsize
             if not is_valid_string_maxsize(password, 150) or not is_valid_string_minsize(password, 3):
-                self.log.error(u'Parameter pass is invalid.')
+                self.log.error('Parameter pass is invalid.')
                 raise InvalidValueError(None, 'pass', '****')
 
             # Enable Pass must NOT be none and 20 is the maxsize and 3 is the
             # minsize
             if not is_valid_string_maxsize(enable_pass, 150) or not is_valid_string_minsize(enable_pass, 3):
-                self.log.error(u'Parameter enable_pass is invalid.')
+                self.log.error('Parameter enable_pass is invalid.')
                 raise InvalidValueError(None, 'enable_pass', '****')
 
             # User must NOT be none and 20 is the maxsize and 3 is the minsize
             if not is_valid_string_maxsize(user, 20) or not is_valid_string_minsize(user, 3):
-                self.log.error(u'Parameter user is invalid. Value: %s.', user)
+                self.log.error('Parameter user is invalid. Value: %s.', user)
                 raise InvalidValueError(None, 'user', user)
 
             # Host must NOT be none and 100 is the maxsize and 4 is the minsize
             if not is_valid_string_maxsize(fqdn, 100) or not is_valid_string_minsize(fqdn, 4):
-                self.log.error(u'Parameter fqdn is invalid. Value: %s.', fqdn)
+                self.log.error('Parameter fqdn is invalid. Value: %s.', fqdn)
                 raise InvalidValueError(None, 'fqdn', fqdn)
 
             # Type Access
             # Valid type access ID
             if not is_valid_int_greater_zero_param(type_access):
                 self.log.error(
-                    u'Parameter type_access_id is invalid. Value: %s.', type_access)
+                    'Parameter type_access_id is invalid. Value: %s.', type_access)
                 raise InvalidValueError(None, 'type_access_id', type_access)
 
             # Valid vrf id
@@ -117,7 +117,7 @@ class EquipAccessEditResource(RestResource):
             if vrf:
                 if not is_valid_int_greater_zero_param(vrf):
                     self.log.error(
-                        u'The vrf parameter is not a valid value: %s.', vrf)
+                        'The vrf parameter is not a valid value: %s.', vrf)
                     raise InvalidValueError(None, 'vrf', vrf)
                 vrf_obj = Vrf(int(vrf))
 
@@ -129,7 +129,7 @@ class EquipAccessEditResource(RestResource):
             # User permission
             if not has_perm(auth, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, equip_access.equipamento.id, AdminPermission.EQUIP_WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             with distributedlock(LOCK_EQUIPMENT_ACCESS % type_access.id):
@@ -138,7 +138,7 @@ class EquipAccessEditResource(RestResource):
                 if not (int(type_access.id) == int(equip_access.tipo_acesso.id)):
                     if EquipamentoAcesso.objects.filter(equipamento=equip_access.equipamento, tipo_acesso=type_access).count() > 0:
                         raise EquipamentoAccessDuplicatedError(
-                            None, u'Já existe esta associação de equipamento e tipo de acesso cadastrada.')
+                            None, 'Já existe esta associação de equipamento e tipo de acesso cadastrada.')
 
                 equip_access.__dict__.update(
                     fqdn=fqdn, user=user, password=password, enable_pass=enable_pass)
@@ -171,5 +171,5 @@ class EquipAccessEditResource(RestResource):
         except (TipoAcessoError, EquipamentoError):
             return self.response_error(1)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)

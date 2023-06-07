@@ -61,12 +61,12 @@ class IpCheckForVipResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             ip_map = networkapi_map.get('ip_map')
             if ip_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -77,12 +77,12 @@ class IpCheckForVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Valid ip id
             if ip is None:
-                self.log.error(u'Parameter ip is invalid. Value: %s.', ip)
+                self.log.error('Parameter ip is invalid. Value: %s.', ip)
                 raise InvalidValueError(None, 'ip', ip)
 
             # Valid evip id
@@ -98,7 +98,7 @@ class IpCheckForVipResource(RestResource):
             if len(ip_list) == 1:
 
                 if not is_valid_ipv6(ip):
-                    self.log.error(u'Parameter ip is invalid. Value: %s.', ip)
+                    self.log.error('Parameter ip is invalid. Value: %s.', ip)
                     raise InvalidValueError(None, 'ip', ip)
 
                 if len(evip.networkipv6_set.all()) <= 0:
@@ -125,7 +125,7 @@ class IpCheckForVipResource(RestResource):
             else:
 
                 if not is_valid_ipv4(ip):
-                    self.log.error(u'Parameter ip is invalid. Value: %s.', ip)
+                    self.log.error('Parameter ip is invalid. Value: %s.', ip)
                     raise InvalidValueError(None, 'ip', ip)
 
                 if len(evip.networkipv4_set.all()) <= 0:
@@ -157,7 +157,7 @@ class IpCheckForVipResource(RestResource):
         except IpNotAvailableError, e:
             return self.response_error(150, e.message)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except EnvironmentVipNotFoundError, e:
             return self.response_error(283)

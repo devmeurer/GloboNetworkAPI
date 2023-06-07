@@ -77,15 +77,15 @@ class GrupoEquipamentoResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             egroup_map = networkapi_map.get('grupo')
             if egroup_map is None:
-                return self.response_error(3, u'Não existe valor para a tag grupo do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag grupo do XML de requisição.')
 
             name = egroup_map.get('nome')
             if not is_valid_string_maxsize(name, 100):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             egroup = EGrupo()
@@ -99,7 +99,7 @@ class GrupoEquipamentoResource(RestResource):
         except EGrupoNameDuplicatedError:
             return self.response_error(254, name)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
         except GrupoError:
             return self.response_error(1)
@@ -113,7 +113,7 @@ class GrupoEquipamentoResource(RestResource):
             egroup_id = kwargs.get('id_grupo')
             if not is_valid_int_greater_zero_param(egroup_id):
                 self.log.error(
-                    u'The egroup_id parameter is not a valid value: %s.', egroup_id)
+                    'The egroup_id parameter is not a valid value: %s.', egroup_id)
                 raise InvalidValueError(None, 'egroup_id', egroup_id)
 
             egrp = EGrupo.get_by_pk(egroup_id)
@@ -126,15 +126,15 @@ class GrupoEquipamentoResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             egroup_map = networkapi_map.get('grupo')
             if egroup_map is None:
-                return self.response_error(3, u'Não existe valor para a tag grupo do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag grupo do XML de requisição.')
 
             name = egroup_map.get('nome')
             if not is_valid_string_maxsize(name, 100):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             with distributedlock(LOCK_GROUP_EQUIPMENT % egroup_id):
@@ -156,7 +156,7 @@ class GrupoEquipamentoResource(RestResource):
         except EGrupoNameDuplicatedError:
             return self.response_error(254, name)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
         except GrupoError:
             return self.response_error(1)
@@ -171,7 +171,7 @@ class GrupoEquipamentoResource(RestResource):
             egroup_id = kwargs.get('id_grupo')
             if not is_valid_int_greater_zero_param(egroup_id):
                 self.log.error(
-                    u'The egroup_id parameter is not a valid value: %s.', egroup_id)
+                    'The egroup_id parameter is not a valid value: %s.', egroup_id)
                 raise InvalidValueError(None, 'egroup_id', egroup_id)
 
             egrp = EGrupo.get_by_pk(egroup_id)
@@ -228,7 +228,7 @@ class DireitoGrupoEquipamentoResource(RestResource):
 
             if not is_valid_int_greater_zero_param(right_id, False):
                 self.log.error(
-                    u'The right_id parameter is not a valid value: %s.', right_id)
+                    'The right_id parameter is not a valid value: %s.', right_id)
                 raise InvalidValueError(None, 'right_id', right_id)
 
             if right_id is not None:
@@ -241,12 +241,12 @@ class DireitoGrupoEquipamentoResource(RestResource):
 
                 if not is_valid_int_greater_zero_param(ugroup, False):
                     self.log.error(
-                        u'The ugroup_id parameter is not a valid value: %s.', ugroup)
+                        'The ugroup_id parameter is not a valid value: %s.', ugroup)
                     raise InvalidValueError(None, 'ugroup_id', ugroup)
 
                 if not is_valid_int_greater_zero_param(egroup, False):
                     self.log.error(
-                        u'The egroup_id parameter is not a valid value: %s.', egroup)
+                        'The egroup_id parameter is not a valid value: %s.', egroup)
                     raise InvalidValueError(None, 'egroup_id', egroup)
 
                 if ugroup is not None:
@@ -278,7 +278,7 @@ class DireitoGrupoEquipamentoResource(RestResource):
             id_grupo = int(id_grupo)
         except (TypeError, ValueError):
             self.log.error(
-                u'Valor do id_grupo_usuario inválido: %s.', id_grupo)
+                'Valor do id_grupo_usuario inválido: %s.', id_grupo)
             return self.response_error(180, id_grupo)
 
         return None
@@ -290,7 +290,7 @@ class DireitoGrupoEquipamentoResource(RestResource):
             id_grupo = int(id_grupo)
         except (TypeError, ValueError):
             self.log.error(
-                u'Valor do id_grupo_equipamento inválido: %s.', id_grupo)
+                'Valor do id_grupo_equipamento inválido: %s.', id_grupo)
             return self.response_error(102)
 
         return None
@@ -363,16 +363,16 @@ class DireitoGrupoEquipamentoResource(RestResource):
                 xml_map, attrs_map = loads(request.raw_post_data)
                 self.log.debug('XML_MAP: %s', xml_map)
             except XMLError, x:
-                self.log.error(u'Erro ao ler o XML da requisicao.')
+                self.log.error('Erro ao ler o XML da requisicao.')
                 return self.response_error(3, x)
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             direito_map = networkapi_map.get('direito_grupo_equipamento')
             if direito_map is None:
-                return self.response_error(3, u'Não existe valor para a tag direito_grupo_equipamento do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag direito_grupo_equipamento do XML de requisição.')
 
             response = self.__valida_request(direito_map)
             if response is not None:
@@ -412,23 +412,23 @@ class DireitoGrupoEquipamentoResource(RestResource):
             right_id = kwargs.get('id_direito')
             if not is_valid_int_greater_zero_param(right_id):
                 self.log.error(
-                    u'The right_id parameter is not a valid value: %s.', right_id)
+                    'The right_id parameter is not a valid value: %s.', right_id)
                 raise InvalidValueError(None, 'right_id', right_id)
 
             try:
                 xml_map, attrs_map = loads(request.raw_post_data)
                 self.log.debug('XML_MAP: %s', xml_map)
             except XMLError, x:
-                self.log.error(u'Erro ao ler o XML da requisicao.')
+                self.log.error('Erro ao ler o XML da requisicao.')
                 return self.response_error(3, x)
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             direito_map = networkapi_map.get('direito_grupo_equipamento')
             if direito_map is None:
-                return self.response_error(3, u'Não existe valor para a tag direito_grupo_equipamento do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag direito_grupo_equipamento do XML de requisição.')
 
             response = self.__valida_request(direito_map, False)
             if response is not None:
@@ -466,7 +466,7 @@ class DireitoGrupoEquipamentoResource(RestResource):
             right_id = kwargs.get('id_direito')
             if not is_valid_int_greater_zero_param(right_id, False):
                 self.log.error(
-                    u'The right_id parameter is not a valid value: %s.', right_id)
+                    'The right_id parameter is not a valid value: %s.', right_id)
                 raise InvalidValueError(None, 'right_id', right_id)
 
             DireitosGrupoEquipamento.get_by_pk(right_id)

@@ -90,7 +90,7 @@ class EnvironmentGetByEquipResource(RestResource):
         
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except EquipamentoNotFoundError, e:
             return self.response_error(117, id_equip)

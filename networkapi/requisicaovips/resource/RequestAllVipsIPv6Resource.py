@@ -53,7 +53,7 @@ class RequestAllVipsIPv6Resource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Business Validations
@@ -64,11 +64,11 @@ class RequestAllVipsIPv6Resource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag of XML request.')
 
             vip_map = networkapi_map.get('vip')
             if vip_map is None:
-                return self.response_error(3, u'There is no value to the vip tag of XML request.')
+                return self.response_error(3, 'There is no value to the vip tag of XML request.')
 
             # Get XML data
             ip_str = str(vip_map['ipv6'])
@@ -77,18 +77,18 @@ class RequestAllVipsIPv6Resource(RestResource):
             # Valid IPv6
             if not is_valid_ipv6(ip_str):
                 self.log.error(
-                    u'Parameter ipv6 is invalid. Value: %s.', ip_str)
+                    'Parameter ipv6 is invalid. Value: %s.', ip_str)
                 raise InvalidValueError(None, 'ipv6', ip_str)
 
             # Valid all_prop
             if not is_valid_int_param(all_prop):
                 self.log.error(
-                    u'Parameter all_prop is invalid. Value: %s.', all_prop)
+                    'Parameter all_prop is invalid. Value: %s.', all_prop)
                 raise InvalidValueError(None, 'all_prop', all_prop)
             all_prop = int(all_prop)
             if all_prop not in (0, 1):
                 self.log.error(
-                    u'Parameter all_prop is invalid. Value: %s.', all_prop)
+                    'Parameter all_prop is invalid. Value: %s.', all_prop)
                 raise InvalidValueError(None, 'all_prop', all_prop)
 
             blocks = str(IPv6Address(ip_str).exploded).split(':')

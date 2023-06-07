@@ -47,14 +47,14 @@ class RuleGetResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_VALIDATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_env = kwargs.get('id_env')
 
             if not is_valid_int_greater_zero_param(id_env):
                 self.log.error(
-                    u'The id_env parameter is not a valid value: %s.', id_env)
+                    'The id_env parameter is not a valid value: %s.', id_env)
                 raise InvalidValueError(None, 'id_env', id_env)
 
             Ambiente.objects.get(pk=id_env)
@@ -66,10 +66,10 @@ class RuleGetResource(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except UserNotAuthorizedError:
             return self.not_authorized()
-        except Exception, e:
+        except Exception as e:
             self.log.error(e)
             return self.response_error(1)

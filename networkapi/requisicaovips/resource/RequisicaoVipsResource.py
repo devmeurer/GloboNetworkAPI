@@ -122,11 +122,11 @@ def insert_vip_request(vip_map, user):
 
     if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.WRITE_OPERATION):
         raise UserNotAuthorizedError(
-            None, u'Usuário não tem permissão para executar a operação.')
+            None, 'Usuário não tem permissão para executar a operação.')
 
     ip_id = vip_map.get('id_ip')
     if not is_valid_int_greater_zero_param(ip_id):
-        log.error(u'The ip_id parameter is not a valid value: %s.', ip_id)
+        log.error('The ip_id parameter is not a valid value: %s.', ip_id)
         raise InvalidValueError(None, 'ip_id', ip_id)
     else:
         ip_id = int(ip_id)
@@ -147,21 +147,21 @@ def insert_vip_request(vip_map, user):
     ambiente = vip_map.get('ambiente')
 
     if not is_valid_string_minsize(finalidade, 3) or not is_valid_string_maxsize(finalidade, 50):
-        log.error(u'Finality value is invalid: %s.', finalidade)
+        log.error('Finality value is invalid: %s.', finalidade)
         raise InvalidValueError(None, 'finalidade', finalidade)
 
     if not is_valid_string_minsize(cliente, 3) or not is_valid_string_maxsize(cliente, 50):
-        log.error(u'Client value is invalid: %s.', cliente)
+        log.error('Client value is invalid: %s.', cliente)
         raise InvalidValueError(None, 'cliente', cliente)
 
     if not is_valid_string_minsize(ambiente, 3) or not is_valid_string_maxsize(ambiente, 50):
-        log.error(u'Environment value is invalid: %s.', ambiente)
+        log.error('Environment value is invalid: %s.', ambiente)
         raise InvalidValueError(None, 'ambiente', ambiente)
 
     try:
         environment_vip = EnvironmentVip.get_by_values(
             finalidade, cliente, ambiente)
-    except Exception, e:
+    except Exception as e:
         raise EnvironmentVipNotFoundError(
             e, 'The fields finality or client or ambiente is None')
 
@@ -184,7 +184,7 @@ def insert_vip_request(vip_map, user):
     # Valid maxcon
     if not is_valid_int_greater_equal_zero_param(vip_map.get('maxcon')):
         log.error(
-            u'The maxcon parameter is not a valid value: %s.', vip_map.get('maxcon'))
+            'The maxcon parameter is not a valid value: %s.', vip_map.get('maxcon'))
         raise InvalidValueError(None, 'maxcon', vip_map.get('maxcon'))
 
     if vip_map.get('reals') is not None:
@@ -217,13 +217,13 @@ def update_vip_request(vip_id, vip_map, user):
                     AdminPermission.VIPS_REQUEST,
                     AdminPermission.WRITE_OPERATION):
         raise UserNotAuthorizedError(
-            None, u'Usuário não tem permissão para executar a operação.')
+            None, 'Usuário não tem permissão para executar a operação.')
 
     healthcheck_expect_id = vip_map.get('id_healthcheck_expect')
     if healthcheck_expect_id is not None:
         if not is_valid_int_greater_zero_param(healthcheck_expect_id):
             log.error(
-                u'The healthcheck_expect_id parameter is not a valid value: %s.', healthcheck_expect_id)
+                'The healthcheck_expect_id parameter is not a valid value: %s.', healthcheck_expect_id)
             raise InvalidValueError(
                 None, 'healthcheck_expect_id', healthcheck_expect_id)
         else:
@@ -231,14 +231,14 @@ def update_vip_request(vip_id, vip_map, user):
 
     ip_id = vip_map.get('id_ip')
     if not is_valid_int_greater_zero_param(ip_id):
-        log.error(u'The ip_id parameter is not a valid value: %s.', ip_id)
+        log.error('The ip_id parameter is not a valid value: %s.', ip_id)
         raise InvalidValueError(None, 'ip_id', ip_id)
     else:
         ip_id = int(ip_id)
 
     traffic_id = vip_map.get('trafficreturn')
     if not is_valid_int_greater_zero_param(traffic_id):
-        log.error(u'The traffic_id parameter is not a valid value: %s.', traffic_id)
+        log.error('The traffic_id parameter is not a valid value: %s.', traffic_id)
         raise InvalidValueError(None, 'trafficreturn', traffic_id)
     else:
         traffic_id = int(traffic_id)
@@ -266,7 +266,7 @@ def update_vip_request(vip_id, vip_map, user):
     # Valid maxcon
     if not is_valid_int_greater_equal_zero_param(vip_map.get('maxcon')):
         log.error(
-            u'The maxcon parameter is not a valid value: %s.', vip_map.get('maxcon'))
+            'The maxcon parameter is not a valid value: %s.', vip_map.get('maxcon'))
         raise InvalidValueError(None, 'maxcon', vip_map.get('maxcon'))
 
     code = RequisicaoVips.update(user,
@@ -299,16 +299,16 @@ class RequisicaoVipsResource(RestResource):
             xml_map, attrs_map = loads(
                 request.raw_post_data, ['transbordo', 'porta', 'real'])
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
 
         networkapi_map = xml_map.get('networkapi')
         if networkapi_map is None:
-            return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
         vip_map = networkapi_map.get('vip')
         if vip_map is None:
-            return self.response_error(3, u'Não existe valor para a tag vip do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag vip do XML de requisição.')
 
         try:
             response = insert_vip_request(vip_map, user)
@@ -395,7 +395,7 @@ class RequisicaoVipsResource(RestResource):
             # Valid Ip ID
             if not is_valid_int_greater_zero_param(kwargs.get('id_vip')):
                 self.log.error(
-                    u'The id_vip parameter is not a valid value: %s.', kwargs.get('id_vip'))
+                    'The id_vip parameter is not a valid value: %s.', kwargs.get('id_vip'))
                 raise InvalidValueError(None, 'id_vip', kwargs.get('id_vip'))
 
             request_vip = RequisicaoVips.get_by_pk(kwargs.get('id_vip'))
@@ -444,16 +444,16 @@ class RequisicaoVipsResource(RestResource):
                 xml_map, attrs_map = loads(
                     request.raw_post_data, ['transbordo', 'porta', 'real'])
             except XMLError, x:
-                self.log.error(u'Erro ao ler o XML da requisição.')
+                self.log.error('Erro ao ler o XML da requisição.')
                 return self.response_error(3, x)
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             vip_map = networkapi_map.get('vip')
             if vip_map is None:
-                return self.response_error(3, u'Não existe valor para a tag vip do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag vip do XML de requisição.')
 
             response = update_vip_request(vip_id, vip_map, user)
             if (response != 0):
@@ -521,7 +521,7 @@ class RequisicaoVipsResource(RestResource):
 
             if not is_valid_int_greater_zero_param(vip_id):
                 self.log.error(
-                    u'The vip_id parameter is not a valid value: %s.', vip_id)
+                    'The vip_id parameter is not a valid value: %s.', vip_id)
                 raise InvalidValueError(None, 'vip_id', vip_id)
 
             if not has_perm(user,

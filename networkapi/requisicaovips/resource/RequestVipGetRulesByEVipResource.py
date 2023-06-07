@@ -50,7 +50,7 @@ class RequestVipGetRulesByEVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_environment_vip = kwargs.get('id_evip')
@@ -59,7 +59,7 @@ class RequestVipGetRulesByEVipResource(RestResource):
             # Valid Environment VIP ID
             if not is_valid_int_greater_zero_param(id_environment_vip):
                 self.log.error(
-                    u'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
+                    'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
                 raise InvalidValueError(
                     None, 'id_environment_vip', id_environment_vip)
 
@@ -79,7 +79,7 @@ class RequestVipGetRulesByEVipResource(RestResource):
             if id_vip:
                 if not is_valid_int_greater_zero_param(id_vip):
                     self.log.error(
-                        u'Parameter id_vip is invalid. Value: %s.', id_vip)
+                        'Parameter id_vip is invalid. Value: %s.', id_vip)
                     raise InvalidValueError(None, 'id_vip', id_vip)
 
                 vip = RequisicaoVips.get_by_pk(id_vip)
@@ -91,7 +91,7 @@ class RequestVipGetRulesByEVipResource(RestResource):
             rules_dict = dict()
             rules_list = []
 
-            rules_list.append({'id': u'', 'name_rule_opt': u''})
+            rules_list.append({'id': '', 'name_rule_opt': ''})
 
             for rule in rules:
                 rules_dict['name_rule_opt'] = rule.name

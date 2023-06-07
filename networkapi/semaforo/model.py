@@ -27,7 +27,7 @@ class SemaforoError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -42,7 +42,7 @@ class Semaforo(models.Model):
     PROVISIONAR_GRUPO_VIRTUAL_ID = 3
 
     class Meta:
-        db_table = u'semaforo'
+        db_table = 'semaforo'
         managed = False
 
     @classmethod
@@ -51,8 +51,8 @@ class Semaforo(models.Model):
             semaforo = Semaforo.objects.get(pk=id)
             semaforo.descricao = semaforo.descricao
             semaforo.save()
-        except Exception, e:
+        except Exception as e:
             cls.log.error(
-                u'Falha ao realizar o lock para o identificador %s.' % id)
+                'Falha ao realizar o lock para o identificador %s.' % id)
             raise SemaforoError(
-                e, u'Falha ao realizar o lock para o identificador %s.' % id)
+                e, 'Falha ao realizar o lock para o identificador %s.' % id)

@@ -28,9 +28,9 @@ class UsuarioFactory(factory.DjangoModelFactory):
     try:
         # save User
         usr.save()
-    except Exception, e:
-        self.log.error(u'Failed to save the user.')
-        raise UsuarioError(e, u'Failed to save the user.')
+    except Exception as e:
+        self.log.error('Failed to save the user.')
+        raise UsuarioError(e, 'Failed to save the user.')
     """
 
     # class Meta:

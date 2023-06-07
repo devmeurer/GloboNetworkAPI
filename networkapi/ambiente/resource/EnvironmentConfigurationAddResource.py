@@ -120,18 +120,18 @@ class EnvironmentConfigurationAddResource(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
 
         except ConfigEnvironmentInvalidError, e:
             return self.response_error(294)
 
         except ConfigEnvironmentDuplicateError, e:
-            self.log.error(u'Environment Configuration already exists')
+            self.log.error('Environment Configuration already exists')
             return self.response_error(302)
 
         except XMLError, e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)
 
     """Validations"""
@@ -140,20 +140,20 @@ class EnvironmentConfigurationAddResource(RestResource):
 
         if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.ENVIRONMENT_MANAGEMENT):
             self.log.error(
-                u'User does not have permission to perform the operation.')
+                'User does not have permission to perform the operation.')
             raise PermissionError(None, None)
 
     def _validate_xml_networkapi(self, networkapi_map):
 
         if networkapi_map is None:
-            msg = u'There is no value to the networkapi tag of XML request.'
+            msg = 'There is no value to the networkapi tag of XML request.'
             self.log.error(msg)
             raise XMLError(None, message=msg)
 
     def _validate_xml_network(self, network_map):
 
         if network_map is None:
-            msg = u'There is no value to the vlan tag of XML request.'
+            msg = 'There is no value to the vlan tag of XML request.'
             self.log.error(msg)
             raise XMLError(None, message=msg)
 
@@ -161,21 +161,21 @@ class EnvironmentConfigurationAddResource(RestResource):
 
         if not is_valid_version_ip(network_type, IP_VERSION):
             self.log.error(
-                u'The type network parameter is invalid value: %s.', network_type)
+                'The type network parameter is invalid value: %s.', network_type)
             raise InvalidValueError(None, 'network_type', network_type)
 
     def _validate_environment_id(self, id_environment):
 
         if not is_valid_int_greater_zero_param(id_environment):
             self.log.error(
-                u'The id_environment parameter is invalid value: %s.', id_environment)
+                'The id_environment parameter is invalid value: %s.', id_environment)
             raise InvalidValueError(None, 'id_environment', id_environment)
 
     def _validate_network_type(self, network_type_id):
 
         if not is_valid_int_greater_zero_param(network_type_id):
             self.log.error(
-                u'The network_type_id parameter is invalid value: %s.', network_type_id)
+                'The network_type_id parameter is invalid value: %s.', network_type_id)
             raise InvalidValueError(None, 'network_type_id', network_type_id)
 
     def _validate_network(self, network, prefix):
@@ -184,7 +184,7 @@ class EnvironmentConfigurationAddResource(RestResource):
             net = IPNetwork(network)
         except ValueError:
             self.log.error(
-                u'The network parameter is invalid value: %s.', network)
+                'The network parameter is invalid value: %s.', network)
             raise InvalidValueError(None, 'network', network)
 
         blocks, network, version = break_network(network)
@@ -199,7 +199,7 @@ class EnvironmentConfigurationAddResource(RestResource):
             raise InvalidValueError(None, 'network', network)
 
         if block > int(prefix):
-            self.log.error(u'The block parameter is invalid value: %s.', block)
+            self.log.error('The block parameter is invalid value: %s.', block)
             raise InvalidValueError(None, 'block', block)
 
     def _validate_prefix_by_net_type(self, prefix, network_type):
@@ -208,10 +208,10 @@ class EnvironmentConfigurationAddResource(RestResource):
             if network_type == IP_VERSION.IPv4[0]:
                 if int(prefix) not in range(33):
                     self.log.error(
-                        u'The prefix parameter is invalid value: %s.', prefix)
+                        'The prefix parameter is invalid value: %s.', prefix)
                     raise InvalidValueError(None, 'prefix', prefix)
             elif network_type == IP_VERSION.IPv6[0]:
                 if int(prefix) not in range(129):
                     self.log.error(
-                        u'The prefix parameter is invalid value: %s.', prefix)
+                        'The prefix parameter is invalid value: %s.', prefix)
                     raise InvalidValueError(None, 'prefix', prefix)

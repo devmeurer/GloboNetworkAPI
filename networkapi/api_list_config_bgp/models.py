@@ -57,7 +57,7 @@ class ListConfigBGP(BaseModel):
     log = logging.getLogger('ListConfigBGP')
 
     class Meta(BaseModel.Meta):
-        db_table = u'list_config_bgp'
+        db_table = 'list_config_bgp'
         managed = True
 
     def _get_route_map_entries(self):
@@ -84,15 +84,15 @@ class ListConfigBGP(BaseModel):
         try:
             return ListConfigBGP.objects.get(id=id)
         except ObjectDoesNotExist:
-            cls.log.error(u'ListConfigBGP not found. pk {}'.format(id))
+            cls.log.error('ListConfigBGP not found. pk {}'.format(id))
             raise exceptions.ListConfigBGPNotFoundError(id)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded')
+            cls.log.error('Lock wait timeout exceeded')
             raise OperationalError()
         except Exception:
-            cls.log.error(u'Failure to search the ListConfigBGP')
+            cls.log.error('Failure to search the ListConfigBGP')
             raise exceptions.ListConfigBGPError(
-                u'Failure to search the ListConfigBGP')
+                'Failure to search the ListConfigBGP')
 
     def create_v4(self, list_config_bgp):
         """Create ListConfigBGP."""
@@ -152,15 +152,17 @@ class EquipmentListConfig(BaseModel):
 
     equipment = models.ForeignKey(
         'equipamento.Equipamento',
-        db_column='id_equipment'
+        db_column='id_equipment',
+        on_delete=models.DO_NOTHING
     )
     list_config_bgp = models.ForeignKey(
         'api_list_config_bgp.ListConfigBGP',
-        db_column='id_list_config_bgp'
+        db_column='id_list_config_bgp',
+        on_delete=models.DO_NOTHING
     )
 
     class Meta(BaseModel.Meta):
-        db_table = u'equipment_list_config_bgp'
+        db_table = 'equipment_list_config_bgp'
         managed = True
 
     def create_v4(self, list_config_bgp):

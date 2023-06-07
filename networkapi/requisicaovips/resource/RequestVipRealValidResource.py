@@ -64,11 +64,11 @@ class RequestVipRealValidResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             real_map = networkapi_map.get('real')
             if real_map is None:
-                return self.response_error(3, u'There is no value to the vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the vip tag  of XML request.')
 
             # Get XML data
             ip = real_map.get('ip')
@@ -79,24 +79,24 @@ class RequestVipRealValidResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Valid IP
             if not is_valid_ip_ipaddr(ip):
-                self.log.error(u'Parameter ip is invalid. Value: %s.', ip)
+                self.log.error('Parameter ip is invalid. Value: %s.', ip)
                 raise InvalidValueError(None, 'ip', ip)
 
             # Valid Name Equipment
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 80) or not is_valid_regex(name, '^[A-Z0-9-_]+$'):
                 self.log.error(
-                    u'Parameter name_equipment is invalid. Value: %s', name)
+                    'Parameter name_equipment is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name_equipment', name)
 
             # Valid Environment Vip
             if not is_valid_int_greater_zero_param(id_evip):
                 self.log.error(
-                    u'Parameter id_environment_vip is invalid. Value: %s.', id_evip)
+                    'Parameter id_environment_vip is invalid. Value: %s.', id_evip)
                 raise InvalidValueError(None, 'id_environment_vip', id_evip)
 
             # Valid Equipment
@@ -126,7 +126,7 @@ class RequestVipRealValidResource(RestResource):
             return self.response(dumps_networkapi({'real': real_dict}))
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)

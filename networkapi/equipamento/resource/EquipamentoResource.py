@@ -78,7 +78,7 @@ def remove_equipment(equipment_id, user):
                     equipment_id,
                     AdminPermission.EQUIP_WRITE_OPERATION):
         raise UserNotAuthorizedError(
-            None, u'Usuário não tem permissão para executar a operação.')
+            None, 'Usuário não tem permissão para executar a operação.')
 
     Equipamento().remove(user, equipment_id)
     return
@@ -122,7 +122,7 @@ def insert_equipment(equipment_map, user):
     group_id = equipment_map.get('id_grupo')
     if not is_valid_int_greater_zero_param(group_id):
         log.error(
-            u'The group_id parameter is not a valid value: %s.', group_id)
+            'The group_id parameter is not a valid value: %s.', group_id)
         raise InvalidValueError(None, 'group_id', group_id)
     else:
         group_id = int(group_id)
@@ -134,12 +134,12 @@ def insert_equipment(equipment_map, user):
                     None,
                     AdminPermission.EQUIP_WRITE_OPERATION):
         raise UserNotAuthorizedError(
-            None, u'Usuário não tem permissão para executar a operação.')
+            None, 'Usuário não tem permissão para executar a operação.')
 
     equipment_type_id = equipment_map.get('id_tipo_equipamento')
     if not is_valid_int_greater_zero_param(equipment_type_id):
         log.error(
-            u'The equipment_type_id parameter is not a valid value: %s.', equipment_type_id)
+            'The equipment_type_id parameter is not a valid value: %s.', equipment_type_id)
         raise InvalidValueError(None, 'equipment_type_id', equipment_type_id)
     else:
         equipment.tipo_equipamento.id = int(equipment_type_id)
@@ -147,14 +147,14 @@ def insert_equipment(equipment_map, user):
     model_id = equipment_map.get('id_modelo')
     if not is_valid_int_greater_zero_param(model_id):
         log.error(
-            u'The model_id parameter is not a valid value: %s.', model_id)
+            'The model_id parameter is not a valid value: %s.', model_id)
         raise InvalidValueError(None, 'model_id', model_id)
     else:
         equipment.modelo.id = int(model_id)
 
     name = equipment_map.get('nome')
     if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 50):
-        log.error(u'The name parameter is not a valid value: %s.', name)
+        log.error('The name parameter is not a valid value: %s.', name)
         raise InvalidValueError(None, 'name', name)
     else:
         equipment.nome = name
@@ -166,7 +166,7 @@ def insert_equipment(equipment_map, user):
         maintenance = False
     if not is_valid_boolean_param(maintenance):
         log.error(
-            u'The maintenance parameter is not a valid value: %s.', maintenance)
+            'The maintenance parameter is not a valid value: %s.', maintenance)
         raise InvalidValueError(None, 'maintenance', maintenance)
     else:
         equipment.maintenance = convert_string_or_int_to_boolean(maintenance)
@@ -191,18 +191,18 @@ class EquipamentoResource(RestResource):
         try:
             xml_map, attrs_map = loads(request.raw_post_data)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
 
         self.log.debug('XML_MAP: %s', xml_map)
 
         networkapi_map = xml_map.get('networkapi')
         if networkapi_map is None:
-            return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
         equipment_map = networkapi_map.get('equipamento')
         if equipment_map is None:
-            return self.response_error(3, u'Não existe valor para a tag equipamento do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag equipamento do XML de requisição.')
 
         try:
             response = insert_equipment(equipment_map, user)
@@ -267,7 +267,7 @@ class EquipamentoResource(RestResource):
 
                 if not is_valid_int_greater_zero_param(equipment_id):
                     self.log.error(
-                        u'The equipment_id parameter is not a valid value: %s.', equipment_id)
+                        'The equipment_id parameter is not a valid value: %s.', equipment_id)
                     raise InvalidValueError(None, 'equipment_id', equipment_id)
 
                 equipment = Equipamento.get_by_pk(int(equipment_id))
@@ -304,13 +304,13 @@ class EquipamentoResource(RestResource):
 
                 if not is_valid_int_greater_zero_param(environment_id):
                     self.log.error(
-                        u'The environment_id parameter is not a valid value: %s.', environment_id)
+                        'The environment_id parameter is not a valid value: %s.', environment_id)
                     raise InvalidValueError(
                         None, 'environment_id', environment_id)
 
                 if not is_valid_int_greater_zero_param(equipment_type_id):
                     self.log.error(
-                        u'The equipment_type_id parameter is not a valid value: %s.', equipment_type_id)
+                        'The equipment_type_id parameter is not a valid value: %s.', equipment_type_id)
                     raise InvalidValueError(
                         None, 'equipment_type_id', equipment_type_id)
 
@@ -359,7 +359,7 @@ class EquipamentoResource(RestResource):
             equipment_id = kwargs.get('id_equip')
             if not is_valid_int_greater_zero_param(equipment_id):
                 self.log.error(
-                    u'The equipment_id parameter is not a valid value: %s.', equipment_id)
+                    'The equipment_id parameter is not a valid value: %s.', equipment_id)
                 raise InvalidValueError(None, 'equipment_id', equipment_id)
 
             equip = Equipamento.get_by_pk(equipment_id)
@@ -394,11 +394,11 @@ class EquipamentoResource(RestResource):
             return self.response_error(117, equipment_id)
         except UserNotAuthorizedError:
             return self.not_authorized()
-        except IpCantBeRemovedFromVip, e:
+        except IpCantBeRemovedFromVip as e:
             return self.response_error(345, equip.nome, e.cause, e.message)
         except (EquipamentoError, GrupoError), e:
             return self.response_error(e)
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)
 
 
@@ -418,18 +418,18 @@ class EquipamentoAmbienteResource(RestResource):
             networkapi_map = xml_map.get('networkapi')
 
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             equipenviron_map = networkapi_map.get('equipamento_ambiente')
             if equipenviron_map is None:
-                return self.response_error(3, u'Não existe valor para a tag equipamento_ambiente do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag equipamento_ambiente do XML de requisição.')
 
             equip_id = equipenviron_map.get('id_equipamento')
 
             # Valid ID Equipment
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'The equip_id parameter is not a valid value: %s.', equip_id)
+                    'The equip_id parameter is not a valid value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             environment_id = equipenviron_map.get('id_ambiente')
@@ -437,7 +437,7 @@ class EquipamentoAmbienteResource(RestResource):
             # Valid ID Environment
             if not is_valid_int_greater_zero_param(environment_id):
                 self.log.error(
-                    u'The environment_id parameter is not a valid value: %s.', environment_id)
+                    'The environment_id parameter is not a valid value: %s.', environment_id)
                 raise InvalidValueError(None, 'environment_id', environment_id)
 
             is_router = int(equipenviron_map.get('is_router', 0))
@@ -465,7 +465,7 @@ class EquipamentoAmbienteResource(RestResource):
             return self.response(dumps_networkapi(networkapi_map))
 
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
 
         except InvalidValueError, e:
@@ -492,18 +492,18 @@ class EquipamentoAmbienteResource(RestResource):
             networkapi_map = xml_map.get('networkapi')
 
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             equipenviron_map = networkapi_map.get('equipamento_ambiente')
             if equipenviron_map is None:
-                return self.response_error(3, u'Não existe valor para a tag equipamento_ambiente do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag equipamento_ambiente do XML de requisição.')
 
             equip_id = equipenviron_map.get('id_equipamento')
 
             # Valid ID Equipment
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'The equip_id parameter is not a valid value: %s.', equip_id)
+                    'The equip_id parameter is not a valid value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             environment_id = equipenviron_map.get('id_ambiente')
@@ -511,7 +511,7 @@ class EquipamentoAmbienteResource(RestResource):
             # Valid ID Environment
             if not is_valid_int_greater_zero_param(environment_id):
                 self.log.error(
-                    u'The environment_id parameter is not a valid value: %s.', environment_id)
+                    'The environment_id parameter is not a valid value: %s.', environment_id)
                 raise InvalidValueError(None, 'environment_id', environment_id)
 
             is_router = int(equipenviron_map.get('is_router', 0))
@@ -532,13 +532,13 @@ class EquipamentoAmbienteResource(RestResource):
 
             except EquipamentoAmbienteNotFoundError:
                 self.log.warning(
-                    u'Falha ao alterar a associação equipamento/ambiente, associação não existe %s/%s.' % (equip_id, environment_id))
+                    'Falha ao alterar a associação equipamento/ambiente, associação não existe %s/%s.' % (equip_id, environment_id))
                 pass
-            except Exception, e:
+            except Exception as e:
                 self.log.error(
-                    u'Falha ao alterar a associação equipamento/ambiente: %s/%s.' % (equip_id, environment_id))
+                    'Falha ao alterar a associação equipamento/ambiente: %s/%s.' % (equip_id, environment_id))
                 raise EquipamentoError(
-                    e, u'Falha ao alterar a associação equipamento/ambiente: %s/%s.' % (equip_id, environment_id))
+                    e, 'Falha ao alterar a associação equipamento/ambiente: %s/%s.' % (equip_id, environment_id))
 
             equip_environment_map = dict()
             equip_environment_map['id'] = equip_id
@@ -549,7 +549,7 @@ class EquipamentoAmbienteResource(RestResource):
             return self.response(dumps_networkapi(networkapi_map))
 
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
 
         except InvalidValueError, e:

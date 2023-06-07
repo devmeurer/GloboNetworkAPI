@@ -43,7 +43,7 @@ class EquipamentoError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -250,7 +250,7 @@ class Marca(BaseModel):
     log = logging.getLogger('Marca')
 
     class Meta(BaseModel.Meta):
-        db_table = u'marcas'
+        db_table = 'marcas'
         managed = True
 
     @classmethod
@@ -266,10 +266,10 @@ class Marca(BaseModel):
             return Marca.objects.filter(id=idt).uniqueResult()
         except ObjectDoesNotExist as e:
             raise MarcaNotFoundError(
-                e, u'Dont there is a Brand by pk = %s.' % idt)
+                e, 'Dont there is a Brand by pk = %s.' % idt)
         except Exception as e:
-            cls.log.error(u'Failure to search the Brand.')
-            raise EquipamentoError(e, u'Failure to search the Brand.')
+            cls.log.error('Failure to search the Brand.')
+            raise EquipamentoError(e, 'Failure to search the Brand.')
 
     @classmethod
     def get_by_name(cls, name):
@@ -284,21 +284,21 @@ class Marca(BaseModel):
             return Marca.objects.get(nome__iexact=name)
         except ObjectDoesNotExist as e:
             raise MarcaNotFoundError(
-                e, u'Dont there is a Brand by name = %s.' % name)
+                e, 'Dont there is a Brand by name = %s.' % name)
         except Exception as e:
-            cls.log.error(u'Failure to search the Brand.')
-            raise EquipamentoError(e, u'Failure to search the Brand.')
+            cls.log.error('Failure to search the Brand.')
+            raise EquipamentoError(e, 'Failure to search the Brand.')
 
 
 class Modelo(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_modelo')
     nome = models.CharField(max_length=100)
-    marca = models.ForeignKey(Marca, db_column='id_marca')
+    marca = models.ForeignKey(Marca, db_column='id_marca', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('Modelo')
 
     class Meta(BaseModel.Meta):
-        db_table = u'modelos'
+        db_table = 'modelos'
         managed = True
 
     @classmethod
@@ -314,10 +314,10 @@ class Modelo(BaseModel):
             return Modelo.objects.filter(id=idt).uniqueResult()
         except ObjectDoesNotExist as e:
             raise ModeloNotFoundError(
-                e, u'Dont there is a Model by pk = %s.' % idt)
+                e, 'Dont there is a Model by pk = %s.' % idt)
         except Exception as e:
-            cls.log.error(u'Failure to search the Model.')
-            raise EquipamentoError(e, u'Failure to search the Model.')
+            cls.log.error('Failure to search the Model.')
+            raise EquipamentoError(e, 'Failure to search the Model.')
 
     @classmethod
     def get_by_name(cls, name):
@@ -332,10 +332,10 @@ class Modelo(BaseModel):
             return Modelo.objects.get(nome__iexact=name)
         except ObjectDoesNotExist as e:
             raise ModeloNotFoundError(
-                e, u'Dont there is a Model by name = %s.' % name)
+                e, 'Dont there is a Model by name = %s.' % name)
         except Exception as e:
-            cls.log.error(u'Failure to search the Model.')
-            raise EquipamentoError(e, u'Failure to search the Model.')
+            cls.log.error('Failure to search the Model.')
+            raise EquipamentoError(e, 'Failure to search the Model.')
 
     @classmethod
     def get_by_name_brand(cls, name, id_brand):
@@ -350,10 +350,10 @@ class Modelo(BaseModel):
             return Modelo.objects.get(nome__iexact=name, marca__id=id_brand)
         except ObjectDoesNotExist as e:
             raise ModeloNotFoundError(
-                e, u'Dont there is a Model by name = %s and Brand = %s.' % (name, id_brand))
+                e, 'Dont there is a Model by name = %s and Brand = %s.' % (name, id_brand))
         except Exception as e:
-            cls.log.error(u'Failure to search the Model.')
-            raise EquipamentoError(e, u'Failure to search the Model.')
+            cls.log.error('Failure to search the Model.')
+            raise EquipamentoError(e, 'Failure to search the Model.')
 
     @classmethod
     def get_by_brand(cls, id_brand):
@@ -368,10 +368,10 @@ class Modelo(BaseModel):
             return Modelo.objects.filter(marca__id=id_brand)
         except ObjectDoesNotExist as e:
             raise ModeloNotFoundError(
-                e, u'Dont there is a Model by Brand = %s.' % id_brand)
+                e, 'Dont there is a Model by Brand = %s.' % id_brand)
         except Exception as e:
-            cls.log.error(u'Failure to search the Model.')
-            raise EquipamentoError(e, u'Failure to search the Model.')
+            cls.log.error('Failure to search the Model.')
+            raise EquipamentoError(e, 'Failure to search the Model.')
 
 
 class TipoEquipamento(BaseModel):
@@ -386,7 +386,7 @@ class TipoEquipamento(BaseModel):
     log = logging.getLogger('TipoEquipamento')
 
     class Meta(BaseModel.Meta):
-        db_table = u'tipo_equipamento'
+        db_table = 'tipo_equipamento'
         managed = True
 
     @classmethod
@@ -402,10 +402,10 @@ class TipoEquipamento(BaseModel):
             return TipoEquipamento.objects.filter(id=idt).uniqueResult()
         except ObjectDoesNotExist as e:
             raise TipoEquipamentoNotFoundError(
-                e, u'Dont there is a Equipment Type by pk = %s.' % idt)
+                e, 'Dont there is a Equipment Type by pk = %s.' % idt)
         except Exception as e:
-            cls.log.error(u'Failure to search the Equipment Type.')
-            raise EquipamentoError(e, u'Failure to search the Equipment Type.')
+            cls.log.error('Failure to search the Equipment Type.')
+            raise EquipamentoError(e, 'Failure to search the Equipment Type.')
 
     @classmethod
     def get_tipo(cls, tipo):
@@ -420,10 +420,10 @@ class TipoEquipamento(BaseModel):
             return TipoEquipamento.objects.get(tipo_equipamento=tipo)
         except ObjectDoesNotExist as e:
             raise TipoEquipamentoNotFoundError(
-                e, u'Dont there is a Equipment Type by type = %s.' % tipo)
+                e, 'Dont there is a Equipment Type by type = %s.' % tipo)
         except Exception as e:
-            cls.log.error(u'Failure to search the Equipment Type.')
-            raise EquipamentoError(e, u'Failure to search the Equipment Type.')
+            cls.log.error('Failure to search the Equipment Type.')
+            raise EquipamentoError(e, 'Failure to search the Equipment Type.')
 
     @classmethod
     def get_tipo_balanceador(cls):
@@ -438,10 +438,10 @@ class TipoEquipamento(BaseModel):
             return TipoEquipamento.objects.get(tipo_equipamento__iexact='balanceador')
         except ObjectDoesNotExist as e:
             raise TipoEquipamentoNotFoundError(
-                e, u'Dont there is a Equipment Type by type is balanceador.')
+                e, 'Dont there is a Equipment Type by type is balanceador.')
         except Exception as e:
-            cls.log.error(u'Failure to search the Equipment Type.')
-            raise EquipamentoError(e, u'Failure to search the Equipment Type.')
+            cls.log.error('Failure to search the Equipment Type.')
+            raise EquipamentoError(e, 'Failure to search the Equipment Type.')
 
     @classmethod
     def get_by_name(cls, name):
@@ -456,18 +456,18 @@ class TipoEquipamento(BaseModel):
             return Modelo.objects.get(nome__iexact=name)
         except ObjectDoesNotExist as e:
             raise TipoEquipamentoNotFoundError(
-                e, u'Dont there is a Equipment Type by name = %s.' % name)
+                e, 'Dont there is a Equipment Type by name = %s.' % name)
         except Exception as e:
-            cls.log.error(u'Failure to search the Equipment Type.')
-            raise EquipamentoError(e, u'Failure to search the Equipment Type.')
+            cls.log.error('Failure to search the Equipment Type.')
+            raise EquipamentoError(e, 'Failure to search the Equipment Type.')
 
     def search(self):
         try:
             return TipoEquipamento.objects.all()
         except Exception as e:
-            self.log.error(u'Falha ao pesquisar os tipos de equipamentos.')
+            self.log.error('Falha ao pesquisar os tipos de equipamentos.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar os tipos de equipamentos.')
+                e, 'Falha ao pesquisar os tipos de equipamentos.')
 
     def insert_new(self, authenticated_user, name):
         try:
@@ -476,7 +476,7 @@ class TipoEquipamento(BaseModel):
 
                 TipoEquipamento.objects.get(tipo_equipamento__iexact=name)
                 raise TipoEquipamentoDuplicateNameError(
-                    None, u'Tipo equipamento %s, já cadastrado' % (name))
+                    None, 'Tipo equipamento %s, já cadastrado' % (name))
             except ObjectDoesNotExist as e:
                 pass
 
@@ -488,16 +488,16 @@ class TipoEquipamento(BaseModel):
             self.log.error(e.message)
             raise TipoEquipamentoDuplicateNameError(e, e.message)
         except Exception as e:
-            self.log.exception(u'Falha ao inserir tipo de equipamentos.')
+            self.log.exception('Falha ao inserir tipo de equipamentos.')
             raise EquipamentoError(
-                e, u'Falha ao inserir tipo de equipamentos.')
+                e, 'Falha ao inserir tipo de equipamentos.')
 
 
 class Equipamento(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_equip')
     tipo_equipamento = models.ForeignKey(
-        TipoEquipamento, db_column='id_tipo_equipamento')
-    modelo = models.ForeignKey(Modelo, db_column='id_modelo')
+        TipoEquipamento, db_column='id_tipo_equipamento', on_delete=models.DO_NOTHING)
+    modelo = models.ForeignKey(Modelo, db_column='id_modelo', on_delete=models.DO_NOTHING)
     nome = models.CharField(unique=True, max_length=50)
     maintenance = models.BooleanField(db_column='maintenance')
     grupos = models.ManyToManyField(EGrupo, through='EquipamentoGrupo')
@@ -505,7 +505,7 @@ class Equipamento(BaseModel):
     log = logging.getLogger('Equipamento')
 
     class Meta(BaseModel.Meta):
-        db_table = u'equipamentos'
+        db_table = 'equipamentos'
         managed = True
 
     def __str__(self):
@@ -600,8 +600,8 @@ class Equipamento(BaseModel):
             # retorna o ultimo valor da lista + 1
             return '%s%d' % (prefix, last_value + 1)
         except Exception as e:
-            cls.log.error(u'Falha ao pesquisar os equipamentos.')
-            raise EquipamentoError(e, u'Falha ao pesquisar os equipamentos.')
+            cls.log.error('Falha ao pesquisar os equipamentos.')
+            raise EquipamentoError(e, 'Falha ao pesquisar os equipamentos.')
 
     def create(self, authenticated_user, group_id):
         """Insere um novo Equipamento
@@ -632,7 +632,7 @@ class Equipamento(BaseModel):
 
         if group_id == EGrupo.GRUPO_EQUIPAMENTO_ORQUESTRACAO and self.tipo_equipamento.id != TipoEquipamento.TIPO_EQUIPAMENTO_SERVIDOR_VIRTUAL:
             raise InvalidGroupToEquipmentTypeError(
-                None, u'Equipamento do grupo “Equipamentos Orquestração” somente poderá ser criado com tipo igual a “Servidor Virtual”.')
+                None, 'Equipamento do grupo “Equipamentos Orquestração” somente poderá ser criado com tipo igual a “Servidor Virtual”.')
 
         self.tipo_equipamento = TipoEquipamento().get_by_pk(
             self.tipo_equipamento.id)
@@ -645,7 +645,7 @@ class Equipamento(BaseModel):
         try:
             self.get_by_name(self.nome)
             raise EquipamentoNameDuplicatedError(
-                None, u'Equipamento com nome duplicado.')
+                None, 'Equipamento com nome duplicado.')
         except EquipamentoNotFoundError:
             self.log.debug('Equipamento com o mesmo nome não encontrado.')
 
@@ -659,8 +659,8 @@ class Equipamento(BaseModel):
 
             return equipment_group.id
         except Exception as e:
-            self.log.error(u'Falha ao inserir o equipamento.')
-            raise EquipamentoError(e, u'Falha ao inserir o equipamento.')
+            self.log.error('Falha ao inserir o equipamento.')
+            raise EquipamentoError(e, 'Falha ao inserir o equipamento.')
 
     @classmethod
     def get_by_pk(cls, pk, *prefetch_list):
@@ -680,14 +680,14 @@ class Equipamento(BaseModel):
                 return query.uniqueResult()
         except ObjectDoesNotExist as e:
             raise EquipamentoNotFoundError(
-                e, u'Dont there is a equipament by pk = %s.' % pk)
+                e, 'Dont there is a equipament by pk = %s.' % pk)
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
-            cls.log.error(u'Failure to search the equipament.')
-            raise EquipamentoError(e, u'Failure to search the equipament.')
+            cls.log.error('Failure to search the equipament.')
+            raise EquipamentoError(e, 'Failure to search the equipament.')
 
     def edit(self, user, nome, tipo_equip, modelo, maintenance=None):
         try:
@@ -701,8 +701,8 @@ class Equipamento(BaseModel):
         except EquipamentoNameDuplicatedError as e:
             raise EquipamentoNameDuplicatedError(e.message)
         except Exception as e:
-            self.log.error(u'Falha ao editar o equipamento.')
-            raise EquipamentoError(e, u'Falha ao editar o equipamento.')
+            self.log.error('Falha ao editar o equipamento.')
+            raise EquipamentoError(e, 'Falha ao editar o equipamento.')
 
     @classmethod
     def get_by_name(cls, name):
@@ -710,10 +710,10 @@ class Equipamento(BaseModel):
             return Equipamento.objects.get(nome__iexact=name)
         except ObjectDoesNotExist as e:
             raise EquipamentoNotFoundError(
-                e, u'There is no equipment with the name = %s.' % name)
+                e, 'There is no equipment with the name = %s.' % name)
         except Exception as e:
-            cls.log.error(u'Falha ao pesquisar o equipamento.')
-            raise EquipamentoError(e, u'Falha ao pesquisar o equipamento.')
+            cls.log.error('Falha ao pesquisar o equipamento.')
+            raise EquipamentoError(e, 'Falha ao pesquisar o equipamento.')
 
     def search(self, equip_name=None, equip_type_id=None, environment_id=None, ugroups=None):
         try:
@@ -735,8 +735,8 @@ class Equipamento(BaseModel):
 
             return equips
         except Exception as e:
-            self.log.error(u'Falha ao pesquisar os equipamentos.')
-            raise EquipamentoError(e, u'Falha ao pesquisar os equipamentos.')
+            self.log.error('Falha ao pesquisar os equipamentos.')
+            raise EquipamentoError(e, 'Falha ao pesquisar os equipamentos.')
 
     def delete(self):
         """Sobrescreve o metodo do Django para remover um equipamento.
@@ -808,8 +808,8 @@ class Equipamento(BaseModel):
         except IpCantBeRemovedFromVip as e:
             raise e
         except Exception as e:
-            self.log.error(u'Falha ao remover um equipamento: %s' % e)
-            raise EquipamentoError(e, u'Falha ao remover um equipamento.')
+            self.log.error('Falha ao remover um equipamento: %s' % e)
+            raise EquipamentoError(e, 'Falha ao remover um equipamento.')
 
     def delete_v3(self):
         """Before removing the computer it eliminates all your relationships.
@@ -1317,14 +1317,14 @@ class Equipamento(BaseModel):
 
 class EquipamentoAmbiente(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_equip_do_ambiente')
-    ambiente = models.ForeignKey(Ambiente, db_column='id_ambiente')
-    equipamento = models.ForeignKey(Equipamento, db_column='id_equip')
+    ambiente = models.ForeignKey(Ambiente, db_column='id_ambiente', on_delete=models.DO_NOTHING)
+    equipamento = models.ForeignKey(Equipamento, db_column='id_equip', on_delete=models.DO_NOTHING)
     is_router = models.BooleanField(db_column='is_router')
 
     log = logging.getLogger('EquipamentoAmbiente')
 
     class Meta(BaseModel.Meta):
-        db_table = u'equip_do_ambiente'
+        db_table = 'equip_do_ambiente'
         managed = True
         unique_together = ('equipamento', 'ambiente')
 
@@ -1347,40 +1347,40 @@ class EquipamentoAmbiente(BaseModel):
             EquipamentoAmbiente().get_by_equipment_environment(
                 self.equipamento.id, self.ambiente.id)
             raise EquipamentoAmbienteDuplicatedError(
-                None, u'Equipamento já está cadastrado no ambiente.')
+                None, 'Equipamento já está cadastrado no ambiente.')
         except EquipamentoAmbienteNotFoundError:
             pass
 
         try:
             self.save()
         except Exception as e:
-            self.log.error(u'Falha ao inserir a associação equipamento/ambiente: %s/%s.' %
+            self.log.error('Falha ao inserir a associação equipamento/ambiente: %s/%s.' %
                            (self.equipamento.id, self.ambiente.id))
             raise EquipamentoError(
-                e, u'Falha ao inserir a associação equipamento/ambiente: %s/%s.' % (self.equipamento.id, self.ambiente.id))
+                e, 'Falha ao inserir a associação equipamento/ambiente: %s/%s.' % (self.equipamento.id, self.ambiente.id))
 
     def get_by_equipment_environment(self, equipment_id, environment_id):
         try:
             return EquipamentoAmbiente.objects.get(ambiente__id=environment_id, equipamento__id=equipment_id)
         except ObjectDoesNotExist as e:
             raise EquipamentoAmbienteNotFoundError(
-                e, u'Não existe um equipamento_ambiente com o equipamento = %s e o ambiente = %s.' % (equipment_id, environment_id))
+                e, 'Não existe um equipamento_ambiente com o equipamento = %s e o ambiente = %s.' % (equipment_id, environment_id))
         except Exception as e:
-            self.log.error(u'Falha ao pesquisar o equipamento-ambiente.')
+            self.log.error('Falha ao pesquisar o equipamento-ambiente.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar o equipamento-ambiente.')
+                e, 'Falha ao pesquisar o equipamento-ambiente.')
 
     def get_by_environment(self, environment_id):
         try:
             return EquipamentoAmbiente.objects.get(ambiente__id=environment_id)
         except ObjectDoesNotExist as e:
             raise EquipamentoAmbienteNotFoundError(
-                e, u'Não existe um equipamento_ambiente com o ambiente = %s.' %
+                e, 'Não existe um equipamento_ambiente com o ambiente = %s.' %
                 (environment_id))
         except Exception as e:
-            self.log.error(u'Falha ao pesquisar o equipamento-ambiente.')
+            self.log.error('Falha ao pesquisar o equipamento-ambiente.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar o equipamento-ambiente.')
+                e, 'Falha ao pesquisar o equipamento-ambiente.')
 
     @classmethod
     def get_by_equipment(cls, equipment_id):
@@ -1388,11 +1388,11 @@ class EquipamentoAmbiente(BaseModel):
             return EquipamentoAmbiente.objects.filter(equipamento__id=equipment_id)
         except ObjectDoesNotExist as e:
             raise EquipamentoAmbienteNotFoundError(
-                e, u'Não existe um equipamento_ambiente com o equipamento = %s.' % equipment_id)
+                e, 'Não existe um equipamento_ambiente com o equipamento = %s.' % equipment_id)
         except Exception as e:
-            cls.log.error(u'Falha ao pesquisar o equipamento-ambiente.')
+            cls.log.error('Falha ao pesquisar o equipamento-ambiente.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar o equipamento-ambiente.')
+                e, 'Falha ao pesquisar o equipamento-ambiente.')
 
     @classmethod
     def remove(cls, authenticated_user, equip_id, environ_id):
@@ -1411,15 +1411,15 @@ class EquipamentoAmbiente(BaseModel):
             equipenvironment.delete()
 
         except ObjectDoesNotExist, n:
-            cls.log.error(u'Não existe um equipamento_ambiente com o equipamento = %s e o ambiente = %s.' % (
+            cls.log.error('Não existe um equipamento_ambiente com o equipamento = %s e o ambiente = %s.' % (
                 equip_id, environ_id))
             raise EquipamentoAmbienteNotFoundError(
-                n, u'Não existe um equipamento_ambiente com o equipamento = %s e o ambiente = %s.' % (equip_id, environ_id))
+                n, 'Não existe um equipamento_ambiente com o equipamento = %s e o ambiente = %s.' % (equip_id, environ_id))
         except Exception as e:
             cls.log.error(
-                u'Falha ao remover uma associação entre um Equipamento e um Ambiente.')
+                'Falha ao remover uma associação entre um Equipamento e um Ambiente.')
             raise EquipamentoError(
-                e, u'Falha ao remover uma associação entre um Equipamento e um Ambiente.')
+                e, 'Falha ao remover uma associação entre um Equipamento e um Ambiente.')
 
     @classmethod
     def get_routers_by_environment(cls, environment_id):
@@ -1449,14 +1449,14 @@ class EquipamentoAmbiente(BaseModel):
             EquipamentoAmbiente().get_by_equipment_environment(
                 self.equipamento.id, self.ambiente.id)
             raise EquipamentoAmbienteDuplicatedError(
-                None, u'Equipment already registered in environment.')
+                None, 'Equipment already registered in environment.')
         except EquipamentoAmbienteNotFoundError:
             pass
 
         try:
             self.save()
         except Exception as e:
-            msg = u'Failure to insert the relashionship between ' \
+            msg = 'Failure to insert the relashionship between ' \
                 'equipment and environment. %s/%s.' % \
                 (self.equipamento.id, self.ambiente.id)
 
@@ -1469,17 +1469,19 @@ class EquipmentControllerEnvironment(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id')
     environment = models.ForeignKey(
         Ambiente,
-        db_column='id_environment'
+        db_column='id_environment',
+        on_delete=models.DO_NOTHING
     )
     equipment = models.ForeignKey(
         Equipamento,
-        db_column='id_equipment'
+        db_column='id_equipment',
+        on_delete=models.DO_NOTHING
     )
 
     log = logging.getLogger('EquipmentControllerEnvironment')
 
     class Meta(BaseModel.Meta):
-        db_table = u'equipment_controller_environment'
+        db_table = 'equipment_controller_environment'
         managed = True
         unique_together = ('equipment', 'environment')
 
@@ -1492,23 +1494,23 @@ class EquipmentControllerEnvironment(BaseModel):
             return eqpt
         except ObjectDoesNotExist as e:
             raise EquipmentControllerEnvironmentNotFoundError(
-                e, u'Não existe um equipment_environment com o equipment = %s e o environment = %s.' % (equipment_id, environment_id))
+                e, 'Não existe um equipment_environment com o equipment = %s e o environment = %s.' % (equipment_id, environment_id))
         except Exception as e:
-            self.log.error(u'Falha ao pesquisar o equipment-environment.')
+            self.log.error('Falha ao pesquisar o equipment-environment.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar o equipment-environment.')
+                e, 'Falha ao pesquisar o equipment-environment.')
 
     def get_by_environment(self, environment_id):
         try:
             return EquipmentControllerEnvironment.objects.get(environment__id=environment_id)
         except ObjectDoesNotExist as e:
             raise EquipmentControllerEnvironmentNotFoundError(
-                e, u'Não existe um environment com o environment = %s.' %
+                e, 'Não existe um environment com o environment = %s.' %
                 (environment_id))
         except Exception as e:
-            self.log.error(u'Falha ao pesquisar o equipment-environment.')
+            self.log.error('Falha ao pesquisar o equipment-environment.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar o equipment-environment.')
+                e, 'Falha ao pesquisar o equipment-environment.')
 
     @classmethod
     def get_by_equipment(cls, equipment_id):
@@ -1516,11 +1518,11 @@ class EquipmentControllerEnvironment(BaseModel):
             return EquipmentControllerEnvironment.objects.filter(equipment__id=equipment_id)
         except ObjectDoesNotExist as e:
             raise EquipmentControllerEnvironmentNotFoundError(
-                e, u'Não existe um environment com o equipment = %s.' % equipment_id)
+                e, 'Não existe um environment com o equipment = %s.' % equipment_id)
         except Exception as e:
-            cls.log.error(u'Falha ao pesquisar o equipment-environment.')
+            cls.log.error('Falha ao pesquisar o equipment-environment.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar o equipment-environment.')
+                e, 'Falha ao pesquisar o equipment-environment.')
 
     def create(self, eqpt_env_map):
         """
@@ -1545,14 +1547,14 @@ class EquipmentControllerEnvironment(BaseModel):
             EquipmentControllerEnvironment().get_by_equipment_environment(
                 self.equipment.id, self.environment.id)
             raise EquipmentControllerEnvironmentDuplicatedError(
-                None, u'Equipment already registered in environment.')
+                None, 'Equipment already registered in environment.')
         except EquipmentControllerEnvironmentNotFoundError:
             pass
 
         try:
             self.save()
         except Exception as e:
-            msg = u'Failure to insert the relashionship between ' \
+            msg = 'Failure to insert the relashionship between ' \
                 'equipment and environment. %s/%s.' % \
                 (self.equipment.id, self.environment.id)
 
@@ -1563,13 +1565,13 @@ class EquipmentControllerEnvironment(BaseModel):
 
 class EquipamentoGrupo(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_equip_do_grupo')
-    egrupo = models.ForeignKey(EGrupo, db_column='id_egrupo')
-    equipamento = models.ForeignKey(Equipamento, db_column='id_equip')
+    egrupo = models.ForeignKey(EGrupo, db_column='id_egrupo', on_delete=models.DO_NOTHING)
+    equipamento = models.ForeignKey(Equipamento, db_column='id_equip', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('EquipamentoGrupo')
 
     class Meta(BaseModel.Meta):
-        db_table = u'equip_do_grupo'
+        db_table = 'equip_do_grupo'
         managed = True
         unique_together = ('egrupo', 'equipamento')
 
@@ -1593,17 +1595,17 @@ class EquipamentoGrupo(BaseModel):
         try:
             self.get_by_equipment_group(self.equipamento.id, self.egrupo.id)
             raise EquipamentoGrupoDuplicatedError(
-                None, u'Equipamento já está cadastrado no grupo.')
+                None, 'Equipamento já está cadastrado no grupo.')
         except EquipamentoGrupoNotFoundError:
             pass
 
         try:
             self.save()
         except Exception as e:
-            self.log.error(u'Falha ao inserir a associação equipamento/grupo: %d/%d.' %
+            self.log.error('Falha ao inserir a associação equipamento/grupo: %d/%d.' %
                            (self.equipamento.id, self.egrupo.id))
             raise EquipamentoError(
-                e, u'Falha ao inserir a associação equipamento/grupo: %d/%d.' % (self.equipamento.id, self.egrupo.id))
+                e, 'Falha ao inserir a associação equipamento/grupo: %d/%d.' % (self.equipamento.id, self.egrupo.id))
 
     @classmethod
     def get_by_equipment(cls, equipment_id):
@@ -1611,22 +1613,22 @@ class EquipamentoGrupo(BaseModel):
             return EquipamentoGrupo.objects.filter(equipamento__id=equipment_id)
         except ObjectDoesNotExist as e:
             raise EquipamentoGrupoNotFoundError(
-                e, u'Não existe um equipamento_grupo com o equipamento = %s ' % (equipment_id))
+                e, 'Não existe um equipamento_grupo com o equipamento = %s ' % (equipment_id))
         except Exception as e:
-            cls.log.error(u'Falha ao pesquisar o equipamento-grupo.')
+            cls.log.error('Falha ao pesquisar o equipamento-grupo.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar o equipamento-grupo.')
+                e, 'Falha ao pesquisar o equipamento-grupo.')
 
     def get_by_equipment_group(self, equipment_id, egroup_id):
         try:
             return EquipamentoGrupo.objects.get(egrupo__id=egroup_id, equipamento__id=equipment_id)
         except ObjectDoesNotExist as e:
             raise EquipamentoGrupoNotFoundError(
-                e, u'Não existe um equipamento_grupo com o equipamento = %s e o grupo = %s.' % (equipment_id, egroup_id))
+                e, 'Não existe um equipamento_grupo com o equipamento = %s e o grupo = %s.' % (equipment_id, egroup_id))
         except Exception as e:
-            self.log.error(u'Falha ao pesquisar o equipamento-grupo.')
+            self.log.error('Falha ao pesquisar o equipamento-grupo.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar o equipamento-grupo.')
+                e, 'Falha ao pesquisar o equipamento-grupo.')
 
     @classmethod
     def remove(cls, authenticated_user, equip_id, egroup_id):
@@ -1648,30 +1650,30 @@ class EquipamentoGrupo(BaseModel):
                 equip_group.delete()
             except Exception as e:
                 cls.log.error(
-                    u'Falha ao remover uma associação entre um Equipamento e um Grupo.')
+                    'Falha ao remover uma associação entre um Equipamento e um Grupo.')
                 raise EquipamentoError(
-                    e, u'Falha ao remover uma associação entre um Equipamento e um Grupo.')
+                    e, 'Falha ao remover uma associação entre um Equipamento e um Grupo.')
         else:
             raise EquipmentDontRemoveError(
-                u'Failure to remove an association between an equipment and a group because the group is related only to a group.')
+                'Failure to remove an association between an equipment and a group because the group is related only to a group.')
 
 
 class EquipamentoAcesso(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_equiptos_access')
-    equipamento = models.ForeignKey(Equipamento, db_column='id_equip')
+    equipamento = models.ForeignKey(Equipamento, db_column='id_equip', on_delete=models.DO_NOTHING)
     fqdn = models.CharField(max_length=100)
     user = models.CharField(max_length=20)
     # Field renamed because it was a Python reserved word. Field name made
     # lowercase.
     password = models.CharField(max_length=20, db_column='pass')
-    tipo_acesso = models.ForeignKey(TipoAcesso, db_column='id_tipo_acesso')
+    tipo_acesso = models.ForeignKey(TipoAcesso, db_column='id_tipo_acesso', on_delete=models.DO_NOTHING)
     enable_pass = models.CharField(max_length=20, blank=True)
-    vrf = models.ForeignKey(Vrf, blank=True, null=True, db_column='id_vrf')
+    vrf = models.ForeignKey(Vrf, blank=True, null=True, db_column='id_vrf', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('EquipamentoAcesso')
 
     class Meta(BaseModel.Meta):
-        db_table = u'equiptos_access'
+        db_table = 'equiptos_access'
         managed = True
         unique_together = ('equipamento', 'tipo_acesso')
 
@@ -1689,15 +1691,15 @@ class EquipamentoAcesso(BaseModel):
             return EquipamentoAcesso.objects.filter(id=id).uniqueResult()
         except ObjectDoesNotExist as e:
             raise EquipamentoAccessNotFoundError(
-                e, u'Dont there is a EquipamentoAcesso by pk = %s.' % id)
+                e, 'Dont there is a EquipamentoAcesso by pk = %s.' % id)
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
-            cls.log.error(u'Failure to search the EquipamentoAcesso.')
+            cls.log.error('Failure to search the EquipamentoAcesso.')
             raise EquipamentoError(
-                e, u'Failure to search the EquipamentoAcesso.')
+                e, 'Failure to search the EquipamentoAcesso.')
 
     @classmethod
     def search(cls, ugroups=None, equipamento=None, protocolo=None):
@@ -1720,9 +1722,9 @@ class EquipamentoAcesso(BaseModel):
             return results
         except Exception as e:
             cls.log.error(
-                u'Falha ao pesquisar as informações de acesso a equipamentos.')
+                'Falha ao pesquisar as informações de acesso a equipamentos.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar oas informações de acesso a equipamentos.')
+                e, 'Falha ao pesquisar oas informações de acesso a equipamentos.')
 
     def create(self, authenticated_user):
         """Efetua a inclusão de informações de acesso a equipamentos
@@ -1746,7 +1748,7 @@ class EquipamentoAcesso(BaseModel):
             # sendo incluída
             if EquipamentoAcesso.objects.filter(equipamento=self.equipamento, tipo_acesso=self.tipo_acesso).count() > 0:
                 raise EquipamentoAccessDuplicatedError(
-                    None, u'Já existe esta associação de equipamento e tipo de acesso cadastrada.')
+                    None, 'Já existe esta associação de equipamento e tipo de acesso cadastrada.')
 
             # Persiste a informação
             return self.save()
@@ -1759,9 +1761,9 @@ class EquipamentoAcesso(BaseModel):
             raise e
         except Exception as e:
             self.log.error(
-                u'Falha ao inserir informação de acesso a equipamento.')
+                'Falha ao inserir informação de acesso a equipamento.')
             raise EquipamentoError(
-                e, u'Falha ao inserir informação de acesso a equipamento.')
+                e, 'Falha ao inserir informação de acesso a equipamento.')
 
     @classmethod
     def update(cls, authenticated_user, id_equipamento, id_tipo_acesso, **kwargs):
@@ -1788,9 +1790,9 @@ class EquipamentoAcesso(BaseModel):
             raise e
         except Exception as e:
             cls.log.error(
-                u'Falha ao alterar informação de acesso a equipamento.')
+                'Falha ao alterar informação de acesso a equipamento.')
             raise EquipamentoError(
-                e, u'Falha ao alterar informação de acesso a equipamento.')
+                e, 'Falha ao alterar informação de acesso a equipamento.')
 
     @classmethod
     def remove(cls, authenticated_user, id_equipamento, id_tipo_acesso):
@@ -1812,20 +1814,20 @@ class EquipamentoAcesso(BaseModel):
             raise e
         except Exception as e:
             EquipamentoAcesso.log.error(
-                u'Falha ao excluir informação de acesso a equipamento.')
+                'Falha ao excluir informação de acesso a equipamento.')
             raise EquipamentoError(
-                e, u'Falha ao excluir informação de acesso a equipamento.')
+                e, 'Falha ao excluir informação de acesso a equipamento.')
 
 
 class EquipamentoRoteiro(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_equiptos_roteiros')
-    equipamento = models.ForeignKey(Equipamento, db_column='id_equip')
-    roteiro = models.ForeignKey(Roteiro, db_column='id_roteiros')
+    equipamento = models.ForeignKey(Equipamento, db_column='id_equip', on_delete=models.DO_NOTHING)
+    roteiro = models.ForeignKey(Roteiro, db_column='id_roteiros', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('EquipamentoRoteiro')
 
     class Meta(BaseModel.Meta):
-        db_table = u'equiptos_roteiros'
+        db_table = 'equiptos_roteiros'
         managed = True
         unique_together = ('equipamento', 'roteiro')
 
@@ -1848,9 +1850,9 @@ class EquipamentoRoteiro(BaseModel):
 
         except Exception as e:
             cls.log.error(
-                u'Falha ao pesquisar os equipamentos e roteiros associados.')
+                'Falha ao pesquisar os equipamentos e roteiros associados.')
             raise EquipamentoError(
-                e, u'Falha ao pesquisar os equipamentos e roteiros associados.')
+                e, 'Falha ao pesquisar os equipamentos e roteiros associados.')
 
     def create(self, authenticated_user):
         """Insere uma nova associação entre um Equipamento e um Roteiro.
@@ -1873,7 +1875,7 @@ class EquipamentoRoteiro(BaseModel):
                 EquipamentoRoteiro.objects.get(
                     equipamento__id=self.equipamento.id, roteiro__id=self.roteiro.id)
                 raise EquipamentoRoteiroDuplicatedError(
-                    None, u'Equipamento já está associado ao roteiro.')
+                    None, 'Equipamento já está associado ao roteiro.')
             except ObjectDoesNotExist:
                 pass
 
@@ -1881,10 +1883,10 @@ class EquipamentoRoteiro(BaseModel):
         except EquipamentoRoteiroDuplicatedError as e:
             raise e
         except Exception as e:
-            self.log.error(u'Falha ao inserir a associação equipamento/roteiro: %s/%s.' %
+            self.log.error('Falha ao inserir a associação equipamento/roteiro: %s/%s.' %
                            (self.equipamento.id, self.roteiro.id))
             raise EquipamentoError(
-                e, u'Falha ao inserir a associação equipamento/roteiro: %s/%s.' % (self.equipamento.id, self.roteiro.id))
+                e, 'Falha ao inserir a associação equipamento/roteiro: %s/%s.' % (self.equipamento.id, self.roteiro.id))
 
     @classmethod
     def remove(cls, authenticated_user, equip_id, script_id):
@@ -1902,26 +1904,26 @@ class EquipamentoRoteiro(BaseModel):
             equip_script.delete()
 
         except EquipamentoRoteiro.DoesNotExist, n:
-            cls.log.debug(u'Não existe um equipamento_roteiro com o equipamento = %s e o roteiro = %s.' % (
+            cls.log.debug('Não existe um equipamento_roteiro com o equipamento = %s e o roteiro = %s.' % (
                 equip_id, script_id))
             raise EquipamentoRoteiroNotFoundError(
-                n, u'Não existe um equipamento_roteiro com o equipamento = %s e o roteiro = %s.' % (equip_id, script_id))
+                n, 'Não existe um equipamento_roteiro com o equipamento = %s e o roteiro = %s.' % (equip_id, script_id))
         except Exception as e:
             cls.log.error(
-                u'Falha ao remover uma associação entre um Equipamento e um Roteiro.')
+                'Falha ao remover uma associação entre um Equipamento e um Roteiro.')
             raise EquipamentoError(
-                e, u'Falha ao remover uma associação entre um Equipamento e um Roteiro.')
+                e, 'Falha ao remover uma associação entre um Equipamento e um Roteiro.')
 
 
 class ModeloRoteiro(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id_modelo_roteiro')
-    modelo = models.ForeignKey(Modelo, db_column='id_modelo')
-    roteiro = models.ForeignKey(Roteiro, db_column='id_roteiro')
+    modelo = models.ForeignKey(Modelo, db_column='id_modelo', on_delete=models.DO_NOTHING)
+    roteiro = models.ForeignKey(Roteiro, db_column='id_roteiro', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('ModeloRoteiro')
 
     class Meta(BaseModel.Meta):
-        db_table = u'modelo_roteiro'
+        db_table = 'modelo_roteiro'
         managed = True
         unique_together = ('modelo', 'roteiro')
 
@@ -1942,17 +1944,17 @@ class ModeloRoteiro(BaseModel):
                 for rot in roteiros:
                     if rot.roteiro.id == self.roteiro.id:
                         raise ModeloRoteiroDuplicatedError(
-                            None, u'Modelo id %s já está associado a um roteiro.' % str(self.modelo.id))
+                            None, 'Modelo id %s já está associado a um roteiro.' % str(self.modelo.id))
             except ObjectDoesNotExist:
                 pass
             self.save()
         except ModeloRoteiroDuplicatedError as e:
             raise e
         except Exception as e:
-            self.log.error(u'Falha ao inserir a associação modelo/roteiro: %s/%s. %s' %
+            self.log.error('Falha ao inserir a associação modelo/roteiro: %s/%s. %s' %
                            (self.modelo.id, self.roteiro.id, e))
             raise EquipamentoError(
-                e, u'Falha ao inserir a associação modelo/roteiro: %s/%s.' % (self.modelo.id, self.roteiro.id))
+                e, 'Falha ao inserir a associação modelo/roteiro: %s/%s.' % (self.modelo.id, self.roteiro.id))
 
     @classmethod
     def get_by_pk(cls, idt):
@@ -1960,10 +1962,10 @@ class ModeloRoteiro(BaseModel):
             return ModeloRoteiro.objects.filter(id=idt).uniqueResult()
         except ObjectDoesNotExist as e:
             raise ObjectDoesNotExist(
-                e, u'Dont there is a object by pk = %s.' % idt)
+                e, 'Dont there is a object by pk = %s.' % idt)
         except Exception as e:
-            cls.log.error(u'Failure to search the object.')
-            raise EquipamentoError(e, u'Failure to search object.')
+            cls.log.error('Failure to search the object.')
+            raise EquipamentoError(e, 'Failure to search object.')
 
     @classmethod
     def remover(cls, authenticated_user, model_id, script_id):
@@ -1973,12 +1975,12 @@ class ModeloRoteiro(BaseModel):
             model_script.delete()
 
         except ObjectDoesNotExist, n:
-            cls.log.debug(u'Não existe um modelo_roteiro com o modelo = %s e o roteiro = %s.' % (
+            cls.log.debug('Não existe um modelo_roteiro com o modelo = %s e o roteiro = %s.' % (
                 model_id, script_id))
             raise ObjectDoesNotExist(
-                n, u'Não existe um modelo_roteiro com o modelo = %s e o roteiro = %s.' % (model_id, script_id))
+                n, 'Não existe um modelo_roteiro com o modelo = %s e o roteiro = %s.' % (model_id, script_id))
         except Exception as e:
             cls.log.error(
-                u'Falha ao remover uma associação entre um Modelo e um Roteiro.')
+                'Falha ao remover uma associação entre um Modelo e um Roteiro.')
             raise EquipamentoError(
-                e, u'Falha ao remover uma associação entre um Modelo e um Roteiro.')
+                e, 'Falha ao remover uma associação entre um Modelo e um Roteiro.')

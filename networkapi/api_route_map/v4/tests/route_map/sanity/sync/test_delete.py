@@ -52,7 +52,7 @@ class RouteMapDeleteSuccessTestCase(NetworkApiTestCase):
 
         self.compare_status(404, response.status_code)
         self.compare_values(
-            u'RouteMap id = 1 do not exist',
+            'RouteMap id = 1 do not exist',
             response.data['detail']
         )
 
@@ -101,7 +101,7 @@ class RouteMapDeleteErrorTestCase(NetworkApiTestCase):
         self.compare_status(404, response.status_code)
 
         self.compare_values(
-            u'RouteMap id = 1000 do not exist',
+            'RouteMap id = 1000 do not exist',
             response.data['detail']
         )
 
@@ -120,7 +120,7 @@ class RouteMapDeleteErrorTestCase(NetworkApiTestCase):
         self.compare_status(400, response.status_code)
 
         self.compare_values(
-            u'RouteMap id = 4 is associated with RouteMapEntries ids = [1]',
+            'RouteMap id = 4 is associated with RouteMapEntries ids = [1]',
             response.data['detail']
         )
 
@@ -139,6 +139,6 @@ class RouteMapDeleteErrorTestCase(NetworkApiTestCase):
         self.compare_status(400, response.status_code)
 
         self.compare_values(
-            u'RouteMap id = 6 is associated with PeerGroups ids = [1]',
+            'RouteMap id = 6 is associated with PeerGroups ids = [1]',
             response.data['detail']
         )

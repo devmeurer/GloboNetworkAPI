@@ -7,7 +7,7 @@ class VipRequestNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'Vips Request %s do not exist.' % (msg)
+        self.detail = 'Vips Request %s do not exist.' % (msg)
 
 
 class VipRequestError(APIException):
@@ -21,7 +21,7 @@ class VipRequestPortNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'Vips Request Port %s do not exist.' % (msg)
+        self.detail = 'Vips Request Port %s do not exist.' % (msg)
 
 
 class VipRequestPortError(APIException):
@@ -35,7 +35,7 @@ class VipRequestPortOptionVipNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'Vips Request Port Option Vip %s do not exist.' % (msg)
+        self.detail = 'Vips Request Port Option Vip %s do not exist.' % (msg)
 
 
 class VipRequestPortOptionVipError(APIException):
@@ -49,7 +49,7 @@ class VipRequestPortPoolNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'Vips Request Port Pool %s do not exist.' % (msg)
+        self.detail = 'Vips Request Port Pool %s do not exist.' % (msg)
 
 
 class VipRequestPortPoolError(APIException):
@@ -63,7 +63,7 @@ class VipRequestOptionVipNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'Vips Request Port Option Vip %s do not exist.' % (msg)
+        self.detail = 'Vips Request Port Option Vip %s do not exist.' % (msg)
 
 
 class VipRequestOptionVipError(APIException):
@@ -77,7 +77,7 @@ class VipRequestDSCPNotFoundError(APIException):
     status_code = status.HTTP_404_NOT_FOUND
 
     def __init__(self, msg):
-        self.detail = u'Vips Request Dscp %s do not exist.' % (msg)
+        self.detail = 'Vips Request Dscp %s do not exist.' % (msg)
 
 
 class VipRequestDSCPError(APIException):
@@ -93,7 +93,7 @@ class VipRequestDoesNotExistException(APIException):
 
     def __init__(self, msg=None):
         if msg:
-            self.detail = u'Vips Request %s do not exist.' % (
+            self.detail = 'Vips Request %s do not exist.' % (
                 msg)
         else:
             self.detail = self.default_detail
@@ -119,7 +119,7 @@ class CreatedVipRequestValuesException(APIException):
     default_detail = 'Vip Request already created. Cannot change values.'
 
     def __init__(self, msg=None):
-        self.detail = u'Not is possible to change some values in vip request when is created. Values prohibited:<<%s>>' % (
+        self.detail = 'Not is possible to change some values in vip request when is created. Values prohibited:<<%s>>' % (
             msg)
 
 
@@ -128,7 +128,7 @@ class ServerPoolMemberDiffEnvironmentVipException(APIException):
     default_detail = 'Server Pool Member is associated with different environment vip of vip request.'
 
     def __init__(self, msg=None):
-        self.detail = u'Server Pool Member is associated with different environment vip of vip request. <<%s>>' % (
+        self.detail = 'Server Pool Member is associated with different environment vip of vip request. <<%s>>' % (
             msg)
 
 
@@ -146,7 +146,7 @@ class VipRequestAlreadyCreated(APIException):
     default_detail = 'Vip Request already created.'
 
     def __init__(self, msg=None):
-        self.detail = u'Vip Request <<%s>> already created.' % msg
+        self.detail = 'Vip Request <<%s>> already created.' % msg
 
 
 class VipRequestNotCreated(APIException):
@@ -154,7 +154,7 @@ class VipRequestNotCreated(APIException):
     default_detail = 'Vip Request not created.'
 
     def __init__(self, msg=None):
-        self.detail = u'Vip Request <<%s>> not created.' % msg
+        self.detail = 'Vip Request <<%s>> not created.' % msg
 
 
 class VipConstraintCreated(APIException):
@@ -163,6 +163,6 @@ class VipConstraintCreated(APIException):
 
     def __init__(self, msg=None):
         if msg:
-            self.detail = u'Vip request %s can not be deleted because it is created in equipment' % msg
+            self.detail = 'Vip request %s can not be deleted because it is created in equipment' % msg
         else:
             self.detail = self.default_detail

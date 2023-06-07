@@ -90,7 +90,7 @@ def alterar_interface(var, interface, port_channel, int_type, vlan_nativa, user,
                 amb_int.vlans = range_vlans
             try:
                 amb_int.create(user)
-            except Exception, e:
+            except Exception as e:
                 logger.error(e)
                 pass
 
@@ -109,7 +109,7 @@ class InterfaceChannelResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -118,11 +118,11 @@ class InterfaceChannelResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             channel_map = networkapi_map.get('channel')
             if channel_map is None:
-                return self.response_error(3, u'There is no value to the channel tag  of XML request.')
+                return self.response_error(3, 'There is no value to the channel tag  of XML request.')
 
             # Get XML data
             interfaces = channel_map.get('interfaces')
@@ -224,13 +224,13 @@ class InterfaceChannelResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except InterfaceError, e:
             return self.response_error(405, e)
         except api_interface_exceptions.InterfaceException, e:
             return self.response_error(405, e)
-        except Exception, e:
+        except Exception as e:
             return self.response_error(405, e)
 
     def handle_get(self, request, user, *args, **kwargs):
@@ -245,7 +245,7 @@ class InterfaceChannelResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Get XML data
@@ -253,7 +253,7 @@ class InterfaceChannelResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no networkapi tag in XML request.')
+                return self.response_error(3, 'There is no networkapi tag in XML request.')
 
             channel_name = kwargs.get('channel_name')
 
@@ -271,7 +271,7 @@ class InterfaceChannelResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except InterfaceError:
             return self.response_error(1)
@@ -286,7 +286,7 @@ class InterfaceChannelResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             interface_id = kwargs.get('channel_name')
@@ -353,7 +353,7 @@ class InterfaceChannelResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
 
     def handle_put(self, request, user, *args, **kwargs):
@@ -367,7 +367,7 @@ class InterfaceChannelResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -376,11 +376,11 @@ class InterfaceChannelResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             channel_map = networkapi_map.get('channel')
             if channel_map is None:
-                return self.response_error(3, u'There is no value to the channel tag  of XML request.')
+                return self.response_error(3, 'There is no value to the channel tag  of XML request.')
 
             # Get XML data
             id_channel = channel_map.get('id_channel')
@@ -490,7 +490,7 @@ class InterfaceChannelResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except InterfaceError, e:
             return self.response_error(406, e)

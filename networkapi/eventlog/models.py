@@ -19,7 +19,7 @@ from datetime import datetime
 from time import time
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from networkapi.queue_tools.rabbitmq import QueueManager
 
@@ -35,7 +35,7 @@ class EventLogError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Causa: %s, Mensagem: %s' % (self.cause, self.message)
+        msg = 'Causa: %s, Mensagem: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -50,7 +50,8 @@ class EventLog(models.Model):
         'usuario.Usuario',
         db_column='id_user',
         blank=True,
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
     hora_evento = models.DateTimeField()
     acao = models.TextField()
@@ -64,13 +65,14 @@ class EventLog(models.Model):
         'eventlog.AuditRequest',
         db_column='id_audit_request',
         blank=True,
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
 
     logger = logging.getLogger('EventLog')
 
     class Meta:
-        db_table = u'event_log'
+        db_table = 'event_log'
         managed = True
 
     @classmethod
@@ -93,12 +95,12 @@ class EventLog(models.Model):
         parametro_anterior = [
             '{0} : {1}'.format(key, evento['parametro_anterior'][key])
             for key in evento['parametro_anterior']]
-        parametro_anterior = u'\n'.join(parametro_anterior)
+        parametro_anterior = '\n'.join(parametro_anterior)
 
         parametro_atual = [
             '{0} : {1}'.format(key, evento['parametro_atual'][key])
             for key in evento['parametro_atual']]
-        parametro_atual = u'\n'.join(parametro_atual)
+        parametro_atual = '\n'.join(parametro_atual)
 
         try:
             functionality = Functionality()
@@ -115,11 +117,11 @@ class EventLog(models.Model):
             event_log.evento = ''
             event_log.resultado = 0
             event_log.save()
-        except Exception, e:
+        except Exception as e:
             cls.logger.error(
-                u'Falha ao salvar o log: evento = %s, id do usuario = %s.' % (evento, usuario))
+                'Falha ao salvar o log: evento = %s, id do usuario = %s.' % (evento, usuario))
             raise EventLogError(
-                e, u'Falha ao salvar o log: evento = %s, id do usuario = %s.' % (evento, usuario))
+                e, 'Falha ao salvar o log: evento = %s, id do usuario = %s.' % (evento, usuario))
 
 
 class EventLogQueue(object):
@@ -166,10 +168,10 @@ class AuditRequest(models.Model):
     ip = models.IPAddressField()
     path = models.CharField(max_length=1024)
     date = models.DateTimeField(auto_now_add=True, verbose_name=_('Date'))
-    user = models.ForeignKey('usuario.Usuario')
+    user = models.ForeignKey('usuario.Usuario', on_delete=models.DO_NOTHING)
 
     class Meta:
-        db_table = u'audit_request'
+        db_table = 'audit_request'
 
     @staticmethod
     def new_request(path, user, ip, identity, context):
@@ -248,7 +250,7 @@ class Functionality(models.Model):
     logger = logging.getLogger('Funcionality')
 
     class Meta:
-        db_table = u'functionality'
+        db_table = 'functionality'
 
     @classmethod
     def exist(cls, event_functionality):

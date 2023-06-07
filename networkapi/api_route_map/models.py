@@ -50,7 +50,7 @@ class RouteMap(BaseModel):
     log = logging.getLogger('RouteMap')
 
     class Meta(BaseModel.Meta):
-        db_table = u'route_map'
+        db_table = 'route_map'
         managed = True
 
     def _get_route_map_entries(self):
@@ -93,14 +93,14 @@ class RouteMap(BaseModel):
         try:
             return RouteMap.objects.get(id=id)
         except ObjectDoesNotExist:
-            cls.log.error(u'RouteMap not found. pk {}'.format(id))
+            cls.log.error('RouteMap not found. pk {}'.format(id))
             raise exceptions.RouteMapNotFoundError(id)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded')
+            cls.log.error('Lock wait timeout exceeded')
             raise OperationalError()
         except Exception:
-            cls.log.error(u'Failure to search the RouteMap')
-            raise exceptions.RouteMapError(u'Failure to search the RouteMap')
+            cls.log.error('Failure to search the RouteMap')
+            raise exceptions.RouteMapError('Failure to search the RouteMap')
 
     def create_v4(self, route_map):
         """Create RouteMap."""
@@ -157,15 +157,17 @@ class EquipmentRouteMap(BaseModel):
 
     equipment = models.ForeignKey(
         'equipamento.Equipamento',
-        db_column='id_equipment'
+        db_column='id_equipment',
+        on_delete=models.DO_NOTHING
     )
     route_map = models.ForeignKey(
         'api_route_map.RouteMap',
-        db_column='id_route_map'
+        db_column='id_route_map',
+        on_delete=models.DO_NOTHING
     )
 
     class Meta(BaseModel.Meta):
-        db_table = u'equipment_route_map'
+        db_table = 'equipment_route_map'
         managed = True
 
     def create_v4(self, route_map):
@@ -200,18 +202,20 @@ class RouteMapEntry(BaseModel):
 
     list_config_bgp = models.ForeignKey(
         'api_list_config_bgp.ListConfigBGP',
-        db_column='id_list_config_bgp'
+        db_column='id_list_config_bgp',
+        on_delete=models.DO_NOTHING
     )
 
     route_map = models.ForeignKey(
         'api_route_map.RouteMap',
-        db_column='id_route_map'
+        db_column='id_route_map',
+        on_delete=models.DO_NOTHING
     )
 
     log = logging.getLogger('RouteMapEntry')
 
     class Meta(BaseModel.Meta):
-        db_table = u'route_map_entry'
+        db_table = 'route_map_entry'
         managed = True
 
     @classmethod
@@ -227,15 +231,15 @@ class RouteMapEntry(BaseModel):
         try:
             return RouteMapEntry.objects.get(id=ids)
         except ObjectDoesNotExist:
-            cls.log.error(u'RouteMapEntry not found. pk {}'.format(ids))
+            cls.log.error('RouteMapEntry not found. pk {}'.format(ids))
             raise exceptions.RouteMapEntryNotFoundError(ids)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded')
+            cls.log.error('Lock wait timeout exceeded')
             raise OperationalError()
         except Exception:
-            cls.log.error(u'Failure to search the RouteMapEntry')
+            cls.log.error('Failure to search the RouteMapEntry')
             raise exceptions.RouteMapEntryError(
-                u'Failure to search the RouteMapEntry')
+                'Failure to search the RouteMapEntry')
 
     def create_v4(self, route_map_entry):
         """Create RouteMapEntry."""

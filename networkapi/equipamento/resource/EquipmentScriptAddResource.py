@@ -53,11 +53,11 @@ class EquipmentScriptAddResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             equipment_script_map = networkapi_map.get('equipment_script')
             if equipment_script_map is None:
-                return self.response_error(3, u'There is no value to the equipment_script tag  of XML request.')
+                return self.response_error(3, 'There is no value to the equipment_script tag  of XML request.')
 
             # Get XML data
             id_equipment = equipment_script_map.get('id_equipment')
@@ -66,13 +66,13 @@ class EquipmentScriptAddResource(RestResource):
             # Valid ID Equipment
             if not is_valid_int_greater_zero_param(id_equipment):
                 self.log.error(
-                    u'The id_equipment parameter is not a valid value: %s.', id_equipment)
+                    'The id_equipment parameter is not a valid value: %s.', id_equipment)
                 raise InvalidValueError(None, 'id_equipment', id_equipment)
 
             # Valid ID Script
             if not is_valid_int_greater_zero_param(id_script):
                 self.log.error(
-                    u'The id_script parameter is not a valid value: %s.', id_script)
+                    'The id_script parameter is not a valid value: %s.', id_script)
                 raise InvalidValueError(None, 'id_script', id_script)
 
             # Find Equipment by ID to check if it exist
@@ -81,7 +81,7 @@ class EquipmentScriptAddResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, id_equipment, AdminPermission.EQUIP_WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Find Script by ID to check if it exist

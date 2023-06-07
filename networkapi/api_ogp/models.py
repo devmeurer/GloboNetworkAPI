@@ -20,7 +20,7 @@ class ObjectType(BaseModel):
     log = logging.getLogger('ObjectType')
 
     class Meta(BaseModel.Meta):
-        db_table = u'object_type'
+        db_table = 'object_type'
         managed = True
 
     @classmethod
@@ -40,16 +40,16 @@ class ObjectType(BaseModel):
             return ObjectType.objects.get(id=id)
         except ObjectDoesNotExist as e:
             cls.log.error(
-                u'object type not found. pk {}'.format(id))
+                'object type not found. pk {}'.format(id))
             raise exceptions.ObjectTypeNotFoundError(id)
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
-            cls.log.error(u'Failure to search the object type.')
+            cls.log.error('Failure to search the object type.')
             raise exceptions.ObjectTypeError(
-                u'Failure to search the object type.')
+                'Failure to search the object type.')
 
     @classmethod
     def get_by_name(cls, name):
@@ -66,25 +66,26 @@ class ObjectType(BaseModel):
             return ObjectType.objects.get(name=name)
         except ObjectDoesNotExist as e:
             cls.log.error(
-                u'object type not found. pk {}'.format(name))
+                'object type not found. pk {}'.format(name))
             raise exceptions.ObjectTypeNotFoundError(name)
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
-            cls.log.error(u'Failure to search the object type.')
+            cls.log.error('Failure to search the object type.')
             raise exceptions.ObjectTypeError(
-                u'Failure to search the object type.')
+                'Failure to search the object type.')
 
 
 class ObjectGroupPermission(BaseModel):
     id = models.AutoField(primary_key=True, db_column='id')
     user_group = models.ForeignKey(
         'grupo.UGrupo',
-        db_column='id_user_group'
+        db_column='id_user_group',
+        on_delete=models.DO_NOTHING
     )
-    object_type = models.ForeignKey(ObjectType, db_column='id_object_type')
+    object_type = models.ForeignKey(ObjectType, db_column='id_object_type', on_delete=models.DO_NOTHING)
     object_value = models.IntegerField(db_column='id_object')
     read = models.BooleanField()
     write = models.BooleanField()
@@ -94,7 +95,7 @@ class ObjectGroupPermission(BaseModel):
     log = logging.getLogger('ObjectGroupPermission')
 
     class Meta(BaseModel.Meta):
-        db_table = u'object_group_permission'
+        db_table = 'object_group_permission'
         managed = True
         unique_together = ('user_group', 'object_type', 'object_value')
 
@@ -115,16 +116,16 @@ class ObjectGroupPermission(BaseModel):
             return ObjectGroupPermission.objects.get(id=id)
         except ObjectDoesNotExist as e:
             cls.log.error(
-                u'object group permission not found. pk {}'.format(id))
+                'object group permission not found. pk {}'.format(id))
             raise exceptions.ObjectGroupPermissionNotFoundError(id)
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
-            cls.log.error(u'Failure to search the object group permission.')
+            cls.log.error('Failure to search the object group permission.')
             raise exceptions.ObjectGroupPermissionError(
-                u'Failure to search the object group permission.')
+                'Failure to search the object group permission.')
 
     @classmethod
     def get_by_object(cls, object_value, object_type):
@@ -143,14 +144,14 @@ class ObjectGroupPermission(BaseModel):
                 object_value=object_value,
                 object_type__name=object_type)
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
             cls.log.error(
-                u'Failure to search the object group permission.')
+                'Failure to search the object group permission.')
             raise exceptions.ObjectGroupPermissionError(
-                u'Failure to search the object group permission.')
+                'Failure to search the object group permission.')
 
     @classmethod
     def get_by_unique_key(cls, user_group, object_type, object_value):
@@ -172,22 +173,22 @@ class ObjectGroupPermission(BaseModel):
                 object_value=object_value)
         except ObjectDoesNotExist as e:
             cls.log.error(
-                u'Object group permission not found. '
+                'Object group permission not found. '
                 'user_group {}, object_type {}. object_value {}'.format(
                     user_group, object_type, object_value))
             raise exceptions.ObjectGroupPermissionError(
-                u'Object group permission general not found. '
+                'Object group permission general not found. '
                 'user_group {}, object_type {}. object_value {}'.format(
                     user_group, object_type, object_value))
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
             cls.log.error(
-                u'Failure to search the object group permission.')
+                'Failure to search the object group permission.')
             raise exceptions.ObjectGroupPermissionError(
-                u'Failure to search the object group permission.')
+                'Failure to search the object group permission.')
 
     def create_v3(self, perm):
 
@@ -339,7 +340,7 @@ class ObjectGroupPermissionGeneral(BaseModel):
         'grupo.UGrupo',
         db_column='id_user_group'
     )
-    object_type = models.ForeignKey(ObjectType, db_column='id_object_type')
+    object_type = models.ForeignKey(ObjectType, db_column='id_object_type', on_delete=models.DO_NOTHING)
     read = models.BooleanField()
     write = models.BooleanField()
     change_config = models.BooleanField()
@@ -348,7 +349,7 @@ class ObjectGroupPermissionGeneral(BaseModel):
     log = logging.getLogger('ObjectGroupPermissionGeneral')
 
     class Meta(BaseModel.Meta):
-        db_table = u'object_group_permission_general'
+        db_table = 'object_group_permission_general'
         managed = True
         unique_together = ('user_group', 'object_type')
 
@@ -368,17 +369,17 @@ class ObjectGroupPermissionGeneral(BaseModel):
             return ObjectGroupPermissionGeneral.objects.get(id=id)
         except ObjectDoesNotExist as e:
             cls.log.error(
-                u'object group permission general not found. pk {}'.format(id))
+                'object group permission general not found. pk {}'.format(id))
             raise exceptions.ObjectGroupPermissionGeneralNotFoundError(id)
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
             cls.log.error(
-                u'Failure to search the object group permission general.')
+                'Failure to search the object group permission general.')
             raise exceptions.ObjectGroupPermissionGeneralError(
-                u'Failure to search the object group permission general.')
+                'Failure to search the object group permission general.')
 
     @classmethod
     def get_by_unique_key(cls, user_group, object_type):
@@ -398,22 +399,22 @@ class ObjectGroupPermissionGeneral(BaseModel):
                 object_type=object_type)
         except ObjectDoesNotExist as e:
             cls.log.error(
-                u'Object group permission general not found. '
+                'Object group permission general not found. '
                 'user_group {}, object_type {}'.format(
                     user_group, object_type))
             raise exceptions.ObjectGroupPermissionGeneralError(
-                u'Object group permission general not found. '
+                'Object group permission general not found. '
                 'user_group {}, object_type {}'.format(
                     user_group, object_type))
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
             cls.log.error(
-                u'Failure to search the object group permission general.')
+                'Failure to search the object group permission general.')
             raise exceptions.ObjectGroupPermissionGeneralError(
-                u'Failure to search the object group permission general.')
+                'Failure to search the object group permission general.')
 
     def create_v3(self, perm):
 

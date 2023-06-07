@@ -36,7 +36,7 @@ def get_networkipv6_by_id(network_id):
     except ObjectDoesNotExistException, e:
         raise ObjectDoesNotExistException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return network
@@ -53,7 +53,7 @@ def get_networkipv6_by_ids(network_ids):
         except ObjectDoesNotExistException, e:
             raise ObjectDoesNotExistException(e.detail)
 
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
         else:
@@ -97,7 +97,7 @@ def create_networkipv6(networkv6, user=None, force=False):
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     else:
@@ -123,7 +123,7 @@ def update_networkipv6(networkv6, user, force=False):
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     else:
@@ -147,7 +147,7 @@ def delete_networkipv6(network_ids, user, force=False):
         except ValidationAPIException, e:
             raise ValidationAPIException(e.detail)
 
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
 
@@ -194,7 +194,7 @@ def undeploy_networkipv6(network_id, user):
     except exceptions.NetworkAlreadyActive, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     else:
@@ -266,7 +266,7 @@ def undeploy_networkipv6(network_id, user):
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     finally:
@@ -317,7 +317,7 @@ def deploy_networkipv6(network_id, user):
     except exceptions.NetworkAlreadyActive, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     else:
@@ -380,7 +380,7 @@ def deploy_networkipv6(network_id, user):
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     finally:

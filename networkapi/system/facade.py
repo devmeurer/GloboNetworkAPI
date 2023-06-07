@@ -38,7 +38,7 @@ def save_variable(name, value, description):
 
     try:
         var.save()
-    except Exception, e:
+    except Exception as e:
         log.info("Erro inserindo variavel: %s" % (e))
         raise Exception("Erro inserindo variavel: %s" % (e))
 

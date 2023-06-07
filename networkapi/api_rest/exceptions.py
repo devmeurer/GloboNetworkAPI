@@ -9,7 +9,7 @@ class NetworkAPIException(APIException):
 
     def __init__(self, detail=None):
         detail = detail if detail else self.default_detail
-        self.detail = u'%s' % (detail)
+        self.detail = '%s' % (detail)
 
 
 class ValidationException(APIException):
@@ -17,7 +17,7 @@ class ValidationException(APIException):
     default_detail = 'Validation Bad Request.'
 
     def __init__(self, param=None):
-        self.detail = u'Error validating request parameter: %s' % (param)
+        self.detail = 'Error validating request parameter: %s' % (param)
 
 
 class ValidationAPIException(APIException):
@@ -49,7 +49,7 @@ class ObjectDoesNotExistException(APIException):
 
     def __init__(self, detail=None):
         detail = detail if detail else self.default_detail
-        self.detail = u'%s' % (detail)
+        self.detail = '%s' % (detail)
 
 
 class ScriptException(APIException):

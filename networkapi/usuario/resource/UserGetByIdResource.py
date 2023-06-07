@@ -46,7 +46,7 @@ class UserGetByIdResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.USER_ADMINISTRATION, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_user = kwargs.get('id_user')
@@ -54,7 +54,7 @@ class UserGetByIdResource(RestResource):
             # Valid User ID
             if not is_valid_int_greater_zero_param(id_user):
                 self.log.error(
-                    u'The id_user parameter is not a valid value: %s.', id_user)
+                    'The id_user parameter is not a valid value: %s.', id_user)
                 raise InvalidValueError(None, 'id_user', id_user)
 
             # Find User by ID to check if it exist

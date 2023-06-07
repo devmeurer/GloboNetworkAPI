@@ -36,7 +36,7 @@ def get_networkipv4_by_id(network_id):
     except ObjectDoesNotExistException, e:
         raise ObjectDoesNotExistException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     return network
@@ -53,7 +53,7 @@ def get_networkipv4_by_ids(network_ids):
         except ObjectDoesNotExistException, e:
             raise ObjectDoesNotExistException(e.detail)
 
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
         else:
@@ -97,7 +97,7 @@ def create_networkipv4(networkv4, user=None, force=False):
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     else:
@@ -123,7 +123,7 @@ def update_networkipv4(networkv4, user, force=False):
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     else:
@@ -147,7 +147,7 @@ def delete_networkipv4(network_ids, user, force=False):
         except ValidationAPIException, e:
             raise ValidationAPIException(e.detail)
 
-        except Exception, e:
+        except Exception as e:
             raise NetworkAPIException(str(e))
 
 
@@ -193,7 +193,7 @@ def undeploy_networkipv4(network_id, user, force=False):
     except exceptions.NetworkAlreadyActive, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     else:
@@ -318,7 +318,7 @@ def deploy_networkipv4(network_id, user):
     except exceptions.NetworkAlreadyActive, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     else:
@@ -381,7 +381,7 @@ def deploy_networkipv4(network_id, user):
     except ValidationAPIException, e:
         raise ValidationAPIException(e.detail)
 
-    except Exception, e:
+    except Exception as e:
         raise NetworkAPIException(str(e))
 
     finally:

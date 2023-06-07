@@ -92,19 +92,19 @@ class GroupVirtualResource(RestResource):
             xml_map, attrs_map = loads(
                 request.raw_post_data, ['vip', 'equipamento', 'id_equipamento'])
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
 
         networkapi_map = xml_map.get('networkapi')
         if networkapi_map is None:
-            return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
         vips_map = networkapi_map.get('vips')
 
         try:
             equipments_map = networkapi_map['equipamentos']
         except KeyError:
-            return self.response_error(3, u'XML de requisição inválido.')
+            return self.response_error(3, 'XML de requisição inválido.')
 
         try:
 
@@ -117,16 +117,16 @@ class GroupVirtualResource(RestResource):
                         for vip_map in vip_maps:
                             balanceadores_map = vip_map['balanceadores']
                             if balanceadores_map is None:
-                                return self.response_error(3, u'Valor da tag balanceadores do XML de requisição inválido.')
+                                return self.response_error(3, 'Valor da tag balanceadores do XML de requisição inválido.')
 
                             ip_id = vip_map['id_ip']
                             try:
                                 ip_id = int(ip_id)
                             except (TypeError, ValueError), e:
                                 self.log.error(
-                                    u'Valor do id_ip inválido: %s.', ip_id)
+                                    'Valor do id_ip inválido: %s.', ip_id)
                                 raise IpNotFoundError(
-                                    e, u'Valor do id_ip inválido: %s.' % ip_id)
+                                    e, 'Valor do id_ip inválido: %s.' % ip_id)
 
                             vip_s = RequisicaoVips.get_by_ipv4_id(ip_id)
                             # Run scripts to remove vips
@@ -150,13 +150,13 @@ class GroupVirtualResource(RestResource):
                                     equip_id = int(equip_id)
                                 except (TypeError, ValueError), e:
                                     self.log.error(
-                                        u'Valor do id_equipamento inválido: %s.', equip_id)
+                                        'Valor do id_equipamento inválido: %s.', equip_id)
                                     raise EquipamentoNotFoundError(
-                                        e, u'Valor do id_equipamento inválido: %s.' % equip_id)
+                                        e, 'Valor do id_equipamento inválido: %s.' % equip_id)
 
                                 remove_ip_equipment(ip_id, equip_id, user)
                     except KeyError:
-                        return self.response_error(3, u'Valor das tags vips/vip do XML de requisição inválido.')
+                        return self.response_error(3, 'Valor das tags vips/vip do XML de requisição inválido.')
 
                 # Equipamentos
                 if equipments_map is not None:
@@ -169,13 +169,13 @@ class GroupVirtualResource(RestResource):
                                 equip_id = int(equip_id)
                             except (TypeError, ValueError), e:
                                 self.log.error(
-                                    u'Valor do id do equipamento inválido: %s.', equip_id)
+                                    'Valor do id do equipamento inválido: %s.', equip_id)
                                 raise EquipamentoNotFoundError(
-                                    e, u'Valor do id do equipamento inválido: %s.' % equip_id)
+                                    e, 'Valor do id do equipamento inválido: %s.' % equip_id)
 
                             remove_equipment(equip_id, user)
                     except KeyError:
-                        return self.response_error(3, u'Valor das tags equipamentos/equipamento do XML de requisição inválido.')
+                        return self.response_error(3, 'Valor das tags equipamentos/equipamento do XML de requisição inválido.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -221,7 +221,7 @@ class GroupVirtualResource(RestResource):
 
                     ip_map = equipment_map.get('ip')
                     if ip_map is None:
-                        return self.response_error(3, u'Não existe valor para a tag ip do equipamento %s do XML de requisição.' % equipment_map.get('nome'))
+                        return self.response_error(3, 'Não existe valor para a tag ip do equipamento %s do XML de requisição.' % equipment_map.get('nome'))
 
                     ip_map['id_equipamento'] = equip_id
 
@@ -303,11 +303,11 @@ class GroupVirtualResource(RestResource):
 
                     balanceadores_map = vip_map.get('balanceadores')
                     if balanceadores_map is None:
-                        return self.response_error(3, u'Não existe valor para a tag balanceadors do vip %s do XML de requisição.' % vip_id)
+                        return self.response_error(3, 'Não existe valor para a tag balanceadors do vip %s do XML de requisição.' % vip_id)
 
                     equipments_ids = balanceadores_map.get('id_equipamento')
                     if len(equipments_ids) == 0:
-                        return self.response_error(3, u'Não existe valor para a tag id_equipamento do vip %s do XML de requisição.' % vip_id)
+                        return self.response_error(3, 'Não existe valor para a tag id_equipamento do vip %s do XML de requisição.' % vip_id)
 
                     # Insere um IP e o relacionamento dele com o primeiro
                     # balanceador
@@ -384,7 +384,7 @@ class GroupVirtualResource(RestResource):
                             equip = Equipamento.get_by_name(equip_id)
                         else:
                             self.log.error(
-                                u'The real_name parameter is not a valid value: None.')
+                                'The real_name parameter is not a valid value: None.')
                             raise InvalidValueError(None, 'real_name', 'None')
 
                         # Valid Real
@@ -408,7 +408,7 @@ class GroupVirtualResource(RestResource):
 
                     if not is_valid_int_greater_zero_param(id_vip_request_map.get('id')):
                         self.log.error(
-                            u'The requisicao_vip.id parameter is not a valid value: %s.', id_vip_request_map.get('id'))
+                            'The requisicao_vip.id parameter is not a valid value: %s.', id_vip_request_map.get('id'))
                         raise InvalidValueError(
                             None, 'requisicao_vip.id', id_vip_request_map.get('id'))
 
@@ -514,22 +514,22 @@ class GroupVirtualResource(RestResource):
             xml_map, attrs_map = loads(request.raw_post_data, [
                                        'vip', 'equipamento', 'id_equipamento', 'reals_weight', 'reals_priority', 'real', 'transbordo', 'porta'])
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
 
         self.log.debug('XML_MAP: %s', xml_map)
 
         networkapi_map = xml_map.get('networkapi')
         if networkapi_map is None:
-            return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
         equipments_map = networkapi_map.get('equipamentos')
         if equipments_map is None:
-            return self.response_error(3, u'Não existe valor para a tag equipamentos do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag equipamentos do XML de requisição.')
 
         equipment_maps = equipments_map.get('equipamento')
         if len(equipment_maps) == 0:
-            return self.response_error(3, u'Não existe valor para a tag equipamento do XML de requisição.')
+            return self.response_error(3, 'Não existe valor para a tag equipamento do XML de requisição.')
 
         vips_map = networkapi_map.get('vips')
         if vips_map is not None:

@@ -22,13 +22,13 @@ from django.forms import *
 class TestForm(Form):
 
     url = URLField(widget=widgets.Textarea(
-        {'cols': '100', 'rows': '1'}), label=u'URL', initial='http://', required=True)
-    #method = CharField(max_length=6, label=u'Método', required=True)
+        {'cols': '100', 'rows': '1'}), label='URL', initial='http://', required=True)
+    #method = CharField(max_length=6, label='Método', required=True)
     method = ChoiceField(choices=[('DELETE', 'DELETE'), ('GET', 'GET'),
-                                  ('POST', 'POST'), ('PUT', 'PUT')], label=u'Método', required=True)
+                                  ('POST', 'POST'), ('PUT', 'PUT')], label='Método', required=True)
     username = CharField(
-        max_length=45, label=u'Usuário', initial='ORQUESTRACAO', required=True)
-    password = CharField(max_length=45, label=u'Senha',
+        max_length=45, label='Usuário', initial='ORQUESTRACAO', required=True)
+    password = CharField(max_length=45, label='Senha',
                          initial='93522a36bf2a18e0cc25857e06bbfe8b', required=True)
     request_xml = CharField(widget=widgets.Textarea(
-        {'cols': '100', 'rows': '20'}), label=u'XML Requisição', required=False)
+        {'cols': '100', 'rows': '20'}), label='XML Requisição', required=False)

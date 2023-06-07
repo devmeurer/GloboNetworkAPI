@@ -17,9 +17,9 @@ import logging
 import os
 import sys
 
-reload(sys)
+# reload(sys)
 
-sys.setdefaultencoding('utf-8')
+# sys.setdefaultencoding('utf-8')
 
 # Include base path in system path for Python old.
 syspath = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
@@ -174,18 +174,18 @@ LOGGING = {
             'formatter': 'simple',
             'filters': ['user_filter'],
         },
-        'gelf': {
-            'level': LOG_LEVEL,
-            'class': 'graypy.GELFHandler',
-            'host': NETWORKAPI_GELF_HOST,
-            'port': 12201,
-            'filters': [
-                'user_filter',
-                'static_fields',
-                'django_exc',
-                'user_filter_gelf'
-            ]
-        },
+        # 'gelf': {
+        #     'level': LOG_LEVEL,
+        #     'class': 'graypy.GELFHandler',
+        #     'host': NETWORKAPI_GELF_HOST,
+        #     'port': 12201,
+        #     'filters': [
+        #         'user_filter',
+        #         'static_fields',
+        #         'django_exc',
+        #         'user_filter_gelf'
+        #     ]
+        # },
     },
     'loggers': {
         'default': {
@@ -322,6 +322,7 @@ TEMPLATE_DIRS = (
 
 # Apps of Project
 PROJECT_APPS = (
+    'networkapi',
     'networkapi.ambiente',
     'networkapi.api_asn',
     'networkapi.api_aws',
@@ -333,7 +334,7 @@ PROJECT_APPS = (
     'networkapi.api_group',
     'networkapi.api_interface',
     'networkapi.api_ip',
-    'networkapi.api_neighbor',
+    # 'networkapi.api_neighbor',
     'networkapi.api_network',
     'networkapi.api_ogp',
     'networkapi.api_pools',
@@ -359,7 +360,7 @@ PROJECT_APPS = (
     'networkapi.healthcheckexpect',
     'networkapi.interface',
     'networkapi.ip',
-    'networkapi.models',
+    # 'networkapi.models',
     'networkapi.rack',
     'networkapi.requisicaovips',
     'networkapi.roteiro',
@@ -726,7 +727,7 @@ VIP_REALS_v6_CHECK = 'gerador_vips -i %s --id_ipv6 %s --port_ip %s --port_vip %s
 BROKER_CONNECT_TIMEOUT = os.getenv('NETWORKAPI_BROKER_CONNECT_TIMEOUT', '2')
 BROKER_DESTINATION = os.getenv('NETWORKAPI_BROKER_DESTINATION', 'tasks')
 BROKER_URL = os.getenv('NETWORKAPI_BROKER_URL',
-                       u'networkapi:networkapi@localhost:5672')
+                       'networkapi:networkapi@localhost:5672')
 
 
 ##################################

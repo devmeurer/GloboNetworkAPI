@@ -115,8 +115,8 @@ class PeerGroupPostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'Already exists PeerGroup with RouteMap id = 1 '
-            u'or id = 2',
+            'Already exists PeerGroup with RouteMap id = 1 '
+            'or id = 2',
             response.data['detail']
         )
 
@@ -134,6 +134,6 @@ class PeerGroupPostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'RouteMapIn cant be equal RouteMapOut',
+            'RouteMapIn cant be equal RouteMapOut',
             response.data['detail']
         )

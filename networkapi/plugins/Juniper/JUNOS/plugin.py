@@ -247,7 +247,7 @@ class JUNOS(BasePlugin):
             self.close()
             raise exceptions.APIException(message)
         # Caution to use generic exception here, may cause overlaps in specific exceptions in try_lock()
-        # except Exception, e:
+        # except Exception as e:
 
     def ensure_privilege_level(self, privilege_level=None):
 
@@ -268,7 +268,7 @@ class JUNOS(BasePlugin):
             output = ss.run('cli -c "show cli authorization"')
 
             # output is a tuple [bool, string], example:
-            # (False, u'cli -c "show cli authorization"\r\r\nCurrent user: \'root        \' class \'super-user\ ....)
+            # (False, 'cli -c "show cli authorization"\r\r\nCurrent user: \'root        \' class \'super-user\ ....)
             # This string will be parsed to get the user class:
 
             # get the target part and split it by \n

@@ -52,19 +52,19 @@ class VlanCheckNumberAvailable(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Valid env ID
             if not is_valid_int_greater_zero_param(id_env):
                 self.log.error(
-                    u'The id_env parameter is not a valid value: %s.', id_env)
+                    'The id_env parameter is not a valid value: %s.', id_env)
                 raise InvalidValueError(None, 'env_id', id_env)
 
             # Valid num Vlan
             if not is_valid_int_greater_zero_param(num_vlan):
                 self.log.error(
-                    u'The num_vlan parameter is not a valid value: %s.', num_vlan)
+                    'The num_vlan parameter is not a valid value: %s.', num_vlan)
                 raise InvalidValueError(None, 'num_vlan', id_env)
             else:
                 num_vlan = int(num_vlan)

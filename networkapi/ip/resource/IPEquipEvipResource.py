@@ -55,7 +55,7 @@ class IPEquipEvipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.READ_OPERATION):
                 raise UserNotAuthorizedError(
-                    None, u'User does not have permission to perform the operation.')
+                    None, 'User does not have permission to perform the operation.')
 
             # Load XML data
             xml_map, attrs_map = loads(request.raw_post_data)
@@ -63,12 +63,12 @@ class IPEquipEvipResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             ip_map = networkapi_map.get('ip_map')
             if ip_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -79,13 +79,13 @@ class IPEquipEvipResource(RestResource):
             # Valid id_evip
             if not is_valid_int_greater_zero_param(id_evip):
                 self.log.error(
-                    u'Parameter id_evip is invalid. Value: %s.', id_evip)
+                    'Parameter id_evip is invalid. Value: %s.', id_evip)
                 raise InvalidValueError(None, 'id_evip', id_evip)
 
             # Valid equip_name
             if not is_valid_string_minsize(equip_name, 3) or not is_valid_string_maxsize(equip_name, 80) or not is_valid_regex(equip_name, '^[A-Z0-9-_]+$'):
                 self.log.error(
-                    u'Parameter equip_name is invalid. Value: %s', equip_name)
+                    'Parameter equip_name is invalid. Value: %s', equip_name)
                 raise InvalidValueError(None, 'equip_name', equip_name)
 
             # Business Rules
@@ -220,7 +220,7 @@ class IPEquipEvipResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except (IpError, NetworkIPv4Error, EquipamentoError, GrupoError), e:
             self.log.error(e)

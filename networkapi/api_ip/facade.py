@@ -100,7 +100,7 @@ def delete_ipv4(ipv4_id):
         ipv4_obj.delete_v3()
     except ObjectDoesNotExistException, e:
         raise ObjectDoesNotExistException(e.detail)
-    except IpCantBeRemovedFromVip, e:
+    except IpCantBeRemovedFromVip as e:
         raise ValidationAPIException(e.message)
     except (IpError, IpErrorV3), e:
         raise ValidationAPIException(e.message)
@@ -154,7 +154,7 @@ def delete_ipv6(ipv6_id):
         ipv6_obj.delete_v3()
     except ObjectDoesNotExistException, e:
         raise ObjectDoesNotExistException(e.message)
-    except IpCantBeRemovedFromVip, e:
+    except IpCantBeRemovedFromVip as e:
         raise ValidationAPIException(e.message)
     except (IpError, IpErrorV3), e:
         raise ValidationAPIException(e.message)

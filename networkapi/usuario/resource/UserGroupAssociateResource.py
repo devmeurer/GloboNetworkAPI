@@ -52,7 +52,7 @@ class UserGroupAssociateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.USER_ADMINISTRATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_user = kwargs.get('id_user')
@@ -61,13 +61,13 @@ class UserGroupAssociateResource(RestResource):
             # Valid ID User
             if not is_valid_int_greater_zero_param(id_user):
                 self.log.error(
-                    u'The id_user parameter is not a valid value: %s.', id_user)
+                    'The id_user parameter is not a valid value: %s.', id_user)
                 raise InvalidValueError(None, 'id_user', id_user)
 
             # Valid ID Group
             if not is_valid_int_greater_zero_param(id_group):
                 self.log.error(
-                    u'The id_group parameter is not a valid value: %s.', id_group)
+                    'The id_group parameter is not a valid value: %s.', id_group)
                 raise InvalidValueError(None, 'id_group', id_group)
 
             # Find User by ID to check if it exist
@@ -81,7 +81,7 @@ class UserGroupAssociateResource(RestResource):
                 # Find UserGroup by ID to check if it exist
                 user_group = UsuarioGrupo.get_by_user_group(id_user, id_group)
                 raise UsuarioGrupoDuplicatedError(
-                    None, u'Usuário já está associado ao Grupo.')
+                    None, 'Usuário já está associado ao Grupo.')
             except UserGroupNotFoundError:
                 pass
 
@@ -94,9 +94,9 @@ class UserGroupAssociateResource(RestResource):
             try:
                 # save UserGroup
                 user_group.save()
-            except Exception, e:
-                self.log.error(u'Failed to save the UserGroup.')
-                raise UsuarioError(e, u'Failed to save the UserGroup.')
+            except Exception as e:
+                self.log.error('Failed to save the UserGroup.')
+                raise UsuarioError(e, 'Failed to save the UserGroup.')
 
             usr_grp_map = dict()
             usr_grp_map['user_group'] = model_to_dict(

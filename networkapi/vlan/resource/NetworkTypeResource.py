@@ -53,7 +53,7 @@ class NetworkTypeResource(RestResource):
         try:
             if not has_perm(user, AdminPermission.NETWORK_TYPE_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             results = TipoRede.objects.all()
@@ -84,7 +84,7 @@ class NetworkTypeResource(RestResource):
             # Check permission
             if not has_perm(user, AdminPermission.NETWORK_TYPE_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Get request XML data
@@ -93,44 +93,44 @@ class NetworkTypeResource(RestResource):
             # Get networkapi tag map
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no networkapi tag from request XML.')
+                return self.response_error(3, 'There is no networkapi tag from request XML.')
 
             # Get net_type tag map
             net_type_map = networkapi_map.get('net_type')
             if net_type_map is None:
-                return self.response_error(3, u'There is no tipo_rede tag from request XML.')
+                return self.response_error(3, 'There is no tipo_rede tag from request XML.')
 
             # Valid name attribute
             name = net_type_map.get('name')
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 100):
                 self.log.error(
-                    u'Parameter %s is invalid. Value: %s.', 'name', name)
+                    'Parameter %s is invalid. Value: %s.', 'name', name)
                 raise InvalidValueError(None, 'name', name)
 
             if not is_valid_vlan_name(name):
                 self.log.error(
-                    u'Parameter %s is invalid because is using special characters and/or breaklines.', name)
+                    'Parameter %s is invalid because is using special characters and/or breaklines.', name)
                 raise InvalidValueError(None, 'name', name)
 
             net_type = TipoRede(tipo_rede=name)
 
             if not is_valid_vlan_name(name):
                 self.log.error(
-                    u'Parameter %s is invalid because is using special characters and/or breaklines.', name)
+                    'Parameter %s is invalid because is using special characters and/or breaklines.', name)
                 raise InvalidValueError(None, 'name', name)
 
             try:
                 TipoRede.get_by_name(net_type.tipo_rede)
                 raise NetworkTypeNameDuplicatedError(
-                    None, u'Network type with name %s already exist' % net_type.tipo_rede)
+                    None, 'Network type with name %s already exist' % net_type.tipo_rede)
             except NetworkTypeNotFoundError:
                 pass
 
             try:
                 net_type.save()
-            except Exception, e:
-                self.log.error(u'Failed to insert network type.')
-                raise VlanError(e, u'Failed to insert network type.')
+            except Exception as e:
+                self.log.error('Failed to insert network type.')
+                raise VlanError(e, 'Failed to insert network type.')
 
             net_type_map = dict()
             net_type_map['id'] = net_type.id
@@ -142,7 +142,7 @@ class NetworkTypeResource(RestResource):
         except NetworkTypeNameDuplicatedError:
             return self.response_error(253, name)
         except XMLError, x:
-            self.log.error(u'Error reading request XML.')
+            self.log.error('Error reading request XML.')
             return self.response_error(3, x)
         except (GrupoError, VlanError):
             return self.response_error(1)
@@ -158,7 +158,7 @@ class NetworkTypeResource(RestResource):
             # Check permission
             if not has_perm(user, AdminPermission.NETWORK_TYPE_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Get URL args
@@ -166,7 +166,7 @@ class NetworkTypeResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_net_type):
                 self.log.error(
-                    u'Parameter %s is invalid. Value: %s.', 'id_net_type', id_net_type)
+                    'Parameter %s is invalid. Value: %s.', 'id_net_type', id_net_type)
                 raise InvalidValueError(None, 'id_net_type', id_net_type)
 
             # Get XML data
@@ -175,18 +175,18 @@ class NetworkTypeResource(RestResource):
             # Get networkapi tag map
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no networkapi tag from request XML.')
+                return self.response_error(3, 'There is no networkapi tag from request XML.')
 
             # Get net_type tag map
             net_type_map = networkapi_map.get('net_type')
             if net_type_map is None:
-                return self.response_error(3, u'There is no net_type tag from request XML.')
+                return self.response_error(3, 'There is no net_type tag from request XML.')
 
             # Valid name attribute
             name = net_type_map.get('name')
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 100):
                 self.log.error(
-                    u'Parameter %s is invalid. Value: %s.', 'name', name)
+                    'Parameter %s is invalid. Value: %s.', 'name', name)
                 raise InvalidValueError(None, 'name', name)
 
             net_type = TipoRede.get_by_pk(id_net_type)
@@ -197,16 +197,16 @@ class NetworkTypeResource(RestResource):
                     if name.lower() != net_type.tipo_rede.lower():
                         TipoRede.get_by_name(name)
                         raise NetworkTypeNameDuplicatedError(
-                            None, u'Network type with name %s already exists' % name)
+                            None, 'Network type with name %s already exists' % name)
                 except NetworkTypeNotFoundError:
                     pass
 
                 net_type.tipo_rede = name
                 try:
                     net_type.save()
-                except Exception, e:
-                    self.log.error(u'Failed to edit network type.')
-                    raise VlanError(e, u'Failed to edit network type.')
+                except Exception as e:
+                    self.log.error('Failed to edit network type.')
+                    raise VlanError(e, 'Failed to edit network type.')
 
             # Return empty response
             return self.response(dumps_networkapi({}))
@@ -214,7 +214,7 @@ class NetworkTypeResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisição.')
+            self.log.error('Erro ao ler o XML da requisição.')
             return self.response_error(3, x)
         except NetworkTypeNotFoundError:
             return self.response_error(111)
@@ -234,7 +234,7 @@ class NetworkTypeResource(RestResource):
             # Check permission
             if not has_perm(user, AdminPermission.NETWORK_TYPE_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Get URL args
@@ -242,7 +242,7 @@ class NetworkTypeResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_net_type):
                 self.log.error(
-                    u'Parameter %s is invalid. Value: %s.', 'id_net_type', id_net_type)
+                    'Parameter %s is invalid. Value: %s.', 'id_net_type', id_net_type)
                 raise InvalidValueError(None, 'id_net_type', id_net_type)
 
             net_type = TipoRede.get_by_pk(id_net_type)
@@ -251,15 +251,15 @@ class NetworkTypeResource(RestResource):
 
                 # Check if network type is used by vlan
                 if net_type.networkipv4_set.count() > 0 or net_type.networkipv6_set.count() > 0:
-                    self.log.error(u'Network type used by network.')
+                    self.log.error('Network type used by network.')
                     raise NetTypeUsedByNetworkError(
-                        None, u'Network type used by network.')
+                        None, 'Network type used by network.')
 
                 try:
                     net_type.delete()
-                except Exception, e:
-                    self.log.error(u'Failed to remove network type.')
-                    raise VlanError(e, u'Failed to remove network type.')
+                except Exception as e:
+                    self.log.error('Failed to remove network type.')
+                    raise VlanError(e, 'Failed to remove network type.')
 
             # Return empty response
             return self.response(dumps_networkapi({}))

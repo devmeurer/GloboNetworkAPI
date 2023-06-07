@@ -51,7 +51,7 @@ def old_to_new(vip_request):
 
             try:
                 op_per = OptionVip.objects.filter(
-                    tipo_opcao=u'Persistencia',
+                    tipo_opcao='Persistencia',
                     nome_opcao_txt=persistencia)[0]
                 try:
                     opv = OptionVipEnvironmentVip.objects.get(
@@ -64,7 +64,7 @@ def old_to_new(vip_request):
                     opv.save()
             except:
                 op_per = OptionVip()
-                op_per.tipo_opcao = u'Persistencia'
+                op_per.tipo_opcao = 'Persistencia'
                 op_per.nome_opcao_txt = persistencia
                 op_per.save()
                 opv = OptionVipEnvironmentVip()
@@ -89,7 +89,7 @@ def old_to_new(vip_request):
 
             try:
                 op_time = OptionVip.objects.filter(
-                    tipo_opcao=u'timeout',
+                    tipo_opcao='timeout',
                     nome_opcao_txt=timeout)[0]
                 try:
                     opv = OptionVipEnvironmentVip.objects.get(
@@ -102,7 +102,7 @@ def old_to_new(vip_request):
                     opv.save()
             except:
                 op_time = OptionVip()
-                op_time.tipo_opcao = u'timeout'
+                op_time.tipo_opcao = 'timeout'
                 op_time.nome_opcao_txt = timeout
                 op_time.save()
                 opv = OptionVipEnvironmentVip()
@@ -127,7 +127,7 @@ def old_to_new(vip_request):
 
             try:
                 op_traffic = OptionVip.objects.filter(
-                    tipo_opcao=u'Retorno de trafego',
+                    tipo_opcao='Retorno de trafego',
                     id=trafficreturn)[0]
                 try:
                     opv = OptionVipEnvironmentVip.objects.get(
@@ -140,7 +140,7 @@ def old_to_new(vip_request):
                     opv.save()
             except:
                 op_traffic = OptionVip()
-                op_traffic.tipo_opcao = u'Retorno de trafego'
+                op_traffic.tipo_opcao = 'Retorno de trafego'
                 op_traffic.nome_opcao_txt = trafficreturn
                 op_traffic.save()
                 opv = OptionVipEnvironmentVip()
@@ -183,7 +183,7 @@ def old_to_new(vip_request):
 
             try:
                 op_cache = OptionVip.objects.filter(
-                    tipo_opcao=u'cache',
+                    tipo_opcao='cache',
                     nome_opcao_txt=cache)[0]
                 try:
                     opv = OptionVipEnvironmentVip.objects.get(
@@ -196,7 +196,7 @@ def old_to_new(vip_request):
                     opv.save()
             except:
                 op_cache = OptionVip()
-                op_cache.tipo_opcao = u'cache'
+                op_cache.tipo_opcao = 'cache'
                 op_cache.nome_opcao_txt = cache
                 op_cache.save()
                 opv = OptionVipEnvironmentVip()
@@ -304,7 +304,7 @@ def old_to_new(vip_request):
                         opv.save()
                 except:
                     op_l4 = OptionVip()
-                    op_l4.tipo_opcao = u'l4_protocol'
+                    op_l4.tipo_opcao = 'l4_protocol'
                     op_l4.nome_opcao_txt = l4_protocol
                     op_l4.save()
                     opv = OptionVipEnvironmentVip()
@@ -335,7 +335,7 @@ def old_to_new(vip_request):
                         opv.save()
                 except:
                     op_l7 = OptionVip()
-                    op_l7.tipo_opcao = u'l7_protocol'
+                    op_l7.tipo_opcao = 'l7_protocol'
                     op_l7.nome_opcao_txt = l7_protocol
                     op_l7.save()
                     opv = OptionVipEnvironmentVip()
@@ -393,7 +393,7 @@ def old_to_new(vip_request):
                         vrpp.optionvip = op_pt
                         vrpp.save()
 
-    except Exception, e:
+    except Exception as e:
         log.error(e)
         raise e
 
@@ -416,13 +416,13 @@ def new_to_old(vp):
         vip_map['cliente'] = vp.environmentvip.cliente_txt
         vip_map['ambiente'] = vp.environmentvip.ambiente_p44_txt
         for vp_optionvip in vp.viprequestoptionvip_set.all():
-            if vp_optionvip.optionvip.tipo_opcao == u'Persistencia':
+            if vp_optionvip.optionvip.tipo_opcao == 'Persistencia':
                 vip_map['persistencia'] = vp_optionvip.optionvip.nome_opcao_txt
-            if vp_optionvip.optionvip.tipo_opcao == u'timeout':
+            if vp_optionvip.optionvip.tipo_opcao == 'timeout':
                 vip_map['timeout'] = vp_optionvip.optionvip.nome_opcao_txt
-            if vp_optionvip.optionvip.tipo_opcao == u'cache':
+            if vp_optionvip.optionvip.tipo_opcao == 'cache':
                 vip_map['cache'] = vp_optionvip.optionvip.nome_opcao_txt
-            if vp_optionvip.optionvip.tipo_opcao == u'Retorno de trafego':
+            if vp_optionvip.optionvip.tipo_opcao == 'Retorno de trafego':
                 vip_map['trafficreturn'] = vp_optionvip.optionvip.id
                 vip.trafficreturn = vp_optionvip.optionvip
 
@@ -448,7 +448,7 @@ def new_to_old(vp):
             pools = port.viprequestportpool_set.all()
 
             for pool in pools:
-                if pool.optionvip.nome_opcao_txt in (u'default_vip'):
+                if pool.optionvip.nome_opcao_txt in ('default_vip'):
                     vip_port = {
                         'id': port.id,
                         'requisicao_vip': vip,
@@ -482,7 +482,7 @@ def new_to_old(vp):
         vip.set_new_variables(vip_map)
         vip.save()
 
-    except Exception, e:
+    except Exception as e:
         log.error(e)
         raise e
 
@@ -496,7 +496,7 @@ def delete_old(ids):
         else:
             RequisicaoVips.objects.filter(id=ids).delete()
 
-    except Exception, e:
+    except Exception as e:
         log.error(e)
         # raise e
 
@@ -508,6 +508,6 @@ def delete_new(ids):
             VipRequest.objects.filter(id__in=ids).delete()
         else:
             VipRequest.objects.filter(id=ids).delete()
-    except Exception, e:
+    except Exception as e:
         log.error(e)
         # raise e

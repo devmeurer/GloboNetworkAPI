@@ -61,12 +61,12 @@ class IPv6EditResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             ip_map = networkapi_map.get('ip_map')
             if ip_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -78,25 +78,25 @@ class IPv6EditResource(RestResource):
             # Valid equip_id
             if not is_valid_int_greater_zero_param(id_ip):
                 self.log.error(
-                    u'Parameter id_ip is invalid. Value: %s.', id_ip)
+                    'Parameter id_ip is invalid. Value: %s.', id_ip)
                 raise InvalidValueError(None, 'id_ip', id_ip)
 
             # Description can NOT be greater than 100
             if not is_valid_string_maxsize(ip6, 39):
                 self.log.error(
-                    u'Parameter descricao is invalid. Value: %s.', ip6)
+                    'Parameter descricao is invalid. Value: %s.', ip6)
                 raise InvalidValueError(None, 'ip6', ip6)
 
             if description is not None:
                 if not is_valid_string_maxsize(description, 100) or not is_valid_string_minsize(description, 3):
                     self.log.error(
-                        u'Parameter description is invalid. Value: %s.', description)
+                        'Parameter description is invalid. Value: %s.', description)
                     raise InvalidValueError(None, 'description', description)
 
             # User permission
             if not has_perm(user, AdminPermission.IPS, AdminPermission.WRITE_OPERATION):
                 raise UserNotAuthorizedError(
-                    None, u'User does not have permission to perform the operation.')
+                    None, 'User does not have permission to perform the operation.')
 
             # Business Rules
 
@@ -144,7 +144,7 @@ class IPv6EditResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except (IpError, NetworkIPv6Error, EquipamentoError, GrupoError), e:
             self.log.error(e)

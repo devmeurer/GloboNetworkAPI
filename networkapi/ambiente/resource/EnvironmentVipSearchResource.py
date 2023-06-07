@@ -53,7 +53,7 @@ class EnvironmentVipSearchResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_VIP, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -62,11 +62,11 @@ class EnvironmentVipSearchResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             environmentvip_map = networkapi_map.get('environment_vip')
             if environmentvip_map is None:
-                return self.response_error(3, u'There is no value to the environment_vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the environment_vip tag  of XML request.')
 
             # Get XML data
             id_environment_vip = environmentvip_map.get('id_environment_vip')
@@ -77,7 +77,7 @@ class EnvironmentVipSearchResource(RestResource):
             # Valid Parameters is none
             if id_environment_vip is None and finalidade is None and cliente is None and ambiente_p44 is None:
                 self.log.error(
-                    u'At least one of the parameters have to be informed to query')
+                    'At least one of the parameters have to be informed to query')
                 return self.response_error(287)
 
             # New Queryset by Environment Vip
@@ -88,7 +88,7 @@ class EnvironmentVipSearchResource(RestResource):
                 # Valid Environment VIP ID
                 if not is_valid_int_greater_zero_param(id_environment_vip):
                     self.log.error(
-                        u'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
+                        'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
                     raise InvalidValueError(
                         None, 'id_environment_vip', id_environment_vip)
 
@@ -115,7 +115,7 @@ class EnvironmentVipSearchResource(RestResource):
                         # finalidade_txt can NOT be greater than 50
                         if not is_valid_string_maxsize(finalidade, 50, True) or not is_valid_option(finalidade):
                             self.log.error(
-                                u'Parameter finalidade_txt is invalid. Value: %s.', finalidade)
+                                'Parameter finalidade_txt is invalid. Value: %s.', finalidade)
                             raise InvalidValueError(
                                 None, 'finalidade_txt', finalidade)
 
@@ -126,7 +126,7 @@ class EnvironmentVipSearchResource(RestResource):
                         # cliente_txt can NOT be greater than 50
                         if not is_valid_string_maxsize(cliente, 50, True) or not is_valid_option(cliente):
                             self.log.error(
-                                u'Parameter cliente_txt is invalid. Value: %s.', cliente)
+                                'Parameter cliente_txt is invalid. Value: %s.', cliente)
                             raise InvalidValueError(
                                 None, 'cliente_txt', cliente)
 
@@ -137,7 +137,7 @@ class EnvironmentVipSearchResource(RestResource):
                         # ambiente_p44_txt can NOT be greater than 50
                         if not is_valid_string_maxsize(ambiente_p44, 50, True) or not is_valid_option(ambiente_p44):
                             self.log.error(
-                                u'Parameter ambiente_p44_txt is invalid. Value: %s.', ambiente_p44)
+                                'Parameter ambiente_p44_txt is invalid. Value: %s.', ambiente_p44)
                             raise InvalidValueError(
                                 None, 'ambiente_p44_txt', ambiente_p44)
 
@@ -163,7 +163,7 @@ class EnvironmentVipSearchResource(RestResource):
             return self.not_authorized()
 
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
 
         except EnvironmentVipNotFoundError:
@@ -172,7 +172,7 @@ class EnvironmentVipSearchResource(RestResource):
         except EnvironmentVipError:
             return self.response_error(1)
 
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)
 
     def handle_get(self, request, user, *args, **kwargs):
@@ -191,7 +191,7 @@ class EnvironmentVipSearchResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_VIP, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Rules

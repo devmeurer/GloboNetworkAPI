@@ -32,7 +32,7 @@ class ScriptError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Erro ao executar o SCRIPT: Causa: %s, Mensagem: %s' % (
+        msg = 'Erro ao executar o SCRIPT: Causa: %s, Mensagem: %s' % (
             self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
@@ -53,7 +53,7 @@ def exec_script(command):
     except OSError, o:
         return o.args[0], '', o.args[1]
     except ValueError, v:
-        raise ScriptError(v, u'Falha ao executar o comando %s.' % command)
+        raise ScriptError(v, 'Falha ao executar o comando %s.' % command)
 
 
 if __name__ == '__main__':

@@ -67,7 +67,7 @@ class VlanEditResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -78,12 +78,12 @@ class VlanEditResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             vlan_map = networkapi_map.get('vlan')
             if vlan_map is None:
-                msg = u'There is no value to the vlan tag of XML request.'
+                msg = 'There is no value to the vlan tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -99,29 +99,29 @@ class VlanEditResource(RestResource):
             # Valid vlan ID
             if not is_valid_int_greater_zero_param(id_vlan):
                 self.log.error(
-                    u'Parameter id_vlan is invalid. Value: %s.', id_vlan)
+                    'Parameter id_vlan is invalid. Value: %s.', id_vlan)
                 raise InvalidValueError(None, 'id_vlan', id_vlan)
 
             # Valid environment_id ID
             if not is_valid_int_greater_zero_param(environment_id):
                 self.log.error(
-                    u'Parameter environment_id is invalid. Value: %s.', environment_id)
+                    'Parameter environment_id is invalid. Value: %s.', environment_id)
                 raise InvalidValueError(None, 'environment_id', environment_id)
 
             # Valid number of Vlan
             if not is_valid_int_greater_zero_param(number):
                 self.log.error(
-                    u'Parameter number is invalid. Value: %s', number)
+                    'Parameter number is invalid. Value: %s', number)
                 raise InvalidValueError(None, 'number', number)
 
             # Valid name of Vlan
             if not is_valid_string_minsize(name, 3) or not is_valid_string_maxsize(name, 50):
-                self.log.error(u'Parameter name is invalid. Value: %s', name)
+                self.log.error('Parameter name is invalid. Value: %s', name)
                 raise InvalidValueError(None, 'name', name)
 
             if not is_valid_vlan_name(name):
                 self.log.error(
-                    u'Parameter %s is invalid because is using special characters and/or breaklines.', name)
+                    'Parameter %s is invalid because is using special characters and/or breaklines.', name)
                 raise InvalidValueError(None, 'name', name)
 
             p = re.compile('^[A-Z0-9-_]+$')
@@ -137,7 +137,7 @@ class VlanEditResource(RestResource):
             # Valid description of Vlan
             if not is_valid_string_minsize(description, 3, False) or not is_valid_string_maxsize(description, 200, False):
                 self.log.error(
-                    u'Parameter description is invalid. Value: %s', description)
+                    'Parameter description is invalid. Value: %s', description)
                 raise InvalidValueError(None, 'description', description)
 
             vlan = Vlan()
@@ -149,7 +149,7 @@ class VlanEditResource(RestResource):
                 if acl_file is not None:
                     if not is_valid_string_minsize(acl_file, 3) or not is_valid_string_maxsize(acl_file, 200):
                         self.log.error(
-                            u'Parameter acl_file is invalid. Value: %s', acl_file)
+                            'Parameter acl_file is invalid. Value: %s', acl_file)
                         raise InvalidValueError(None, 'acl_file', acl_file)
                     p = re.compile('^[A-Z0-9-_]+$')
                     m = p.match(acl_file)
@@ -164,7 +164,7 @@ class VlanEditResource(RestResource):
                 if acl_file_v6 is not None:
                     if not is_valid_string_minsize(acl_file_v6, 3) or not is_valid_string_maxsize(acl_file_v6, 200):
                         self.log.error(
-                            u'Parameter acl_file_v6 is invalid. Value: %s', acl_file_v6)
+                            'Parameter acl_file_v6 is invalid. Value: %s', acl_file_v6)
                         raise InvalidValueError(
                             None, 'acl_file_v6', acl_file_v6)
                     p = re.compile('^[A-Z0-9-_]+$')
@@ -285,7 +285,7 @@ class VlanEditResource(RestResource):
         except VlanNotFoundError, e:
             return self.response_error(150, e.message)
         except XMLError, e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)
         except (VlanError, AmbienteError), e:
             return self.response_error(1)
@@ -302,7 +302,7 @@ class VlanEditResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Load XML data
@@ -328,14 +328,14 @@ class VlanEditResource(RestResource):
                 if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None,
                                 equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
                     self.log.error(
-                        u'User does not have permission to perform the operation.')
+                        'User does not have permission to perform the operation.')
                     return self.not_authorized()
             for equip in equips_from_ipv6:
                 # User permission
                 if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None,
                                 equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
                     self.log.error(
-                        u'User does not have permission to perform the operation.')
+                        'User does not have permission to perform the operation.')
                     return self.not_authorized()
 
             if vlan.ativada:
@@ -370,7 +370,7 @@ class VlanEditResource(RestResource):
         except VlanNotFoundError as e:
             return self.response_error(150, e.message)
         except XMLError as e:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, e)
         except (VlanError, AmbienteError) as e:
             return self.response_error(1)

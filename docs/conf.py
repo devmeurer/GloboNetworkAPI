@@ -69,10 +69,10 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Globo NetworkAPI'
-copyright = u'2000-2018 Globo Comunicação e Participações S.A.'
+project = 'Globo NetworkAPI'
+copyright = '2000-2018 Globo Comunicação e Participações S.A.'
 
-# The version info for the project you're documenting, acts as replacement for
+# The version info for the project yo're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
@@ -226,8 +226,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ('index', 'src.tex', u'src Documentation',
-     u'Author', 'manual'),
+    ('index', 'src.tex', 'src Documentation',
+     'Author', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -256,8 +256,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'src', u'src Documentation',
-     [u'Author'], 1)
+    ('index', 'src', 'src Documentation',
+     ['Author'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -270,8 +270,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'src', u'src Documentation',
-     u'Author', 'src', 'One line description of project.',
+    ('index', 'src', 'src Documentation',
+     'Author', 'src', 'One line description of project.',
      'Miscellaneous'),
 ]
 
@@ -291,13 +291,13 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'src'
-epub_author = u'Author'
-epub_publisher = u'Author'
-epub_copyright = u'2014, Author'
+epub_title = 'src'
+epub_author = 'Author'
+epub_publisher = 'Author'
+epub_copyright = '2014, Author'
 
 # The basename for the epub file. It defaults to the project name.
-# epub_basename = u'src'
+# epub_basename = 'src'
 
 # The HTML theme for the epub output. Since the default themes are not optimized
 # for small screen space, using the same theme for HTML and epub output is

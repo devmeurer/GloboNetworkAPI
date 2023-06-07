@@ -44,7 +44,7 @@ def transation(func):
             except bigsuds.OperationFailed, e:
                 log.error(e)
                 raise base_exceptions.CommandErrorException(e)
-            except Exception, e:
+            except Exception as e:
                 log.error('Error  %s' % e)
                 raise base_exceptions.CommandErrorException(e)
         else:

@@ -47,12 +47,12 @@ class VipPortToPoolSerializer(serializers.ModelSerializer):
 
             if port_vip > 65535 or 1 > port_vip:
                 raise serializers.ValidationError(
-                    u'The port number must be between 1 and 65535.')
+                    'The port number must be between 1 and 65535.')
 
             return attrs
 
         except ValueError:
-            raise serializers.ValidationError(u'The port must be a number.')
+            raise serializers.ValidationError('The port must be a number.')
 
 
 class RequestVipSerializer(serializers.ModelSerializer):

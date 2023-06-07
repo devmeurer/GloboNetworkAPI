@@ -30,7 +30,7 @@ class RestError(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Erro ao realizar requisição REST: Causa: %s, Mensagem: %s' % (
+        msg = 'Erro ao realizar requisição REST: Causa: %s, Mensagem: %s' % (
             self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
@@ -70,7 +70,7 @@ class RestClient:
             response_code = e.code
             content = e.read()
             return response_code, content
-        except Exception, e:
+        except Exception as e:
             raise RestError(e, e.message)
 
     def post(self, url, request_data, content_type=None, auth_map=None):
@@ -101,7 +101,7 @@ class RestClient:
             response_code = e.code
             content = e.read()
             return response_code, content
-        except Exception, e:
+        except Exception as e:
             raise RestError(e, e.message)
 
     def delete(self, url, request_data=None, content_type=None, auth_map=None):
@@ -129,7 +129,7 @@ class RestClient:
 
             response = connection.getresponse()
             return response.status, response.read()
-        except Exception, e:
+        except Exception as e:
             raise RestError(e, e.message)
         finally:
             connection.close()
@@ -160,7 +160,7 @@ class RestClient:
 
             response = connection.getresponse()
             return response.status, response.read()
-        except Exception, e:
+        except Exception as e:
             raise RestError(e, e.message)
         finally:
             connection.close()
@@ -1763,5 +1763,5 @@ if __name__ == '__main__':
      #   put_direito_grupo_equipamento()
      #   delete_direito_grupo_equipamento()
         pass
-    except Exception, e:
+    except Exception as e:
         print e

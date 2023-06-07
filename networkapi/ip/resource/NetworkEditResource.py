@@ -78,12 +78,12 @@ class NetworkEditResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             net_map = networkapi_map.get('net')
             if net_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -97,39 +97,39 @@ class NetworkEditResource(RestResource):
             # Valid id_network
             if not is_valid_int_greater_zero_param(id_network):
                 self.log.error(
-                    u'Parameter id_network is invalid. Value: %s.', id_network)
+                    'Parameter id_network is invalid. Value: %s.', id_network)
                 raise InvalidValueError(None, 'id_network', id_network)
 
             # Valid ip_type
             if not is_valid_int_param(ip_type):
                 self.log.error(
-                    u'Parameter ip_type is invalid. Value: %s.', ip_type)
+                    'Parameter ip_type is invalid. Value: %s.', ip_type)
                 raise InvalidValueError(None, 'ip_type', ip_type)
 
             list_choice = [0, 1]
             # Valid ip_type choice
             if int(ip_type) not in list_choice:
                 self.log.error(
-                    u'Parameter ip_type is invalid. Value: %s.', ip_type)
+                    'Parameter ip_type is invalid. Value: %s.', ip_type)
                 raise InvalidValueError(None, 'ip_type', ip_type)
 
             # Valid id_net_type
             if not is_valid_int_greater_zero_param(id_net_type):
                 self.log.error(
-                    u'Parameter id_net_type is invalid. Value: %s.', id_net_type)
+                    'Parameter id_net_type is invalid. Value: %s.', id_net_type)
                 raise InvalidValueError(None, 'id_net_type', id_net_type)
 
             # Valid id_env_vip
             if id_env_vip is not None:
                 if not is_valid_int_greater_zero_param(id_env_vip):
                     self.log.error(
-                        u'Parameter id_env_vip is invalid. Value: %s.', id_env_vip)
+                        'Parameter id_env_vip is invalid. Value: %s.', id_env_vip)
                     raise InvalidValueError(None, 'id_env_vip', id_env_vip)
 
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 raise UserNotAuthorizedError(
-                    None, u'User does not have permission to perform the operation.')
+                    None, 'User does not have permission to perform the operation.')
 
             # Business Rules
 
@@ -164,7 +164,7 @@ class NetworkEditResource(RestResource):
                             # range as related the environment vip
                             if network in networks:
                                 raise NetworkIpAddressNotAvailableError(
-                                    None, u'Unavailable address to create a NetworkIPv4.')
+                                    None, 'Unavailable address to create a NetworkIPv4.')
 
                     net.edit_network_ipv4(
                         user, id_net_type, id_env_vip, cluster_unit)
@@ -194,7 +194,7 @@ class NetworkEditResource(RestResource):
                             # range ip as related the environment  vip
                             if net in networks:
                                 raise NetworkIpAddressNotAvailableError(
-                                    None, u'Unavailable address to create a NetworkIPv6.')
+                                    None, 'Unavailable address to create a NetworkIPv6.')
 
                     net.edit_network_ipv6(user, id_net_type, id_env_vip, cluster_unit)
 
@@ -218,7 +218,7 @@ class NetworkEditResource(RestResource):
         except NetworkIpAddressNotAvailableError, e:
             return self.response_error(335)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except (NetworkIPv4Error, NetworkIPv6Error, GrupoError, EnvironmentVipError, VlanError), e:
             self.log.error(e)
@@ -235,7 +235,7 @@ class NetworkEditResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Load XML data
@@ -249,7 +249,7 @@ class NetworkEditResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_vlan):
                 self.log.error(
-                    u'The id network parameter is invalid. Value: %s.', id_vlan)
+                    'The id network parameter is invalid. Value: %s.', id_vlan)
                 raise InvalidValueError(None, 'id_network', id_vlan)
 
             vlan = Vlan()
@@ -264,13 +264,13 @@ class NetworkEditResource(RestResource):
                 # User permission
                 if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
                     self.log.error(
-                        u'User does not have permission to perform the operation.')
+                        'User does not have permission to perform the operation.')
                     return self.not_authorized()
             for equip in equips_from_ipv6:
                 # User permission
                 if not has_perm(user, AdminPermission.EQUIPMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION, None, equip.id, AdminPermission.EQUIP_WRITE_OPERATION):
                     self.log.error(
-                        u'User does not have permission to perform the operation.')
+                        'User does not have permission to perform the operation.')
                     return self.not_authorized()
 
             with distributedlock(LOCK_VLAN % id_vlan):
@@ -311,7 +311,7 @@ class NetworkEditResource(RestResource):
 
         if len(value) != 2:
             self.log.error(
-                u'The id network parameter is invalid format: %s.', value)
+                'The id network parameter is invalid format: %s.', value)
             raise InvalidValueError(None, 'id_network', value)
 
         id_net = value[0]
@@ -319,12 +319,12 @@ class NetworkEditResource(RestResource):
 
         if not is_valid_int_greater_zero_param(id_net):
             self.log.error(
-                u'The id network parameter is invalid. Value: %s.', id_net)
+                'The id network parameter is invalid. Value: %s.', id_net)
             raise InvalidValueError(None, 'id_network', id_net)
 
         if not is_valid_version_ip(network_type, IP_VERSION):
             self.log.error(
-                u'The type network parameter is invalid value: %s.', network_type)
+                'The type network parameter is invalid value: %s.', network_type)
             raise InvalidValueError(None, 'network_type', network_type)
 
         if network_type == 'v4':

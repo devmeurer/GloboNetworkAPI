@@ -17,7 +17,7 @@ import logging
 import re
 
 from django.core.cache import cache
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from networkapi.eventlog.models import AuditRequest
 from networkapi.eventlog.models import EventLog
@@ -154,7 +154,7 @@ def save_audit(instance, operation, kwargs={}):
             if m2m_change:
                 descriptions = []
                 for changed_field in changed_fields:
-                    description = u'\n'.join([u'%s %s: %s %s %s %s' %
+                    description = '\n'.join(['%s %s: %s %s %s %s' %
                                               (
                                                   _('field'),
                                                   k,
@@ -165,7 +165,7 @@ def save_audit(instance, operation, kwargs={}):
                                               ) for k, v in changed_field.items()])
                     descriptions.append(description)
             else:
-                description = u'\n'.join([u'%s %s: %s %s %s %s' %
+                description = '\n'.join(['%s %s: %s %s %s %s' %
                                           (
                                               _('field'),
                                               k,
@@ -239,7 +239,7 @@ def save_audit(instance, operation, kwargs={}):
                     if LOG_QUEUE:
                         EventLogQueue.log(None, event)
     except:
-        LOG.error(u'Error registering auditing to %s: (%s) %s',
+        LOG.error('Error registering auditing to %s: (%s) %s',
                   repr(instance), type(instance), getattr(instance, '__dict__', None), exc_info=True)
 
 ###################

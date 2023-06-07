@@ -40,20 +40,20 @@ class OpcaoPool(BaseModel):
     log = logging.getLogger('OpcaoPool')
 
     class Meta(BaseModel.Meta):
-        db_table = u'opcoespool'
+        db_table = 'opcoespool'
         managed = True
 
 
 class OpcaoPoolAmbiente(BaseModel):
     id = models.AutoField(
         primary_key=True, db_column='id_opcaopool_ambiente_xref')
-    opcao_pool = models.ForeignKey(OpcaoPool, db_column='id_opcaopool')
-    ambiente = models.ForeignKey(Ambiente, db_column='id_ambiente')
+    opcao_pool = models.ForeignKey(OpcaoPool, db_column='id_opcaopool', on_delete=models.DO_NOTHING)
+    ambiente = models.ForeignKey(Ambiente, db_column='id_ambiente', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('OpcaoPoolAmbiente')
 
     class Meta(BaseModel.Meta):
-        db_table = u'opcoespool_ambiente_xref'
+        db_table = 'opcoespool_ambiente_xref'
         managed = True
 
 
@@ -67,7 +67,7 @@ class OptionPool (BaseModel):
     log = logging.getLogger('OptionPool')
 
     class Meta(BaseModel.Meta):
-        db_table = u'optionspool'
+        db_table = 'optionspool'
         managed = True
 
     def valid_option_pool(self, optionpool_map):
@@ -85,13 +85,13 @@ class OptionPool (BaseModel):
         # type can NOT be greater than 50
         if not is_valid_string_maxsize(type, 50, True) or not is_valid_option(type):
             self.log.error(
-                u'Parameter type is invalid. Value: %s.', type)
+                'Parameter type is invalid. Value: %s.', type)
             raise InvalidValueError(None, 'type', type)
 
         # name_txt can NOT be greater than 50
         if not is_valid_string_maxsize(name, 50, True) or not is_valid_option(name):
             self.log.error(
-                u'Parameter name_txt is invalid. Value: %s.', name)
+                'Parameter name_txt is invalid. Value: %s.', name)
             raise InvalidValueError(None, 'name', name)
 
         # set variables
@@ -110,16 +110,16 @@ class OptionPool (BaseModel):
         """
         try:
             return OptionPool.objects.filter(id=id).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise OptionPoolNotFoundError(
-                e, u'There is no option pool with pk = %s.' % id)
-        except OperationalError, e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+                e, 'There is no option pool with pk = %s.' % id)
+        except OperationalError as e:
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            cls.log.error(u'Failure to search the option pool.')
-            raise OptionPoolError(e, u'Failure to search the option pool.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            cls.log.error('Failure to search the option pool.')
+            raise OptionPoolError(e, 'Failure to search the option pool.')
 
     @classmethod
     def get_all(cls):
@@ -131,9 +131,9 @@ class OptionPool (BaseModel):
         """
         try:
             return OptionPool.objects.all()
-        except Exception, e:
-            cls.log.error(u'Failure to list all Option Pool.')
-            raise OptionPoolError(e, u'Failure to list all Option Pool.')
+        except Exception as e:
+            cls.log.error('Failure to list all Option Pool.')
+            raise OptionPoolError(e, 'Failure to list all Option Pool.')
 
     @classmethod
     def get_all_by_type_and_environment(cls, optiontype, id_environment):
@@ -151,11 +151,11 @@ class OptionPool (BaseModel):
                 optionpoolenvironment__environment__id=int(id_environment))
 
             return opools
-        except Exception, e:
+        except Exception as e:
             # , %(optiontype, id_environment) )
-            cls.log.error(u'Failure to list all Option Pool in environment')
+            cls.log.error('Failure to list all Option Pool in environment')
             raise OptionPoolError(
-                e, u'Failure to list all Option Pool in environment id')  # , %(optiontype, id_environment)
+                e, 'Failure to list all Option Pool in environment id')  # , %(optiontype, id_environment)
 
     def delete(self):
         """Override Django's method to remove option vip
@@ -180,13 +180,13 @@ class OptionPoolEnvironment(BaseModel):
 
     id = models.AutoField(
         primary_key=True, db_column='id_optionspool_environment_xref')
-    option = models.ForeignKey(OptionPool, db_column='id_optionspool')
-    environment = models.ForeignKey(Ambiente, db_column='id_environment')
+    option = models.ForeignKey(OptionPool, db_column='id_optionspool', on_delete=models.DO_NOTHING)
+    environment = models.ForeignKey(Ambiente, db_column='id_environment', on_delete=models.DO_NOTHING)
 
     log = logging.getLogger('OptionPoolEnvironment')
 
     class Meta(BaseModel.Meta):
-        db_table = u'optionspool_environment_xref'
+        db_table = 'optionspool_environment_xref'
         managed = True
         unique_together = ('option', 'environment')
 
@@ -202,18 +202,18 @@ class OptionPoolEnvironment(BaseModel):
         try:
             return OptionPoolEnvironment.objects.filter(option__id=option_id,
                                                         environment__id=environment_id).uniqueResult()
-        except ObjectDoesNotExist, e:
+        except ObjectDoesNotExist as e:
             raise OptionPoolEnvironmentNotFoundError(
-                e, u'Dont there is a OptionPoolEnvironment by option_id = %s and environment_id = %s' % (
+                e, 'Dont there is a OptionPoolEnvironment by option_id = %s and environment_id = %s' % (
                     option_id, environment_id))
-        except OperationalError, e:
-            self.log.error(u'Lock wait timeout exceeded.')
+        except OperationalError as e:
+            self.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                e, u'Lock wait timeout exceeded; try restarting transaction')
-        except Exception, e:
-            self.log.error(u'Failure to search the OptionPoolEnvironment.')
+                e, 'Lock wait timeout exceeded; try restarting transaction')
+        except Exception as e:
+            self.log.error('Failure to search the OptionPoolEnvironment.')
             raise OptionPoolEnvironmentError(
-                e, u'Failure to search the OptionPoolEnvironment.')
+                e, 'Failure to search the OptionPoolEnvironment.')
 
     def validate(self):
         """Validates whether OptionPool is already associated with EnvironmentVip
@@ -224,6 +224,6 @@ class OptionPoolEnvironment(BaseModel):
             OptionPoolEnvironment.objects.get(
                 option=self.option, environment=self.environment)
             raise OptionPoolEnvironmentDuplicatedError(
-                None, u'Option pool already registered for the environment vip.')
+                None, 'Option pool already registered for the environment vip.')
         except ObjectDoesNotExist:
             pass

@@ -86,12 +86,12 @@ class EventLogFindResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
             eventlog_map = networkapi_map.get('eventlog')
             if eventlog_map is None:
-                msg = u'There is no value to the eventlog tag of XML request.'
+                msg = 'There is no value to the eventlog tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -166,7 +166,7 @@ class EventLogFindResource(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except (EventLogError):
             return self.response_error(1)

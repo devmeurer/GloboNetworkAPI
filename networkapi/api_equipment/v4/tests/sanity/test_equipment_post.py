@@ -314,5 +314,5 @@ class EquipmentPostErrorTestCase(NetworkApiTestCase):
         self.compare_status(400, response.status_code)
 
         self.compare_values(
-            u'ASN 1000 do not exist.',
+            'ASN 1000 do not exist.',
             response.data['detail'])

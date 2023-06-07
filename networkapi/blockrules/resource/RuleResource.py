@@ -48,14 +48,14 @@ class RuleResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIPS_REQUEST, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             id_rule = kwargs.get('id_rule')
 
             if not is_valid_int_greater_zero_param(id_rule):
                 self.log.error(
-                    u'Parameter id_rule is invalid. Value: %s.', id_rule)
+                    'Parameter id_rule is invalid. Value: %s.', id_rule)
                 raise InvalidValueError(None, 'id_rule', id_rule)
 
             rule = Rule.objects.get(pk=id_rule)
@@ -82,7 +82,7 @@ class RuleResource(RestResource):
             return self.response_error(269, e.param, e.value)
         except Rule.DoesNotExist:
             return self.response_error(358)
-        except Exception, e:
+        except Exception as e:
             self.logerror(e)
             return self.response_error(1)
 
@@ -97,7 +97,7 @@ class RuleResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_VALIDATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -106,11 +106,11 @@ class RuleResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             rule_map = networkapi_map.get('map')
             if rule_map is None:
-                return self.response_error(3, u'There is no value to the environment_vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the environment_vip tag  of XML request.')
 
             # Get XML data
             id_env = rule_map['id_env']
@@ -122,12 +122,12 @@ class RuleResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_env):
                 self.log.error(
-                    u'The id_env parameter is not a valid value: %s.', id_env)
+                    'The id_env parameter is not a valid value: %s.', id_env)
                 raise InvalidValueError(None, 'id_env', id_env)
 
             if not name or len(name) > 80:
                 self.log.error(
-                    u'The name parameter is not a valid value: %s.', name)
+                    'The name parameter is not a valid value: %s.', name)
                 raise InvalidValueError(None, 'name', name)
 
             environment = Ambiente.get_by_pk(id_env)
@@ -152,9 +152,9 @@ class RuleResource(RestResource):
         except BlockRules.DoesNotExist:
             return self.response_error(359)
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)
 
     def handle_put(self, request, user, *args, **kwargs):
@@ -168,7 +168,7 @@ class RuleResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_VALIDATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -177,11 +177,11 @@ class RuleResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             rule_map = networkapi_map.get('map')
             if rule_map is None:
-                return self.response_error(3, u'There is no value to the environment_vip tag  of XML request.')
+                return self.response_error(3, 'There is no value to the environment_vip tag  of XML request.')
 
             # Get XML data
             id_rule = rule_map['id_rule']
@@ -194,17 +194,17 @@ class RuleResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_rule):
                 self.log.error(
-                    u'The id_rule parameter is not a valid value: %s.', id_rule)
+                    'The id_rule parameter is not a valid value: %s.', id_rule)
                 raise InvalidValueError(None, 'id_env', id_rule)
 
             if not is_valid_int_greater_zero_param(id_env):
                 self.log.error(
-                    u'The id_env parameter is not a valid value: %s.', id_env)
+                    'The id_env parameter is not a valid value: %s.', id_env)
                 raise InvalidValueError(None, 'id_env', id_env)
 
             if not name or len(name) > 80:
                 self.log.error(
-                    u'The name parameter is not a valid value: %s.', name)
+                    'The name parameter is not a valid value: %s.', name)
                 raise InvalidValueError(None, 'name', name)
 
             rule = Rule.objects.get(pk=id_rule)
@@ -243,9 +243,9 @@ class RuleResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)
 
     def handle_delete(self, request, user, *args, **kwargs):
@@ -260,14 +260,14 @@ class RuleResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_VALIDATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_rule = kwargs.get('id_rule')
 
             if not is_valid_int_greater_zero_param(id_rule):
                 self.log.error(
-                    u'The id_rule parameter is not a valid value: %s.', id_rule)
+                    'The id_rule parameter is not a valid value: %s.', id_rule)
                 raise InvalidValueError(None, 'id_rule', id_rule)
 
             rule = Rule.objects.get(pk=id_rule)
@@ -281,7 +281,7 @@ class RuleResource(RestResource):
             return self.response_error(358)
         except UserNotAuthorizedError:
             return self.not_authorized()
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)
 
     def __save_rule_contents(self, contents, blocks_id, environment, rule, user):

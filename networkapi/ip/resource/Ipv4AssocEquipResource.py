@@ -70,13 +70,13 @@ class Ipv4AssocEquipResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                msg = u'There is no value to the networkapi tag of XML request.'
+                msg = 'There is no value to the networkapi tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
             ip_map = networkapi_map.get('ip_map')
             if ip_map is None:
-                msg = u'There is no value to the ip tag of XML request.'
+                msg = 'There is no value to the ip tag of XML request.'
                 self.log.error(msg)
                 return self.response_error(3, msg)
 
@@ -88,19 +88,19 @@ class Ipv4AssocEquipResource(RestResource):
             # Valid ip_id
             if not is_valid_int_greater_zero_param(ip_id):
                 self.log.error(
-                    u'Parameter ip_id is invalid. Value: %s.', ip_id)
+                    'Parameter ip_id is invalid. Value: %s.', ip_id)
                 raise InvalidValueError(None, 'ip_id', ip_id)
 
             # Valid equip_id
             if not is_valid_int_greater_zero_param(equip_id):
                 self.log.error(
-                    u'Parameter equip_id is invalid. Value: %s.', equip_id)
+                    'Parameter equip_id is invalid. Value: %s.', equip_id)
                 raise InvalidValueError(None, 'equip_id', equip_id)
 
             # Valid network_ipv4_id
             if not is_valid_int_greater_zero_param(network_ipv4_id):
                 self.log.error(
-                    u'Parameter network_ipv4_id is invalid. Value: %s.', network_ipv4_id)
+                    'Parameter network_ipv4_id is invalid. Value: %s.', network_ipv4_id)
                 raise InvalidValueError(
                     None, 'network_ipv4_id', network_ipv4_id)
 
@@ -112,7 +112,7 @@ class Ipv4AssocEquipResource(RestResource):
                             equip_id,
                             AdminPermission.EQUIP_WRITE_OPERATION):
                 raise UserNotAuthorizedError(
-                    None, u'User does not have permission to perform the operation.')
+                    None, 'User does not have permission to perform the operation.')
 
             # Business Rules
 
@@ -196,7 +196,7 @@ class Ipv4AssocEquipResource(RestResource):
                         # Ip %s.%s.%s.%s already has association with
                         # Equipament %s.' % (self.oct1, self.oct2, self.oct3,
                         # self.oct4,equipment_id)
-                        raise IpEquipmentAlreadyAssociation(None, u'Ip %s.%s.%s.%s already has association with Equipament %s.' % (
+                        raise IpEquipmentAlreadyAssociation(None, 'Ip %s.%s.%s.%s already has association with Equipament %s.' % (
                             ip.oct1, ip.oct2, ip.oct3, ip.oct4, equip_id))
                     except IpEquipmentNotFoundError, e:
                         pass
@@ -225,7 +225,7 @@ class Ipv4AssocEquipResource(RestResource):
                             # Filter testing
                             if ip_test.networkipv4.vlan.ambiente.filter is None or ip.networkipv4.vlan.ambiente.filter is None:
                                 raise IpRangeAlreadyAssociation(
-                                    None, u'Equipment is already associated with another ip with the same ip range.')
+                                    None, 'Equipment is already associated with another ip with the same ip range.')
                             else:
                                 # Test both environment's filters
                                 tp_equip_list_one = list()
@@ -238,7 +238,7 @@ class Ipv4AssocEquipResource(RestResource):
 
                                 if equipment.tipo_equipamento not in tp_equip_list_one or equipment.tipo_equipamento not in tp_equip_list_two:
                                     raise IpRangeAlreadyAssociation(
-                                        None, u'Equipment is already associated with another ip with the same ip range.')
+                                        None, 'Equipment is already associated with another ip with the same ip range.')
 
                     ## Filter case 2 - end ##
 
@@ -264,15 +264,15 @@ class Ipv4AssocEquipResource(RestResource):
                 except AddressValueError, e:
                     self.log.error(e)
                     raise IpNotAvailableError(
-                        None, u'Ip %s.%s.%s.%s is invalid' % (ip.oct1, ip.oct2, ip.oct3, ip.oct4))
+                        None, 'Ip %s.%s.%s.%s is invalid' % (ip.oct1, ip.oct2, ip.oct3, ip.oct4))
                 except IpNotAvailableError, e:
-                    raise IpNotAvailableError(None, u'Ip %s.%s.%s.%s not available for network %s.' % (
+                    raise IpNotAvailableError(None, 'Ip %s.%s.%s.%s not available for network %s.' % (
                         ip.oct1, ip.oct2, ip.oct3, ip.oct4, net.id))
                 except (IpError, EquipamentoError), e:
                     self.log.error(
-                        u'Error adding new IP or relationship ip-equipment.')
+                        'Error adding new IP or relationship ip-equipment.')
                     raise IpError(
-                        e, u'Error adding new IP or relationship ip-equipment.')
+                        e, 'Error adding new IP or relationship ip-equipment.')
 
                 return self.response(dumps_networkapi({}))
 
@@ -297,7 +297,7 @@ class Ipv4AssocEquipResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except (IpError, NetworkIPv4Error, EquipamentoError, GrupoError), e:
             self.log.error(e)

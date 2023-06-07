@@ -1265,13 +1265,13 @@ def __modify_pool_option(request, option_id):
             # tipo_opcao can NOT be greater than 50
             if not is_valid_string_maxsize(type, 50, True) or not is_valid_option(type):
                 log.error(
-                    u'Parameter tipo_opcao is invalid. Value: %s.', type)
+                    'Parameter tipo_opcao is invalid. Value: %s.', type)
                 raise InvalidValueError(None, 'type', type)
 
             # nome_opcao_txt can NOT be greater than 50
             if not is_valid_string_maxsize(description, 50, True) or not is_valid_option(description):
                 log.error(
-                    u'Parameter nome_opcao_txt is invalid. Value: %s.', description)
+                    'Parameter nome_opcao_txt is invalid. Value: %s.', description)
                 raise InvalidValueError(None, 'name', description)
 
             po = update_option_pool(request.user, option_id, type, description)
@@ -1327,13 +1327,13 @@ def save_pool_option(request):
         # tipo_opcao can NOT be greater than 50
         if not is_valid_string_maxsize(type, 50, True) or not is_valid_option(type):
             log.error(
-                u'Parameter tipo_opcao is invalid. Value: %s.', type)
+                'Parameter tipo_opcao is invalid. Value: %s.', type)
             raise InvalidValueError(None, 'type', type)
 
         # nome_opcao_txt can NOT be greater than 50
         if not is_valid_string_maxsize(description, 50, True) or not is_valid_option(description):
             log.error(
-                u'Parameter nome_opcao_txt is invalid. Value: %s.', description)
+                'Parameter nome_opcao_txt is invalid. Value: %s.', description)
             raise InvalidValueError(None, 'name', description)
 
         po = save_option_pool(request.user, type, description)

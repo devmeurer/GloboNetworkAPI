@@ -27,7 +27,7 @@ class VPC(BaseModel):
 
     class Meta (BaseModel.Meta):
         managed = True
-        db_table = u'aws_vpc'
+        db_table = 'aws_vpc'
 
     @classmethod
     def get_by_pk(cls, id_vpc):
@@ -43,14 +43,14 @@ class VPC(BaseModel):
             return VPC.objects.filter(id=id_vpc).uniqueResult()
         except ObjectDoesNotExist as e:
             raise VPCNotFoundError(
-                u'Dont there is a VPC by pk = %s.' % id_vpc)
+                'Dont there is a VPC by pk = %s.' % id_vpc)
         except OperationalError as e:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError(
-                u'Lock wait timeout exceeded; try restarting transaction')
+                'Lock wait timeout exceeded; try restarting transaction')
         except Exception as e:
-            cls.log.error(u'Failure to search the VPC. Error: {}'.format(e))
-            raise VPCError(u'Failure to search the VPC. Error: {}'.format(e))
+            cls.log.error('Failure to search the VPC. Error: {}'.format(e))
+            raise VPCError('Failure to search the VPC. Error: {}'.format(e))
 
     def create(self, authenticated_user):
         """Include new VPC.
@@ -66,7 +66,7 @@ class VPC(BaseModel):
         except FilterNotFoundError as e:
             raise e
         except Exception:
-            self.log.error(u'Fail on inserting VPC.')
+            self.log.error('Fail on inserting VPC.')
 
     @classmethod
     def update(cls, authenticated_user, pk, **kwargs):
@@ -90,7 +90,7 @@ class VPC(BaseModel):
             vpc.save(authenticated_user)
 
         except Exception as e:
-            cls.log.error(u'Fail to change VPC. Error: {}'.format(e))
+            cls.log.error('Fail to change VPC. Error: {}'.format(e))
 
     @classmethod
     def remove(cls, pk):
@@ -109,9 +109,9 @@ class VPC(BaseModel):
         entry_env = vpc.ambiente_set.all()
 
         if len(entry_env) > 0:
-            cls.log.error(u'Fail to remove VPC.')
+            cls.log.error('Fail to remove VPC.')
             raise VPCRelatedToEnvironment(
-                u'VPC with pk = %s is being used at some environment.' %
+                'VPC with pk = %s is being used at some environment.' %
                 pk)
 
         vpc.delete()

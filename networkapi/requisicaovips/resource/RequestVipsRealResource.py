@@ -100,11 +100,11 @@ class RequestVipsRealResource(RestResource):
                 # XML data format
                 networkapi_map = xml_map.get('networkapi')
                 if networkapi_map is None:
-                    return self.response_error(3, u'There is no value to the networkapi tag of XML request.')
+                    return self.response_error(3, 'There is no value to the networkapi tag of XML request.')
 
                 vip_map = networkapi_map.get('vip')
                 if vip_map is None:
-                    return self.response_error(3, u'There is no value to the vip tag of XML request.')
+                    return self.response_error(3, 'There is no value to the vip tag of XML request.')
 
                 # Get XML data
                 vip_id = vip_map.get('vip_id')
@@ -154,7 +154,7 @@ class RequestVipsRealResource(RestResource):
         except (RequisicaoVipsError, EquipamentoError, IpError, GrupoError):
             return self.response_error(1)
 
-        except Exception, e:
+        except Exception as e:
             if isinstance(e, IntegrityError):
                 # Duplicate value for Port Vip, Port Real and IP
                 return self.response_error(353)
@@ -266,43 +266,43 @@ class RequestVipsRealResource(RestResource):
         # Valid VIP ID
         if not is_valid_int_greater_zero_param(vip_id):
             self.log.error(
-                u'The vip_id parameter is not a valid value: %s.', vip_id)
+                'The vip_id parameter is not a valid value: %s.', vip_id)
             raise InvalidValueError(None, 'vip_id', vip_id)
 
         # Valid Equipament ID
         if not is_valid_int_greater_zero_param(equip_id):
             self.log.error(
-                u'The equip_id parameter is not a valid value: %s.', equip_id)
+                'The equip_id parameter is not a valid value: %s.', equip_id)
             raise InvalidValueError(None, 'equip_id', equip_id)
 
         # Valid IP ID
         if not is_valid_int_greater_zero_param(ip_id):
             self.log.error(
-                u'The ip_id parameter is not a valid value: %s.', ip_id)
+                'The ip_id parameter is not a valid value: %s.', ip_id)
             raise InvalidValueError(None, 'ip_id', ip_id)
 
         # Valid operation
         if operation not in ['add', 'del', 'ena', 'dis', 'chk']:
             self.log.error(
-                u'The operation parameter is not a valid value: %s.', operation)
+                'The operation parameter is not a valid value: %s.', operation)
             raise InvalidValueError(None, 'operation', operation)
 
         # Valid network version
         if network_version not in ['v4', 'v6']:
             self.log.error(
-                u'The network_version parameter is not a valid value: %s.', network_version)
+                'The network_version parameter is not a valid value: %s.', network_version)
             raise InvalidValueError(None, 'network_version', network_version)
 
         # User permission
         if (operation == 'chk'):
             if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
         else:
             if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION, None, equip_id, AdminPermission.EQUIP_UPDATE_CONFIG_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
         # new_call = True - New calls for Add/Del/Enable/Disable/Check with new params (Port Vip and Port Real)
@@ -312,12 +312,12 @@ class RequestVipsRealResource(RestResource):
             # Valid ports
             if not is_valid_int_greater_zero_param(port_vip):
                 self.log.error(
-                    u'The port_vip parameter is not a valid value: %s.', port_vip)
+                    'The port_vip parameter is not a valid value: %s.', port_vip)
                 raise InvalidValueError(None, 'port_vip', port_vip)
 
             if not is_valid_int_greater_zero_param(port_real):
                 self.log.error(
-                    u'The port_vip parameter is not a valid value: %s.', port_real)
+                    'The port_vip parameter is not a valid value: %s.', port_real)
                 raise InvalidValueError(None, 'port_real', port_real)
 
             new_call = True

@@ -51,7 +51,7 @@ class AuthenticateResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.AUTHENTICATE, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -60,11 +60,11 @@ class AuthenticateResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             user_map = networkapi_map.get('user')
             if user_map is None:
-                return self.response_error(3, u'There is no value to the user tag  of XML request.')
+                return self.response_error(3, 'There is no value to the user tag  of XML request.')
 
             # Get XML data
             username = user_map.get('username')
@@ -74,12 +74,12 @@ class AuthenticateResource(RestResource):
             # Username can NOT be less 3 and greater than 45
             if not is_valid_string_minsize(username, 3) or not is_valid_string_maxsize(username, 45):
                 self.log.error(
-                    u'Parameter username is invalid. Value: %s.', username)
+                    'Parameter username is invalid. Value: %s.', username)
                 raise InvalidValueError(None, 'username', username)
 
             if not is_valid_boolean_param(is_ldap_user):
                 self.log.error(
-                    u'Parameter is_ldap_user is invalid. Value: %s.', is_ldap_user)
+                    'Parameter is_ldap_user is invalid. Value: %s.', is_ldap_user)
                 raise InvalidValueError(None, 'is_ldap_user', is_ldap_user)
             else:
                 is_ldap_user = convert_string_or_int_to_boolean(is_ldap_user)
@@ -91,7 +91,7 @@ class AuthenticateResource(RestResource):
                 # Password can NOT be less 3 and greater than 45
                 if not is_valid_string_minsize(password, 3) or not is_valid_string_maxsize(password, 45):
                     self.log.error(
-                        u'Parameter password is invalid. Value: %s.', '****')
+                        'Parameter password is invalid. Value: %s.', '****')
                     raise InvalidValueError(None, 'password', '****')
 
                 # Find user by username, password to check if it exist
@@ -141,7 +141,7 @@ class AuthenticateResource(RestResource):
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
         except UsuarioError:
             return self.response_error(1)

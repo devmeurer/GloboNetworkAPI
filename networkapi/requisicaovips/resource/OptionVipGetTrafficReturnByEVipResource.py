@@ -47,7 +47,7 @@ class OptionVipGetTrafficReturnByEVipResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.OPTION_VIP, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             id_environment_vip = kwargs.get('id_evip')
@@ -55,7 +55,7 @@ class OptionVipGetTrafficReturnByEVipResource(RestResource):
             # Valid Environment VIP ID
             if not is_valid_int_greater_zero_param(id_environment_vip):
                 self.log.error(
-                    u'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
+                    'The id_environment_vip parameter is not a valid value: %s.', id_environment_vip)
                 raise InvalidValueError(
                     None, 'id_environment_vip', id_environment_vip)
 

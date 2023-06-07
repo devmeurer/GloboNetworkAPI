@@ -55,7 +55,7 @@ class RequestVipRuleResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_ALTER_SCRIPT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -65,17 +65,17 @@ class RequestVipRuleResource(RestResource):
 
             if not is_valid_int_greater_zero_param(id_vip):
                 self.log.error(
-                    u'Parameter id_vip is invalid. Value: %s.', id_vip)
+                    'Parameter id_vip is invalid. Value: %s.', id_vip)
                 raise InvalidValueError(None, 'id_vip', id_vip)
 
             if not is_valid_int_greater_zero_param(id_block):
                 self.log.error(
-                    u'Parameter id_block is invalid. Value: %s.', id_block)
+                    'Parameter id_block is invalid. Value: %s.', id_block)
                 raise InvalidValueError(None, 'id_block', id_block)
 
             if not is_valid_boolean_param(override, False):
                 self.log.error(
-                    u'Parameter override is invalid. Value: %s.', override)
+                    'Parameter override is invalid. Value: %s.', override)
                 raise InvalidValueError(None, 'override', override)
             else:
                 override = convert_string_or_int_to_boolean(override)
@@ -88,7 +88,7 @@ class RequestVipRuleResource(RestResource):
             # Vip must be created
             if not vip.vip_criado:
                 self.log.error(
-                    u'Block can not added because VIP has not been created yet.')
+                    'Block can not added because VIP has not been created yet.')
                 raise RequestVipsNotBeenCreatedError(None)
 
             ###################################################
@@ -151,12 +151,12 @@ class RequestVipRuleResource(RestResource):
                 vip.save()
             else:
                 self.log.error(
-                    u'Block can not be added because there is already a rule to apply, and the value of zero is overwritten.')
+                    'Block can not be added because there is already a rule to apply, and the value of zero is overwritten.')
                 raise AddBlockOverrideNotDefined(None)
 
             success_map = dict()
             success_map['codigo'] = 0
-            success_map['descricao'] = u'Bloco incluído com sucesso'
+            success_map['descricao'] = 'Bloco incluído com sucesso'
 
             return self.response(dumps_networkapi({'sucesso': success_map}))
 
@@ -172,7 +172,7 @@ class RequestVipRuleResource(RestResource):
             return self.response_error(359)
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except AddBlockOverrideNotDefined:
             return self.response_error(371)

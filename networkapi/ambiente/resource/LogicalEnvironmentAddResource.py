@@ -50,7 +50,7 @@ class LogicalEnvironmentAddResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -59,11 +59,11 @@ class LogicalEnvironmentAddResource(RestResource):
             # XML data format
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+                return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
             logical_environment_map = networkapi_map.get('logical_environment')
             if logical_environment_map is None:
-                return self.response_error(3, u'There is no value to the logical_environment tag  of XML request.')
+                return self.response_error(3, 'There is no value to the logical_environment tag  of XML request.')
 
             # Get XML data
             name = logical_environment_map.get('name')
@@ -71,7 +71,7 @@ class LogicalEnvironmentAddResource(RestResource):
             try:
                 AmbienteLogico.get_by_name(name)
                 raise AmbienteLogicoNameDuplicatedError(
-                    None, u'Já existe um Ambiente Lógico com o valor name %s.' % name)
+                    None, 'Já existe um Ambiente Lógico com o valor name %s.' % name)
             except AmbienteLogicoNotFoundError:
                 pass
 
@@ -83,10 +83,10 @@ class LogicalEnvironmentAddResource(RestResource):
             try:
                 # save Logical Environment
                 log_env.save()
-            except Exception, e:
-                self.log.error(u'Failed to save the Logical Environment.')
+            except Exception as e:
+                self.log.error('Failed to save the Logical Environment.')
                 raise AmbienteError(
-                    e, u'Failed to save the Logical Environment.')
+                    e, 'Failed to save the Logical Environment.')
 
             log_env_map = dict()
             log_env_map['logical_environment'] = model_to_dict(

@@ -26,7 +26,7 @@ class Lb(object):
                 password=self._password
             )
 
-        except Exception, e:
+        except Exception as e:
             logging.critical('Unable to connect to BIG-IP. Details: %s' % (e))
             raise base_exceptions.CommandErrorException(e)
         else:
@@ -48,7 +48,7 @@ class Lb(object):
                             self._channel.System.Session.set_session_timeout(
                                 session_timeout)
                         self._channel = self.get_session()
-            except Exception, e:
+            except Exception as e:
                 log.error(e)
                 raise base_exceptions.CommandErrorException(e)
 
@@ -57,7 +57,7 @@ class Lb(object):
         try:
             channel = self._channel.with_session_id()
             log.info('Session %s', channel)
-        except Exception, e:
+        except Exception as e:
             if 'There are too many existing user sessions.'.lower() in str(e).lower():
                 self._time_reconn *= 2
                 log.warning(

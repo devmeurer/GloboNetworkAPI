@@ -37,7 +37,7 @@ def save_or_update(self, request, user, update=False):
         # User permission
         if not has_perm(user, AdminPermission.VIP_VALIDATION, AdminPermission.WRITE_OPERATION):
             self.log.error(
-                u'User does not have permission to perform the operation.')
+                'User does not have permission to perform the operation.')
             raise UserNotAuthorizedError(None)
 
         # Load XML data
@@ -46,16 +46,16 @@ def save_or_update(self, request, user, update=False):
         # XML data format
         networkapi_map = xml_map.get('networkapi')
         if networkapi_map is None:
-            return self.response_error(3, u'There is no value to the networkapi tag  of XML request.')
+            return self.response_error(3, 'There is no value to the networkapi tag  of XML request.')
 
         map = networkapi_map.get('map')
         if map is None:
-            return self.response_error(3, u'There is no value to the map tag of XML request.')
+            return self.response_error(3, 'There is no value to the map tag of XML request.')
 
         environment_id = map['id_env']
         if not is_valid_int_greater_zero_param(environment_id):
             self.log.error(
-                u'The environment_id parameter is not a valid value: %s.', environment_id)
+                'The environment_id parameter is not a valid value: %s.', environment_id)
             raise InvalidValueError(None, 'environment_id', environment_id)
 
         environment = Ambiente.get_by_pk(environment_id)
@@ -91,9 +91,9 @@ def save_or_update(self, request, user, update=False):
     except UserNotAuthorizedError:
         return self.not_authorized()
     except XMLError, x:
-        self.log.error(u'Error reading the XML request.')
+        self.log.error('Error reading the XML request.')
         return self.response_error(3, x)
-    except Exception, e:
+    except Exception as e:
         self.log.error(e)
         return self.response_error(1)
 
@@ -134,7 +134,7 @@ class EnvironmentBlocks(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VIP_VALIDATION, AdminPermission.WRITE_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 raise UserNotAuthorizedError(None)
 
             # Load XML data
@@ -143,7 +143,7 @@ class EnvironmentBlocks(RestResource):
 
             if not is_valid_int_greater_zero_param(id_environment):
                 self.log.error(
-                    u'Parameter environment_id is invalid. Value: %s.', id_environment)
+                    'Parameter environment_id is invalid. Value: %s.', id_environment)
                 raise InvalidValueError(None, 'environment_id', id_environment)
 
             blocks = BlockRules.objects.filter(
@@ -158,13 +158,13 @@ class EnvironmentBlocks(RestResource):
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
         except UserNotAuthorizedError:
             return self.not_authorized()
         except XMLError, x:
-            self.log.error(u'Error reading the XML request.')
+            self.log.error('Error reading the XML request.')
             return self.response_error(3, x)
-        except Exception, e:
+        except Exception as e:
             self.log.error(e)
             return self.response_error(1)

@@ -135,7 +135,7 @@ def delete(request):
             #         dsrl3= DsrL3_to_Vip.get_by_vip_id(ids)
             #         dsrl3.delete(request.user)
             #     except RequisicaoVipsMissingDSRL3idError, e:
-            #         log.error(u'Requisao Vip nao possui id DSRL3 correspondente cadastrado no banco')
+            #         log.error('Requisao Vip nao possui id DSRL3 correspondente cadastrado no banco')
             #         raise RequisicaoVipsMissingDSRL3idError(
             # e, 'Requisao Vip com id %s possui DSRl3 id não foi encontrado' %
             # ids)

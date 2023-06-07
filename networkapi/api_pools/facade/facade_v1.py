@@ -420,7 +420,7 @@ def manager_pools(request):
 
         if relates != receives:
             raise exceptions.InvalidIdPoolMemberException(
-                u'Required All Pool Members By Pool')
+                'Required All Pool Members By Pool')
 
         for member in pool_members:
 

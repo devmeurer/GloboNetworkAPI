@@ -24,7 +24,7 @@ class CustomException(Exception):
         self.message = message
 
     def __str__(self):
-        msg = u'Cause: %s, Message: %s' % (self.cause, self.message)
+        msg = 'Cause: %s, Message: %s' % (self.cause, self.message)
         return msg.encode('utf-8', 'replace')
 
 
@@ -192,7 +192,7 @@ class NetworkInactiveError(CustomException):
 
     """Returns exception when trying to disable a network disabled"""
 
-    def __init__(self, cause=u'Unable to remove the network because it is inactive.', message=None):
+    def __init__(self, cause='Unable to remove the network because it is inactive.', message=None):
         CustomException.__init__(self, cause, message)
 
 

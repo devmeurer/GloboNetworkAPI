@@ -77,7 +77,7 @@ class VlanSearchResource(RestResource):
             # User permission
             if not has_perm(user, AdminPermission.VLAN_MANAGEMENT, AdminPermission.READ_OPERATION):
                 self.log.error(
-                    u'User does not have permission to perform the operation.')
+                    'User does not have permission to perform the operation.')
                 return self.not_authorized()
 
             # Business Validations
@@ -88,7 +88,7 @@ class VlanSearchResource(RestResource):
             # Valid VLAN ID
             if not is_valid_int_greater_zero_param(vlan_id):
                 self.log.error(
-                    u'Parameter id_vlan is invalid. Value: %s.', vlan_id)
+                    'Parameter id_vlan is invalid. Value: %s.', vlan_id)
                 raise InvalidValueError(None, 'id_vlan', vlan_id)
 
             # Existing VLAN ID
@@ -100,11 +100,11 @@ class VlanSearchResource(RestResource):
                     vlan=vlan).order_by('id')
                 network_ipv6 = NetworkIPv6.objects.filter(
                     vlan=vlan).order_by('id')
-            except Exception, e:
+            except Exception as e:
                 self.log.error(
-                    u'Error finding the first network_ipv4 from vlan.')
+                    'Error finding the first network_ipv4 from vlan.')
                 raise NetworkIPv4NotFoundError(
-                    e, u'Error finding the first network_ipv4 from vlan.')
+                    e, 'Error finding the first network_ipv4 from vlan.')
 
             vlan_map = self.get_vlan_map(vlan, network_ipv4, network_ipv6)
 
@@ -125,5 +125,5 @@ class VlanSearchResource(RestResource):
         except (VlanError, GrupoError):
             return self.response_error(1)
 
-        except Exception, e:
+        except Exception as e:
             return self.response_error(1)

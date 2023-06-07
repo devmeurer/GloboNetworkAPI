@@ -63,16 +63,16 @@ class EnvironmentConfigurationRemoveResource(RestResource):
             return self.not_authorized()
 
         except IPConfigNotFoundError, e:
-            self.log.error(u'IpCofig not registred')
+            self.log.error('IpCofig not registred')
             return self.response_error(301)
 
         except InvalidValueError, e:
             self.log.error(
-                u'Parameter %s is invalid. Value: %s.', e.param, e.value)
+                'Parameter %s is invalid. Value: %s.', e.param, e.value)
             return self.response_error(269, e.param, e.value)
 
         except AmbienteNotFoundError, e:
-            self.log.error(u'Environment not registred')
+            self.log.error('Environment not registred')
             return self.response_error(112)
 
         except IPConfigError:
@@ -84,14 +84,14 @@ class EnvironmentConfigurationRemoveResource(RestResource):
 
         if not has_perm(user, AdminPermission.ENVIRONMENT_MANAGEMENT, AdminPermission.ENVIRONMENT_MANAGEMENT):
             self.log.error(
-                u'User does not have permission to perform the operation.')
+                'User does not have permission to perform the operation.')
             raise PermissionError(None, None)
 
     def _validate_configuration_id(self, id_configuration):
 
         if not is_valid_int_greater_zero_param(id_configuration):
             self.log.error(
-                u'The id_configuration parameter is invalid value: %s.', id_configuration)
+                'The id_configuration parameter is invalid value: %s.', id_configuration)
             raise InvalidValueError(None, 'id_configuration', id_configuration)
 
         """ Check if exists"""
@@ -101,7 +101,7 @@ class EnvironmentConfigurationRemoveResource(RestResource):
 
         if not is_valid_int_greater_zero_param(id_environment):
             self.log.error(
-                u'The id_environment parameter is invalid value: %s.', id_environment)
+                'The id_environment parameter is invalid value: %s.', id_environment)
             raise InvalidValueError(None, 'id_environment', id_environment)
 
         """ Check if exists"""

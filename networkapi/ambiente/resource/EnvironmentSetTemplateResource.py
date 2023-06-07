@@ -53,11 +53,11 @@ class EnvironmentSetTemplateResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             map = networkapi_map.get('map')
             if map is None:
-                return self.response_error(3, u'Não existe valor para a tag ambiente do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag ambiente do XML de requisição.')
 
             name = map.get('name')
             network = map.get('network')
@@ -79,7 +79,7 @@ class EnvironmentSetTemplateResource(RestResource):
         except InvalidValueError, e:
             return self.response_error(269, e.param, e.value)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
         except (AmbienteError, GrupoError, Exception), e:
             return self.response_error(1)
@@ -95,7 +95,7 @@ class EnvironmentSetTemplateResource(RestResource):
             environment_id = kwargs.get('environment_id')
             if not is_valid_int_greater_equal_zero_param(environment_id):
                 self.log.error(
-                    u'The environment_id parameter is not a valid value: %s.', environment_id)
+                    'The environment_id parameter is not a valid value: %s.', environment_id)
                 raise InvalidValueError(None, 'environment_id', environment_id)
 
             if not has_perm(user,
@@ -109,11 +109,11 @@ class EnvironmentSetTemplateResource(RestResource):
 
             networkapi_map = xml_map.get('networkapi')
             if networkapi_map is None:
-                return self.response_error(3, u'Não existe valor para a tag networkapi do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag networkapi do XML de requisição.')
 
             environment_map = networkapi_map.get('environment')
             if environment_map is None:
-                return self.response_error(3, u'Não existe valor para a tag ambiente do XML de requisição.')
+                return self.response_error(3, 'Não existe valor para a tag ambiente do XML de requisição.')
 
             name = environment_map.get('name')
             network = environment_map.get('network')
@@ -147,7 +147,7 @@ class EnvironmentSetTemplateResource(RestResource):
         except AmbienteNotFoundError:
             return self.response_error(112)
         except XMLError, x:
-            self.log.error(u'Erro ao ler o XML da requisicao.')
+            self.log.error('Erro ao ler o XML da requisicao.')
             return self.response_error(3, x)
         except (AmbienteError, GrupoError, Exception), e:
             return self.response_error(1)

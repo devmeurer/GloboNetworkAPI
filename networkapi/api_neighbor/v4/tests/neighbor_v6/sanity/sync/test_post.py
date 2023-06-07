@@ -135,8 +135,8 @@ class NeighborV6PostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'Peer Group id = 1 does not have permissions '
-            u'to be associated with Neighbor',
+            'Peer Group id = 1 does not have permissions '
+            'to be associated with Neighbor',
             response.data['detail']
         )
 
@@ -154,7 +154,7 @@ class NeighborV6PostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'LocalIp id = 5 and RemoteIp id = 6 are in different Vrfs',
+            'LocalIp id = 5 and RemoteIp id = 6 are in different Vrfs',
             response.data['detail']
         )
 
@@ -174,8 +174,8 @@ class NeighborV6PostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'LocalIp id = 6 and LocalAsn id = 5 belongs '
-            u'to different Equipments',
+            'LocalIp id = 6 and LocalAsn id = 5 belongs '
+            'to different Equipments',
             response.data['detail']
         )
 
@@ -195,8 +195,8 @@ class NeighborV6PostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'RemoteIp id = 8 and RemoteAsn id = 7 '
-            u'belongs to different Equipments',
+            'RemoteIp id = 8 and RemoteAsn id = 7 '
+            'belongs to different Equipments',
             response.data['detail']
         )
 
@@ -216,8 +216,8 @@ class NeighborV6PostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'LocalIp id = 1 and PeerGroup id = 3 '
-            u'belongs to different Environments',
+            'LocalIp id = 1 and PeerGroup id = 3 '
+            'belongs to different Environments',
             response.data['detail']
         )
 
@@ -235,7 +235,7 @@ class NeighborV6PostErrorTestCase(NetworkApiTestCase):
 
         self.compare_status(400, response.status_code)
         self.compare_values(
-            u'It already exists Neighbor with LocalAsn id = 1, '
-            u'LocalIp id = 1, RemoteAsn id = 2 and RemoteIp id = 2',
+            'It already exists Neighbor with LocalAsn id = 1, '
+            'LocalIp id = 1, RemoteAsn id = 2 and RemoteIp id = 2',
             response.data['detail']
         )

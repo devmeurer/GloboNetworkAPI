@@ -36,7 +36,7 @@ class Asn(BaseModel):
     log = logging.getLogger('Asn')
 
     class Meta(BaseModel.Meta):
-        db_table = u'asn'
+        db_table = 'asn'
         managed = True
 
     @classmethod
@@ -52,14 +52,14 @@ class Asn(BaseModel):
         try:
             return Asn.objects.get(id=id)
         except ObjectDoesNotExist:
-            cls.log.error(u'ASN not found. pk {}'.format(id))
+            cls.log.error('ASN not found. pk {}'.format(id))
             raise exceptions.AsnNotFoundError(id)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError()
         except Exception:
-            cls.log.error(u'Failure to search the ASN.')
-            raise exceptions.AsnError(u'Failure to search the ASN.')
+            cls.log.error('Failure to search the ASN.')
+            raise exceptions.AsnError('Failure to search the ASN.')
 
     def get_by_asn(cls, asn):
         """Get AS by id.
@@ -73,14 +73,14 @@ class Asn(BaseModel):
         try:
             return Asn.objects.get(asn=asn)
         except ObjectDoesNotExist:
-            cls.log.error(u'ASN not found. pk {}'.format(id))
+            cls.log.error('ASN not found. pk {}'.format(id))
             raise exceptions.AsnNotFoundError(id)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError()
         except Exception:
-            cls.log.error(u'Failure to search the ASN.')
-            raise exceptions.AsnError(u'Failure to search the ASN.')
+            cls.log.error('Failure to search the ASN.')
+            raise exceptions.AsnError('Failure to search the ASN.')
 
 
     def create_v4(self, as_map):
@@ -119,8 +119,8 @@ class Asn(BaseModel):
                                   in self.asnequipment_set.all()]
 
                 ids_equipments = map(int, ids_equipments)
-                msg = u'Cannot delete ASN {} because it is associated ' \
-                      u'with Equipments {}.'.\
+                msg = 'Cannot delete ASN {} because it is associated ' \
+                      'with Equipments {}.'.\
                     format(self.id, ids_equipments)
                 raise exceptions.AsnAssociatedToEquipmentError(
                     msg
@@ -128,10 +128,10 @@ class Asn(BaseModel):
 
             super(Asn, self).delete()
 
-        except exceptions.AsnAssociatedToEquipmentError, e:
+        except exceptions.AsnAssociatedToEquipmentError as e:
             self.log.error(e)
             raise exceptions.AsnAssociatedToEquipmentError(e.detail)
-        except Exception, e:
+        except Exception as e:
             self.log.error(e)
             raise exceptions.AsnErrorV4(e)
 
@@ -143,20 +143,22 @@ class AsnEquipment(BaseModel):
         'api_asn.Asn',
         db_column='id_asn',
         blank=True,
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
 
     equipment = models.ForeignKey(
         'equipamento.Equipamento',
         db_column='id_equipment',
         blank=True,
-        null=True
+        null=True,
+        on_delete=models.DO_NOTHING
     )
 
     log = logging.getLogger('AsnEquipment')
 
     class Meta(BaseModel.Meta):
-        db_table = u'asn_equipment'
+        db_table = 'asn_equipment'
         managed = True
 
     @classmethod
@@ -181,15 +183,15 @@ class AsnEquipment(BaseModel):
             return AsnEquipment.objects.all()
 
         except ObjectDoesNotExist:
-            cls.log.error(u'AsnEquipment not found. pk {}'.format(id))
+            cls.log.error('AsnEquipment not found. pk {}'.format(id))
             raise exceptions.AsnEquipmentNotFoundError(id)
         except OperationalError:
-            cls.log.error(u'Lock wait timeout exceeded.')
+            cls.log.error('Lock wait timeout exceeded.')
             raise OperationalError()
         except Exception as e:
-            cls.log.error(u'Failure to search the ASNEquipment. E: %s' % e)
+            cls.log.error('Failure to search the ASNEquipment. E: %s' % e)
             raise exceptions.AsnEquipmentError(
-                u'Failure to search the ASNEquipment. E: %s' % e)
+                'Failure to search the ASNEquipment. E: %s' % e)
 
     def create_v4(self, as_equipment):
         """Create AsnEquipment relationship."""
