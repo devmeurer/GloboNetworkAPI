@@ -17,7 +17,7 @@ import logging
 from httplib import *
 from urllib2 import *
 
-from _mysql_exceptions import OperationalError
+from django.db.utils import OperationalError
 from django.db import transaction
 from django.http import HttpResponse
 from rest_framework.exceptions import AuthenticationFailed

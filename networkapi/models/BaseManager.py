@@ -34,7 +34,7 @@ class BaseQuerySet(QuerySet):
             sql.rstrip() + ' GROUP BY ' + column, params)
         try:
             return query
-        except IndexError, e:
+        except IndexError as e:
             raise ObjectDoesNotExist
 
     def for_update(self):
@@ -53,7 +53,7 @@ class BaseQuerySet(QuerySet):
 
         try:
             return query[0]
-        except IndexError, e:
+        except IndexError as e:
             raise ObjectDoesNotExist
 
     def uniqueResult(self):
@@ -62,7 +62,7 @@ class BaseQuerySet(QuerySet):
 
         try:
             return query[0]
-        except IndexError, e:
+        except IndexError as e:
             raise ObjectDoesNotExist
 
 

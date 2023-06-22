@@ -15,7 +15,7 @@
 # limitations under the License.
 import logging
 
-from _mysql_exceptions import OperationalError
+from django.db.utils import OperationalError
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db import transaction
@@ -1621,7 +1621,7 @@ class Ip(BaseModel):
             # Get first networkipv4 related to vlan
             try:
                 self.networkipv4 = vlan.networkipv4_set.order_by('id')[0]
-            except IndexError, e:
+            except IndexError as e:
                 self.log.error(
                     'Error finding the first networkipv4 from vlan.')
                 raise NetworkIPv4NotFoundError(
@@ -2206,7 +2206,7 @@ class Ip(BaseModel):
         # To use all IPs in a network
         if reserve_all:
 
-            # Define a IPs list, include network and broadcast addresses
+            # Define a IPs list, include network and broadcast addresses, reserva.
             all_ips = [net4.network] # Append the network address to list
             for ip in net4.iterhosts(): # Append all usable IP addresses to list
                 all_ips.append(ip)

@@ -17,7 +17,7 @@ from __future__ import with_statement
 
 import logging
 
-from _mysql_exceptions import OperationalError
+from django.db.utils import OperationalError
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 

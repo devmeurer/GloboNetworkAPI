@@ -2,7 +2,7 @@
 import logging
 from itertools import chain
 
-from _mysql_exceptions import OperationalError
+from django.db.utils import OperationalError
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import get_model

@@ -74,7 +74,7 @@ def default_lock_factory(key):
 
 def _debug(msg):
     if DEBUG:
-        print 'LOCK:', msg
+        print(f'LOCK:{msg}')
 
 
 class LockNotAcquiredError(Exception):

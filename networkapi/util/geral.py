@@ -5,10 +5,14 @@ import random
 import urllib
 from time import sleep
 
-from django.db.models.loading import AppCache
-from django.db.models.loading import import_module
-from django.db.models.loading import module_has_submodule
+from django.apps import apps
+from importlib import import_module
+# from django.apps import import_module
+from django.apps.config import module_has_submodule
 from rest_framework.response import Response
+from networkapi.util.geral import get_app
+
+
 
 from networkapi.distributedlock import distributedlock
 from networkapi.distributedlock import LockNotAcquiredError

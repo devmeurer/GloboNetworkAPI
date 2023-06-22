@@ -311,13 +311,13 @@ class VlanResource(RestResource):
                 try:
                     network_ipv4 = vlan.networkipv4_set.order_by('id')[0]
                     vlan_map = self.get_vlan_map(vlan, network_ipv4)
-                except IndexError, e:
+                except IndexError as e:
                     self.log.error(
                         'Error finding the first network_ipv4 from vlan, trying network_ipv6.')
                     try:
                         network_ipv6 = vlan.networkipv6_set.order_by('id')[0]
                         vlan_map = self.get_vlan_map_ipv6(vlan, network_ipv6)
-                    except IndexError, e:
+                    except IndexError as e:
                         self.log.error(
                             'Error findind the first network_ipv6, raising exception.')
                         raise NetworkIPvXNotFoundError(

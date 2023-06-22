@@ -17,11 +17,11 @@
 import ipaddr
 import logging
 
-from _mysql_exceptions import OperationalError
+from django.db.utils import OperationalError
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.db.models import get_model
+from django.apps import apps
 from django.db.models.query_utils import Q
 from django.db.utils import IntegrityError
 from django.forms.models import model_to_dict
@@ -744,8 +744,8 @@ class EnvironmentVip(BaseModel):
 
     def create_v3(self, env_map):
 
-        optionvip_model = get_model('requisicaovips', 'OptionVip')
-        optionvipenvvip_model = get_model(
+        optionvip_model = apps.get_model('requisicaovips', 'OptionVip')
+        optionvipenvvip_model = apps.get_model(
             'requisicaovips', 'OptionVipEnvironmentVip')
 
         self.conf = env_map.get('conf')
@@ -780,8 +780,8 @@ class EnvironmentVip(BaseModel):
                 envenv_obj.save()
 
     def update_v3(self, env_map):
-        optionvip_model = get_model('requisicaovips', 'OptionVip')
-        optionvipenvvip_model = get_model(
+        optionvip_model = apps.get_model('requisicaovips', 'OptionVip')
+        optionvipenvvip_model = apps.get_model(
             'requisicaovips', 'OptionVipEnvironmentVip')
 
         conf = env_map.get('conf', None)
@@ -1184,7 +1184,7 @@ class Ambiente(BaseModel):
                     self.father_environment.pk)
 
             # default vrf
-            vrf_model = get_model('api_vrf', 'Vrf')
+            vrf_model = apps.get_model('api_vrf', 'Vrf')
             self.default_vrf = vrf_model.get_by_pk(self.default_vrf.id)
 
             saved = self.save()
@@ -1257,7 +1257,7 @@ class Ambiente(BaseModel):
         else:
             environment.father_environment = None
 
-        vrf_model = get_model('api_vrf', 'Vrf')
+        vrf_model = apps.get_model('api_vrf', 'Vrf')
         environment.default_vrf = vrf_model.get_by_pk(
             kwargs['default_vrf'])
 
@@ -1369,7 +1369,7 @@ class Ambiente(BaseModel):
 
         :return envvip_model: List of environment vip
         """
-        envvip_model = get_model('ambiente', 'EnvironmentVip')
+        envvip_model = apps.get_model('ambiente', 'EnvironmentVip')
         envvip_model.objects.filter(
             # envs with networkv4
             Q(networkipv4__vlan__ambiente=self.id) |
@@ -1415,7 +1415,7 @@ class Ambiente(BaseModel):
             self.vxlan = env_map.get('vxlan', False)
 
             if env_map.get('aws_vpc'):
-                aws_vpc = get_model('api_aws', 'VPC')
+                aws_vpc = apps.get_model('api_aws', 'VPC')
                 self.aws_vpc = aws_vpc.get_by_pk(env_map.get('aws_vpc'))
             else:
                 self.aws_vpc = None
@@ -1480,7 +1480,7 @@ class Ambiente(BaseModel):
             self.vxlan = env_map.get('vxlan', self.vxlan)
 
             if env_map.get('aws_vpc'):
-                aws_vpc = get_model('api_aws', 'VPC')
+                aws_vpc = apps.get_model('api_aws', 'VPC')
                 self.aws_vpc = aws_vpc.get_by_pk(env_map.get('aws_vpc'))
             else:
                 self.aws_vpc = None
