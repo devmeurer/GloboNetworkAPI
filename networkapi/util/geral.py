@@ -6,14 +6,10 @@ import urllib
 from time import sleep
 
 from django.apps import apps
+from django.apps.config import AppConfig
+from django.apps.registry import apps as global_apps
 from importlib import import_module
-# from django.apps import import_module
-from django.apps.config import module_has_submodule
 from rest_framework.response import Response
-from networkapi.util.geral import get_app
-
-
-
 from networkapi.distributedlock import distributedlock
 from networkapi.distributedlock import LockNotAcquiredError
 from networkapi.extra_logging import local
@@ -68,16 +64,16 @@ def destroy_lock(locks_list):
 def create_lock_with_blocking(locks_name):
     """
     Creates locks for list of objects.
-    Tries to lock all objects, if can not, unlocks all
-    and tries again in 1 at 10 seconds.
+    Tries to lock all objects, if cannot, unlocks all
+    and tries again in 1 to 10 seconds.
     """
 
     locks_list = list()
     for lock_name in locks_name:
         try:
             lock = distributedlock(lock_name, blocking=False)
-            # TODO: This is a temporary solution for a high needed change. In the future we need to validate
-            #  why destroy_lock in models/create_v3 didn't work some times
+            # TODO: This is a temporary solution for a highly needed change. In the future, we need to validate
+            # why destroy_lock in models/create_v3 didn't work sometimes
 
             if lock.get_cached_data():
                 log.info('Get cached lock data for {}. Disabling it and creating a new lock'.format(lock_name))
@@ -185,67 +181,36 @@ def render_to_json(serializer_obj, **kwargs):
     return data
 
 
-class AppCacheExtend(AppCache):
+class NetworkAPIConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'networkapi'
+    path = '/caminho/para/o/diretorio/do/aplicativo'
 
-    module = 'models'
 
+class AppCacheExtend(AppConfig):
     def __init__(self, *args, **kwargs):
-        super(AppCacheExtend, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
+        self.apps = global_apps
+        self.app_configs = {}
 
-    def load_app(self, app_name, can_postpone=False):
-        """
-        Loads the app with the provided fully qualified name, and returns the
-        model module.
-        """
-        self.handled[app_name] = None
-        self.nesting_level += 1
-        app_module = import_module(app_name)
-        try:
-            models = import_module('.%s' % self.module, app_name)
-        except ImportError:
-            self.nesting_level -= 1
-            # If the app doesn't have a models module, we can just ignore the
-            # ImportError and return no models for it.
-            if not module_has_submodule(app_module, 'models'):
-                return None
-            # But if the app does have a models module, we need to figure out
-            # whether to suppress or propagate the error. If can_postpone is
-            # True then it may be that the package is still being imported by
-            # Python and the models module isn't available yet. So we add the
-            # app to the postponed list and we'll try it again after all the
-            # recursion has finished (in populate). If can_postpone is False
-            # then it's time to raise the ImportError.
-            else:
-                if can_postpone:
-                    self.postponed.append(app_name)
-                    return None
-                else:
-                    raise
+    def get_models_module(self, app_module):
+        return app_module
 
-        self.nesting_level -= 1
-        if models not in self.app_store:
-            self.app_store[models] = len(self.app_store)
-            self.app_labels[self._label_for(models)] = models
-        return models
-
-    def get_app(self, app_label, module_label='models', emptyok=False):
-
-        self.module = module_label
-
-        return super(AppCacheExtend, self).get_app(app_label, emptyOK=emptyok)
-
-    # def get_model(self, app_label, item_name, module_label='models',
-    #               seed_cache=True, only_installed=True):
-
-    #     self.module = module_label
-
-    #     model = super(AppCacheExtend, self).get_model(
-    #         app_label, item_name, seed_cache, only_installed)
-
-    #     return model
+    def get_model(self, app_label, model_name):
+        app_models = self.get_models(app_label)
+        if app_models is None:
+            raise LookupError(
+                "App '%s' doesn't have a '%s' model." % (app_label, model_name)
+            )
+        for model in app_models:
+            if model._meta.model_name == model_name:
+                return model
+        raise LookupError(
+            "App '%s' doesn't have a '%s' model." % (app_label, model_name)
+        )
 
 
-cache = AppCacheExtend()
+cache = AppCacheExtend('networkapi', 'networkapi')
 
-get_app = cache.get_app
+get_app = cache.get_models_module
 get_model = cache.get_model
