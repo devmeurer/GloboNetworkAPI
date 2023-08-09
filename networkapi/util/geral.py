@@ -184,7 +184,7 @@ def render_to_json(serializer_obj, **kwargs):
 class NetworkAPIConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'networkapi'
-    path = '/caminho/para/o/diretorio/do/aplicativo'
+    path = '/home/elton/Documentos/Globo/GloboNetworkAPI/networkapi'
 
 
 class AppCacheExtend(AppConfig):
